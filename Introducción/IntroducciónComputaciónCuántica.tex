@@ -25,16 +25,8 @@
 \newcommand{\baseright}{\mid\rightarrow\rangle}
 \newcommand{\baseupright}{\mid\nearrow\rangle}
 \newcommand{\baseupleft}{\mid\nwarrow\rangle}
+\newcommand{\transpose}[1]{#1 ^\dag}
 \newcommand{\complex}{\mathbb{C}}
-\newcommand{\A}{\mathrm{a}}
-\newcommand{\B}{\mathrm{b}}
-\newcommand{\C}{\mathrm{c}}
-\newcommand{\D}{\mathrm{d}}
-\newcommand{\U}{\mathrm{u}}
-\newcommand{\V}{\mathrm{v}}
-\newcommand{\x}{\mathrm{x}}
-\newcommand{\y}{\mathrm{y}}
-\newcommand{\T}{\mathrm{T}}
 \newcommand{\puertai}{\includegraphics[scale=0.8]{imagenes/puertai}}
 \newcommand{\puertax}{\includegraphics[scale=0.8]{imagenes/puertax}}
 \newcommand{\puertay}{\includegraphics[scale=0.8]{imagenes/puertay}}
@@ -99,8 +91,8 @@
 	Conclusiones:
 	\begin{itemize}
 	\item Cada filtro realiza una ``medida'' que \textbf{cambia} la polarización de cada fotón. 
-	\item Sean las bases $\baseup$ y $\baseright$, podemos denotar la polarización de un rayo cualquiera como $\base\psi =\ \A\baseup\ +\ \B\baseright$ con $\A,\B \in\complex$ y $|\A|^2+|\B|^2=1.$
-	\item La medición de un rayo en esas bases obtendrá $\baseup$ con una probabilidad de $\A^2$ o $\baseright$ con una probabilidad de $\B^2$.
+	\item Sean las bases $\baseup$ y $\baseright$, podemos denotar la polarización de un rayo cualquiera como $\base\psi =\ a\baseup\ +\ b\baseright$ con $a,b \in\complex$ y $|a|^2+|b|^2=1.$
+	\item La medición de un rayo en esas bases obtendrá $\baseup$ con una probabilidad de $a^2$ o $\baseright$ con una probabilidad de $b^2$.
 	\item Debido a la aleatoriedad inicial, aproximadamente un 50\% de los rayos serán reflejados (medición $\baseup$) y el resto los atravesará ($\baseright$).
 	\item Tras la medición en el filtro A, todos los rayos tendrán el estado $\baseright = 0\baseup + 1\baseright$. Así, el filtro C refleja todos los rayos pues la probabilidad de medir $\baseup$ es cero.
 	\end{itemize}
@@ -120,19 +112,19 @@
 
 \begin{frame}
 	\frametitle{Estados cuánticos y notación}
-	Sean $\base{\x}$ y $\base{\y}$ estados cuánticos.
+	Sean $\base{x}$ y $\base{y}$ estados cuánticos.
 	\begin{itemize}
-	\item Denotamos $\lbase{\x}$ como el traspuesto de $\base{\x}$.
-	\item Denotamos el producto escalar como $\lbase{\x}\base{\y}$ o simplemente $\dotproduct{\x}{\y}$.
-	\item Denotamos el producto tensorial como $\tensor\x\y$.
+	\item Denotamos $\lbase{x}$ como el traspuesto de $\base{x}$.
+	\item Denotamos el producto escalar como $\lbase{x}\base{y}$ o simplemente $\dotproduct{x}{y}$.
+	\item Denotamos el producto tensorial como $\tensor x y$.
 	\end{itemize}
 	
 	\begin{block}{Ejemplo}
-	Supongamos que trabajamos en la base $\{(1,0)^\T, (0,1)^\T\}$ que denotamos como $\{\base{0},\base{1}\}$.
+	Supongamos que trabajamos en la base $\{(1,0)^T, (0,1)^T\}$ que denotamos como $\{\base{0},\base{1}\}$.
 	\begin{itemize}
 	\item $\dotproduct 0 0 =1$ y $\dotproduct 0 1 =0$
 	\item $\tensor 0 1 = \left({\begin{array}{c}   1\\0\\ \end{array} } \right)\left({\begin{array}{cc}   0 & 1\\ \end{array} } \right)=\left({\begin{array}{cc}   0 & 1\\ 0&0\\ \end{array} } \right)$
-	\item Por tanto, $\tensor 0 1$ convierte $\base 1$ a $\base 0$ y $\base 0$ a $(0,0)^\T$.
+	\item Por tanto, $\tensor 0 1$ convierte $\base 1$ a $\base 0$ y $\base 0$ a $(0,0)^T$.
 	\end{itemize}
 	\end{block}
 \end{frame}
@@ -141,7 +133,7 @@
 \begin{frame}
 	\frametitle{Estados cuánticos y notación}
 	\begin{block}{Definición}
-	Definimos \textbf{bit cuántico} o \textbf{qubit} como un vector unitario complejo de dos dimensiones en una base ortonormal previamente fijada $\base 0$ y $\base 1$ que representa la  superposición de dos estados. Lo representamos como $\A\base0+\B\base1$ con $\A,\B\in\complex$ tal que $|\A|^2+|\B|^2=1$.
+	Definimos \textbf{bit cuántico} o \textbf{qubit} como un vector unitario complejo de dos dimensiones en una base ortonormal previamente fijada $\base 0$ y $\base 1$ que representa la  superposición de dos estados. Lo representamos como $a\base0+b\base1$ con $a,b\in\complex$ tal que $|a|^2+|b|^2=1$.
 	\end{block}
 	¿Qué pasa cuando tenemos múltiples qubit?
 	\begin{itemize}
@@ -157,20 +149,20 @@
 	\item Así para dos qubits que tienen bases $\{\base0,\base1\}$ se genera $\{\base0\otimes\base0, \base0\otimes\base1, \base1\otimes\base0,\base1\otimes\base1\}$ o $\{\base{00},\base{01},\base{10},\base{11}\}$.
 	\item Para 3 bits tendríamos $\{\base{000},\base{001},\base{010},\base{011},\base{100},\base{101},\base{110},\base{111}\}$.
 	\item Se verifica así que Dim(V$\otimes$W) = Dim(V) $\times$ Dim(W).
-	\item Sin embargo, no podemos alcanzar algunos estados en términos de sus componentes por separado. Por ejemplo $\base{00}+\base{11}$. Deberían existir $(\A_1\base0+\B_1\base1)\otimes(\A_2\base0+\B_2\base1)=$ $=\A_1\A_2\base{00}+\A_1\B_2\base{01}+\B_1\A_2\base{10}+\B_1\B_2\base{11}\neq\base{00}+\base{11}$ Puesto que $\A_1$ o $\B_2$ o ambos debe ser cero. 
+	\item Sin embargo, no podemos alcanzar algunos estados en términos de sus componentes por separado. Por ejemplo $\base{00}+\base{11}$. Deberían existir $(a_1\base0+b_1\base1)\otimes(a_2\base0+b_2\base1)=$ $=a_1a_2\base{00}+a_1b_2\base{01}+b_1a_2\base{10}+b_1b_2\base{11}\neq\base{00}+\base{11}$ Puesto que $a_1$ o $b_2$ o ambos debe ser cero. 
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Estados cuánticos y notación}
 	\begin{block}{Ejemplo. Medida en un sistema de 2 qubits.}
-	Midamos el primer bit en la base $\{\base0,\base1\}$. Sea el estado $\A\base{00}+\B\base{01}+\C\base{10}+\D\base{11}$ con $|\A|^2+|\B|^2+|\C|^2+|\D|^2=1$. 
+	Midamos el primer bit en la base $\{\base0,\base1\}$. Sea el estado $a\base{00}+b\base{01}+c\base{10}+d\base{11}$ con $|a|^2+|b|^2+|c|^2+|d|^2=1$. 
 	\end{block}
 	\begin{itemize}
-	\item Lo reescribimos como $\base0(\A\base0+\B\base1)+\base1(\C\base0+\D\base1)=$ $=\U\base0\otimes(\frac{\A}{\U}\base0+\frac{\B}{\U}\base1) + \V\base0\otimes(\frac{\C}{\V}\base0+\frac{\D}{\V}\base1)$ con $\filados{\U=\sqrt{|\A|^2+|\B|^2}}{\V=\sqrt{|\C|^2+|\D|^2}}$.
-	\item Nótese que $\frac{\A}{\U}\base0+\frac{\B}{\U}\base1$ y $\frac{\C}{\V}\base0+\frac{\D}{\V}\base1$ son vectores unitarios.
-	\item Así la medida del primer qubit arrojará $\base0$ con probabilidad $\U^2$ y proyectará el estado $\base0\otimes(\frac{\A}{\U}\base0+\frac{\B}{\U}\base1)$.
-	\item O arrojará $\base1$ con probabilidad $\V^2$ proyectando el estado $\base1\otimes(\frac{\C}{\U}\base0+\frac{\D}{\U}\base1)$.
+	\item Lo reescribimos como $\base0(a\base0+b\base1)+\base1(c\base0+d\base1)=$ $=u\base0\otimes(\frac{a}{u}\base0+\frac{b}{u}\base1) + v\base0\otimes(\frac{c}{v}\base0+\frac{d}{v}\base1)$ con $\filados{u=\sqrt{|a|^2+|b|^2}}{v=\sqrt{|c|^2+|d|^2}}$.
+	\item Nótese que $\frac{a}{u}\base0+\frac{b}{u}\base1$ y $\frac{c}{v}\base0+\frac{d}{v}\base1$ son vectores unitarios.
+	\item Así la medida del primer qubit arrojará $\base0$ con probabilidad $u^2$ y proyectará el estado $\base0\otimes(\frac{a}{u}\base0+\frac{b}{u}\base1)$.
+	\item O arrojará $\base1$ con probabilidad $v^2$ proyectando el estado $\base1\otimes(\frac{c}{u}\base0+\frac{d}{u}\base1)$.
 	\end{itemize}
 \end{frame}
 
@@ -178,6 +170,22 @@
 
 \begin{frame}
 	\frametitle{Paradoja EPR}
+	\begin{itemize}
+	\item Experimento realizado por Einstein, Podolsky y Rosen en el que proponían la existencia de dos partículas entrelazadas en el siguiente estado: $\dfrac{1}{\sqrt{2}} \base{00} + 		 		\dfrac{1}{\sqrt{2}} \base{11}$. Mandamos una de las partículas a Alice y la otra a Bob, que pueden estar a una distancia arbitraria. 
+	\item Si Alicia realiza una ``medida'' y observa $\base0$, eso implicará que el estado de ambas partículas es  $\base {00}$ y por tanto si Bob ``midiese'' también observaría $\base0$. 		De manera similar ocurriría si Alice hubiese observado $\base1$.
+	\item Por tanto, el cambio en el estado cuántico de las partículas se produce de manera instantánea independientemente de la distancia entre Alice y Bob. Es decir, se podrían 				comunicar más rápido que la velocidad de la luz. 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Paradoja EPR}
+	A consecuencia de ello, se propusieron dos modelos para tratar de entender el entrelazamiento entre partículas:
+	\begin{itemize}
+	\item El primero proponía la existencia de una variable oculta que determinaba completament	el estado: $\base {00}$ o $\base {11}$. Sin embargo, esta teoría fue descartada a traves de 		experimentos reales.
+	\item La segunda proponía la existencia de dos observadores, uno que veía ``medir'' a Alice primero, y otro que veía a Bob ``medir'' antes. 
+	Según la teoría de la relatividad el comportamiento físico debe ser independiente del observador. Por tanto el experimento debe 	poder explicarse tanto si Bob ``mide'' y afecta a la 				``medida'' de Alicia, como al contrario. Es decir, solo podemos constatar que Alice y Bob observan el mismo comportamiento aleatorio, y no que se hayan comunicado más rápido que la velocidad de la luz.
+	
+	\end{itemize}
 \end{frame}
 
 \section{Operaciones en sistemas cuánticos: Puertas cuánticas}
@@ -185,8 +193,10 @@
 \begin{frame}
 	\frametitle{Operaciones en sistemas cuánticos: Puertas cuánticas}
 	\begin{block}{Definición}
-	Definimos \textbf{puerta cuántica} como una transformación...	
+	Definimos \textbf{puerta cuántica} como una transformación en el espacio de los vectores complejos. Puede ser vista como una matriz $M$ \textbf{unitaria}, es decir, una matriz 		  	
+	cuya inversa es la traspuesta conjugada que denotamos por $\transpose M$, cumpliendo así: $M \transpose M = I$ 
 	\end{block}
+	Por tanto podemos ver las puertas cuánticas como rotaciones en el espacio de vectores complejos, y por tanto, son reversibles.
 \end{frame}
 
 \begin{frame}
@@ -222,6 +232,36 @@
 		\end{itemize}
 	
 	
+	\end{itemize}
+\end{frame}
+
+\section{Experimentos????}
+
+\begin{frame}
+	\frametitle{Distribución de Clave Cuántica}
+	Supongamos que Alice quiere transminir a Bob una clave secreta. Por otro lado, Eve quiere espiar esta comunicación, y tenemos la siguiente topología de canales:
+	\begin{center}
+	\includegraphics[scale=0.6]{imagenes/aeb}\\
+	\end{center}
+	Existe una forma mediante la cual Alice y Bob pueden acordar su clave secreta y, además, saber si hay alguien espiando sus comunicaciones.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Distribución de Clave Cuántica}
+	\begin{itemize}
+	\item Alice quiere transmitir una clave binaria a Bob. Para ello utilizará el canal cuántico, que le permite enviar particulas cuánticas. Alice aleatoriamente utiliza para codificar cada bit una de estas dos bases: 
+	$\filados{0\to\baseup}{1\to\baseright}$ o $\filados{0\to\baseupleft}{1\to\baseupright}$
+	\item Bob recibe las partículas y por cada bit escoge una de las bases vistas previamente para medir. En el 50\% de las veces las bases escogidas por Alice y Bob coincidiran.
+	\item A continuación Bob y Alice comunican qué bases escogieron por cada bit mediante el canal tradicional. La clave final de bits será la formada por los bits para los que Alice y Bob tomaron la misma base. \\ 
+	\textbf{¿Pero qué pasa con Eve?}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Distribución de Clave Cuántica}
+	\begin{itemize}
+	\item Supongamos que Eve intercepta las partículas cuánticas, y realiza mediciones tomando de nuevo una base aleatoria de las vistas previamente. En un 50\% de las veces escogerá la base erronea y por tanto habrá proyectado la particula en dicha base, modificando su estado. 
+	\item Cuando Bob reciba esta particula, en un 50\% de las veces habrá sido modificada por Eve, y por tanto a pesar de que acierte la base que escogió Alice para codificar el bit, hay otro 50\% de posibilidades de que el bit que mida sea erróneo. Es decir, en el 25\% de los bits, Alice y Bob habrán cogido la misma base y sin embargo sus medidas serán distintas! Sacando a luz así la existencia de una ``fuga'' en el canal cuántico.
 	\end{itemize}
 \end{frame}
 
