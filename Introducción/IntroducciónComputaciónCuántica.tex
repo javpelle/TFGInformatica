@@ -33,6 +33,8 @@
 \newcommand{\puertaz}{\includegraphics[scale=0.8]{imagenes/puertaz}}
 \newcommand{\puertah}{\includegraphics[scale=0.8]{imagenes/puertah}}
 \newcommand{\puertacnot}{\includegraphics[scale=0.8]{imagenes/puertacnot}}
+\newcommand{\eprpair}{\includegraphics[scale=0.8]{imagenes/eprpair}}
+\newcommand{\cnot}{C_{\mathrm{not}}}
 
 \begin{document}
 
@@ -230,15 +232,32 @@
 		\item El primer bit actúa como bit de control, cambiando el valor del segundo si el del primero es 1.
 		\item No puede ser compuesta como producto tensorial de transformaciones de dos bits individuales.
 		\end{itemize}
-	
+	\item Par EPR. (H$\otimes$I)C$_{\mathrm{not}}$: $\base{00}\to\dfrac{1}{\sqrt{2}}(\base{00}+\base{11})$ \begin{center}\eprpair\end{center}
 	
 	\end{itemize}
 \end{frame}
 
-\section{Experimentos????}
+\begin{frame}
+	\frametitle{Operaciones en sistemas cuánticos: Puertas cuánticas}
+	\begin{block}{Inexistencia de puerta de clonación}
+	Una de los grandes inconvenientes de la computación cuántica es que carecemos de una puerta que clone un estado.
+	\end{block}
+	Supongamos que existiera dicha puerta que denotamos $U$, entonces se verificaría que $U(\base{a0})=\base{aa}$ para un estado $a$ cualquiera. Sean los estados ortogonales $a$ y $b$ y $\base c = \dfrac{1}{\sqrt{2}}(\base{a}+\base{b})$, obtenemos por un lado:
+	\begin{itemize}
+	\item $U(\base{c0})=\frac{1}{\sqrt{2}}(U(\base{a0}+\base{b0}))=\alert{\frac{1}{\sqrt{2}}(\base{aa}+\base{bb})}$
+	
+	Mientas que por otro:
+	\item $U(\base{c0})=\base{cc}=\frac{1}{\sqrt{2}}(\base a + \base b)\otimes\frac{1}{\sqrt{2}}(\base a + \base b)=\alert{\frac{1}{2}(\base{aa}+\base{ab}+\base{ba}+\base{bb})}$
+	\end{itemize}		
+	Por lo tanto, llegamos a una contradicción y hemos probado que dicha puerta, lamentablemente, no existe.
+	
+	
+\end{frame}
+
+\section{Algunos experimentos}
 
 \begin{frame}
-	\frametitle{Distribución de Clave Cuántica}
+	\frametitle{Algunos experimentos. Distribución de Clave Cuántica}
 	Supongamos que Alice quiere transminir a Bob una clave secreta. Por otro lado, Eve quiere espiar esta comunicación, y tenemos la siguiente topología de canales:
 	\begin{center}
 	\includegraphics[scale=0.6]{imagenes/aeb}\\
@@ -247,7 +266,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Distribución de Clave Cuántica}
+	\frametitle{Algunos experimentos. Distribución de Clave Cuántica}
 	\begin{itemize}
 	\item Alice quiere transmitir una clave binaria a Bob. Para ello utilizará el canal cuántico, que le permite enviar particulas cuánticas. Alice aleatoriamente utiliza para codificar cada bit una de estas dos bases: 
 	$\filados{0\to\baseup}{1\to\baseright}$ o $\filados{0\to\baseupleft}{1\to\baseupright}$
@@ -258,7 +277,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Distribución de Clave Cuántica}
+	\frametitle{Algunos experimentos. Distribución de Clave Cuántica}
 	\begin{itemize}
 	\item Supongamos que Eve intercepta las partículas cuánticas, y realiza mediciones tomando de nuevo una base aleatoria de las vistas previamente. En un 50\% de las veces escogerá la base erronea y por tanto habrá proyectado la particula en dicha base, modificando su estado. 
 	\item Cuando Bob reciba esta particula, en un 50\% de las veces habrá sido modificada por Eve, y por tanto a pesar de que acierte la base que escogió Alice para codificar el bit, hay otro 50\% de posibilidades de que el bit que mida sea erróneo. Es decir, en el 25\% de los bits, Alice y Bob habrán cogido la misma base y sin embargo sus medidas serán distintas! Sacando a luz así la existencia de una ``fuga'' en el canal cuántico.
@@ -266,13 +285,13 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Codificación Densa}
+	\frametitle{Algunos experimentos. Codificación Densa}
 	Vamos a ver una forma de codificar 2 bits clásicos mediante un solo qubit. Para ello Alice y Bob deben poseer cada uno previamente una de las partículas de un par EPR ($\psi_0$), como se ve en el siguiente esquema:
 	
 \end{frame}
 
 \begin{frame}
-	\frametitle{Codificación Densa}
+	\frametitle{Algunos experimentos. Codificación Densa}
 	A continuación, Alice realiza las siguientes transformaciones sobre su qubit en función del valor que quiera codificar:
 	
 	\begin{center}
@@ -294,7 +313,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Codificación Densa}
+	\frametitle{Algunos experimentos. Codificación Densa}
 	Bob recibe el qubit de Alice y realiza una Cnot sobre ambos bits, obteniendo las siguientes posibles resultados:
 		\begin{center}
 		\resizebox{\textwidth}{!}{%
@@ -317,7 +336,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Codificación Densa}
+	\frametitle{Algunos experimentos. Codificación Densa}
 	Por último, Bob debe aplicar una Hadamard al primer bit. Es importante ver que las puertas Hadamard son matrices involutivas, es decir, inversas de sí mismas, por lo que obtenemos:
 		\begin{center}
  		\begin{tabular}{||c c||} 
@@ -335,6 +354,68 @@
 		\end{tabular}
 	\end{center}
 	Y de esta forma Bob ya puede decodificar por completo 4 bits, habiendose producido la retransmisión de un solo qubit.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algunos experimentos. Teleportación}
+		
+\end{frame}
+
+\section{Computación Cuántica}
+
+\begin{frame}
+	\frametitle{Computación Cuántica. \textit{Gatearray} cuántico}
+	Como ya hemos visto, las puertas cuánticas deben ser reversibles; Sin embargo, muchos operadores clásicos como AND, OR o NAND no lo son. Veamos cómo podemos solucionar este problema.\newline
+	
+	\begin{Large}\textbf{La puerta \textit{Toffoli}}\end{Large}
+	\newline\\
+	La puerta not controlada de 3 bits o puerta \textit{Toffoli} viene dada por la notación:
+	$T=\base0\lbase0\otimes I\otimes I +\base1\lbase1\otimes \cnot=$
+	$\left({\begin{array}{c|c}	I_4&0\\\hline0&\cnot \end{array} } \right)$. Tenemos:
+	
+	\begin{itemize}
+	\item $T\base{1,1,x}=\base{1,1,\neg x}\equiv$ NOT clásica
+	\item $T\base{x,y,0}=\base{x,y,x\land y}\equiv$ AND clásica
+	\end{itemize}
+	Puesto que AND y NOT es un \textbf{conjunto lógico funcionalmente completo}, la puerta $T$ es suficiente para construir cualquier circuito arbitrario.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Computación Cuántica. \textit{Gatearray} cuántico}
+	\begin{block}{Sumador}
+	En la figura de abajo mostramos un sumador de un bit. $x$ e $y$ son los bits a sumar, $c$ el acarreo entrante, $s$ la suma y $c'$ el acarreo saliente.
+	\end{block}
+	\begin{center}
+	\includegraphics[scale=0.5]{imagenes/sumador}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Computación Cuántica. \textit{Gatearray} cuántico}
+	\begin{itemize}
+	\item En 1985 \textit{Deutsch} probó que es posible construir puertas clásicas reversibles para cualquier función clásica computable.
+	\item En 1997 \textit{Bernstein} y \textit{Vazirani} prueban que de hecho se puede concebir como una máquina de \textit{Turing} cuántica.
+	\item Es decir, para cualquier función $f$ clásica con $m$ bits de entrada y $k$ bits de salida puede ser implementada en un computador cuántico.
+	\item Denotamos a dicha implementación $U_f$ como \textbf{\textit{gatearray} cuántico} que no es más que una transformación de $m+k$ qubits de forma $U_f:\base{x,y}\to\base{x,y\oplus$\footnote{$\oplus$ denota la operación XOR}$f(x)}$
+	\item para computar $f(x)$ basta con aplicar $U_f$ a $\base{x}\otimes\base{\overset{k}{00\hdots0}}$ que denotamos como $\base{x,0}$. Además, como $f(x)\oplus f(x) = 0$, tenemos que $U_fU_f=I$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Computación Cuántica. Paralelismo}
+	\begin{itemize}
+	\item ¿Qué pasa si utilizando puertas de \textit{Hadamard} conseguimos una superposición de estados y lo utilizamos como entrada para $U_f$? En resumidas cuentas, que obtenemos una superposición con todos los resultados en un único cómputo.
+	\item Por ejemplo, apliquemos una puerta de \textit{Toffoli} al estado inicial $H\base0\otimes H\base0\otimes 0 = \frac{1}{2}(\base{000}+\base{010}+\base{100}+\base{110})$ (recordemos que $T\base{x,y,0}=\base{x,y,x\land y}$).
+	\item Luego $T(H\base0\otimes H\base0\otimes 0)=\frac{1}{2}(\base{000}+\base{010}+\base{100}+\base{111})$. Como los valores $x$, $y$ y $x\land y$ están entrelazados es indiferente el orden en qué midamos.
+	\item El problema es que al medir sólo conseguiremos un único par de valores entrada y salida. Así que no hemos conseguido ningún ventaja adicional con respecto a un computador clásico y además, en este caso, no hemos podido elegir qué resultado medir.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algoritmo de búsqueda de \textit{Grover}}
+	\begin{itemize}
+	\item Sin embargo, podremos aprovechar este paralelismo con el uso de técnicas (sin analogía con a la programación clásica) que hagan que las medidas de los resultados deseados sean más probables de obtener.
+	\end{itemize}
 \end{frame}
 
 \end{document}
