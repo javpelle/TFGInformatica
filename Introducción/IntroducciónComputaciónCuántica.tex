@@ -265,4 +265,76 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Codificación Densa}
+	Vamos a ver una forma de codificar 2 bits clásicos mediante un solo qubit. Para ello Alice y Bob deben poseer cada uno previamente una de las partículas de un par EPR ($\psi_0$), como se ve en el siguiente esquema:
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Codificación Densa}
+	A continuación, Alice realiza las siguientes transformaciones sobre su qubit en función del valor que quiera codificar:
+	
+	\begin{center}
+ 		\begin{tabular}{||c c c||} 
+ 		\hline
+ 		Valor & Transformación & Nuevo Estado \\ [0.8ex] 
+	 	\hline\hline
+ 		0 & $\psi_0 = (I \otimes I)\psi_0$ &  $\dfrac{1}{\sqrt{2}}(\base{00} + \base{11})$ \\ 
+ 		\hline
+	 	1 & $\psi_1 = (X \otimes I)\psi_0$ &  $\dfrac{1}{\sqrt{2}}(\base{10} + \base{01})$  \\
+ 		\hline
+	 	2 & $\psi_2 = (Y \otimes I)\psi_0$ &  $\dfrac{1}{\sqrt{2}}(-\base{10} + \base{01})$  \\
+	 	\hline
+	 	3 & $\psi_3 = (Z \otimes I)\psi_0$ &  $\dfrac{1}{\sqrt{2}}(\base{00} + -\base{11})$ \\[1ex]
+	 	\hline
+		\end{tabular}
+	\end{center}
+	Ahora manda su qubit modificado a Bob.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Codificación Densa}
+	Bob recibe el qubit de Alice y realiza una Cnot sobre ambos bits, obteniendo las siguientes posibles resultados:
+		\begin{center}
+		\resizebox{\textwidth}{!}{%
+ 		\begin{tabular}{||c c c c||} 
+ 		\hline
+ 		Estado Inicial & CNot & Primer Bit & Segundo Bit\\ [0.4ex] 
+	 	\hline\hline
+ 		$\psi_0 = \dfrac{1}{\sqrt{2}}(\base{00} + \base{11})$ & $\dfrac{1}{\sqrt{2}}(\base{00} + \base{10})$ &  $\dfrac{1}{\sqrt{2}}(\base0 + \base1)$ & $\base0$ \\ 
+ 		\hline
+	 	$\psi_1 = \dfrac{1}{\sqrt{2}}(\base{10} + \base{01})$ & $\dfrac{1}{\sqrt{2}}(\base{11} + \base{01})$ & $\dfrac{1}{\sqrt{2}}(\base1 + \base0)$ & $\base1$ \\
+ 		\hline
+	 	$\psi_2 = \dfrac{1}{\sqrt{2}}(-\base{10} + \base{01})$ & $\dfrac{1}{\sqrt{2}}(-\base{11} + \base{01})$ & $\dfrac{1}{\sqrt{2}}(-\base1 + \base0)$ & $\base1$ \\
+	 	\hline
+	 	$\psi_3 = \dfrac{1}{\sqrt{2}}(\base{00} + -\base{11})$ & $\dfrac{1}{\sqrt{2}}(\base{00} - \base{10})$ & $\dfrac{1}{\sqrt{2}}(\base0 - \base1)$ & $\base0$ \\[1ex]
+	 	\hline
+		\end{tabular}
+		}
+	\end{center}
+	Ahora midiendo el segundo qubit, Bob ya puede saber si Alice a codificado un 0/3, o un 1/2.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Codificación Densa}
+	Por último, Bob debe aplicar una Hadamard al primer bit. Es importante ver que las puertas Hadamard son matrices involutivas, es decir, inversas de sí mismas, por lo que obtenemos:
+		\begin{center}
+ 		\begin{tabular}{||c c||} 
+ 		\hline
+ 		Primer Bit & Hadamard \\ [0.8ex] 
+	 	\hline\hline
+ 		$\dfrac{1}{\sqrt{2}}(\base0 + \base1)$ & $\base0$ \\ 
+ 		\hline
+		$\dfrac{1}{\sqrt{2}}(\base1 + \base0)$ & $\base0$ \\
+ 		\hline
+		$\dfrac{1}{\sqrt{2}}(-\base1 + \base0)$ & $\base1$ \\
+	 	\hline
+	 	$\dfrac{1}{\sqrt{2}}(\base0 - \base1)$ & $\base1$ \\[1ex]
+	 	\hline
+		\end{tabular}
+	\end{center}
+	Y de esta forma Bob ya puede decodificar por completo 4 bits, habiendose producido la retransmisión de un solo qubit.
+\end{frame}
+
 \end{document}
