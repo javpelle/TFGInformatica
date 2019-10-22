@@ -286,13 +286,15 @@
 
 \begin{frame}
 	\frametitle{Algunos experimentos. Codificación Densa}
-	Vamos a ver una forma de codificar 2 bits clásicos mediante un solo qubit. Para ello Alice y Bob deben poseer cada uno previamente una de las partículas de un par EPR ($\psi_0$), como se ve en el siguiente esquema:
-	
+	\begin{itemize}
+	\item Vamos a ver una forma de codificar 2 bits clásicos mediante un solo qubit. Para ello Alice y Bob deben poseer cada uno previamente una de las partículas de un par EPR ($\psi_0$), como se ve en el siguiente esquema:
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Algunos experimentos. Codificación Densa}
-	A continuación, Alice realiza las siguientes transformaciones sobre su qubit en función del valor que quiera codificar:
+	\begin{itemize}
+	\item A continuación, Alice realiza las siguientes transformaciones sobre su qubit en función del valor que quiera codificar:
 	
 	\begin{center}
  		\begin{tabular}{||c c c||} 
@@ -309,12 +311,13 @@
 	 	\hline
 		\end{tabular}
 	\end{center}
-	Ahora manda su qubit modificado a Bob.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Algunos experimentos. Codificación Densa}
-	Bob recibe el qubit de Alice y realiza una Cnot sobre ambos bits, obteniendo las siguientes posibles resultados:
+	\begin{itemize}
+	\item Bob recibe el qubit de Alice y realiza una Cnot sobre ambos bits, obteniendo las siguientes posibles resultados:
 		\begin{center}
 		\resizebox{\textwidth}{!}{%
  		\begin{tabular}{||c c c c||} 
@@ -332,12 +335,14 @@
 		\end{tabular}
 		}
 	\end{center}
-	Ahora midiendo el segundo qubit, Bob ya puede saber si Alice a codificado un 0/3, o un 1/2.
+	\item Ahora midiendo el segundo qubit, Bob ya puede saber si Alice a codificado un 0/3, o un 1/2.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Algunos experimentos. Codificación Densa}
-	Por último, Bob debe aplicar una Hadamard al primer bit. Es importante ver que las puertas Hadamard son matrices involutivas, es decir, inversas de sí mismas, por lo que obtenemos:
+	\begin{itemize}
+	\item Por último, Bob debe aplicar una Hadamard al primer bit. Es importante ver que las puertas Hadamard son matrices involutivas, es decir, inversas de sí mismas, por lo que obtenemos:
 		\begin{center}
  		\begin{tabular}{||c c||} 
  		\hline
@@ -353,12 +358,66 @@
 	 	\hline
 		\end{tabular}
 	\end{center}
-	Y de esta forma Bob ya puede decodificar por completo 4 bits, habiendose producido la retransmisión de un solo qubit.
+	\item Y de esta forma Bob ya puede decodificar por completo 4 bits, habiendose producido la retransmisión de un solo qubit.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Algunos experimentos. Teleportación}
-		
+	\begin{itemize}
+	\item Ahora el objetivo es transmitir el estado cuántico de una partícula a traves de dos bits clásicos. Supongamos que Alice tiene un qubit del cual desconoce su estado: $\Phi = a\base0 + b\base1$.
+	\item Y además, tanto Alice como Bob tienen un qubit de un par EPR ($\psi_0$). Por tanto el estado inicial viene dado por : \\ 
+	\begin{center}
+	$\Phi \otimes \psi_0 =  (a\base0 + b\base1) \otimes\dfrac{1}{\sqrt{2}}(\base{00} + \base{11}) = \dfrac{1}{\sqrt{2}} (a\base{000} + a\base{011} + b\base{100} + b\base{111}$
+	\end{center}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algunos experimentos. Teleportación}
+	\begin{itemize}
+	\item Ahora Alice realiza las siguientes transformaciones sobre los dos primeros qubits (coinciden con el paso de decodificación en el experimento de Codificación Densa):
+	\begin{center}
+	$ (H \otimes I \otimes I)(\cnot \otimes I) (\Phi \otimes \psi_0) = ... = \dfrac{1}{2}(\base{00}(a\base0 + b\base1) + \base{01}(a\base1 + b\base0) + \base{10}(a\base0 - b\base1) + 
+	\base{11}(a\base1 - b\base0)) $
+	\end{center}
+	\item Por tanto si Alice mide los dos primeros qubits, tiene la misma posibilidad de medir $\base{00}, \base{10}, \base{01} o \base{11}$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algunos experimentos. Teleportación}
+	\begin{itemize}
+	\item Ahora Alice realiza las siguientes transformaciones sobre los dos primeros qubits (coinciden con el paso de decodificación en el experimento de Codificación Densa):
+	\begin{center}
+	$ (H \otimes I \otimes I)(\cnot \otimes I) (\Phi \otimes \psi_0) = ... = \dfrac{1}{2}(\base{00}(a\base0 + b\base1) + \base{01}(a\base1 + b\base0) + \base{10}(a\base0 - b\base1) + 
+	\base{11}(a\base1 - b\base0)) $ 
+	\end{center}
+	\item Por tanto si Alice mide los dos primeros qubits, tiene la misma probabilidad de medir $\base{00}, \base{10}, \base{01} o \base{11}$. Alice transfiere el resultado de su medición mediante 		dos bits clásicos.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algunos experimentos. Teleportación}
+	\begin{itemize}
+	\item En función de la medición realizada por Alice, el qubit de Bob se ve proyectado de la siguientes formas, y por tanto podemos aplicar transformaciones para recuperar el qubit inicial  $\Phi$:
+	\begin{center}
+ 		\begin{tabular}{||c c c||} 
+ 		\hline
+ 		Bits Recibidos & Estado Tercer Qubit & Transformación \\ [0.8ex] 
+	 	\hline\hline
+ 		00 & $a\base0 + b\base1$ & I \\ 
+ 		\hline
+	 	01 & $a\base1 + b\base0$ & X \\
+ 		\hline
+	 	10 & $a\base0 - b\base1$ & Z \\
+	 	\hline
+	 	11 & $a\base1 - b\base0$ & Y \\[1ex]
+	 	\hline
+		\end{tabular}
+	\end{center}
+	\item Es importante ver que no violamos la propiedad de no-clonación, pues el estado inicial del qubit de Alice se ha perdido al realizar una medición sobre este.
+	\end{itemize}
 \end{frame}
 
 \section{Computación Cuántica}
@@ -415,7 +474,37 @@
 	\frametitle{Algoritmo de búsqueda de \textit{Grover}}
 	\begin{itemize}
 	\item Sin embargo, podremos aprovechar este paralelismo con el uso de técnicas (sin analogía con a la programación clásica) que hagan que las medidas de los resultados deseados sean más probables de obtener.
+	\item Supongamos que tenemos una lista no ordenada de tamaño \textbf{N} y sea $n$ tal que $2^n \geqslant N$ . Queremos buscar una entrada $x$ que verifica cierta propiedad $P$.
+	\item Sea $U_p$ la puerta cuántica que implementa la función clásica $P(x)$ que devuelve 1 cuando $x$ cumple la propiedad. Por tanto tenemos:
+	\begin{center}
+		$U_p : \base{x,0} \to  \base{x,P(x)}$
+	\end{center}
 	\end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Algoritmo de búsqueda de \textit{Grover}}
+	El algoritmo de \textit{Grover} consta de los siguiente pasos:
+	\begin{enumerate}
+	\item Preparar una superposición de los $2^n$ posibles valores de entrada $x_i$.
+	\item Aplicar la puerta $U_p$ a dicho estado, obteniendo: 
+		\begin{center}
+		$\dfrac{1}{\sqrt{2^n}} \sum_{i=0}^{2^n - 1}\base{x_i,P(x_i)}$
+		\end{center}
+	\item Cambiar la amplitud $a_j \to -a_j$ para cada $x_j$ tal que $P(x_j) = 1$.
+	\item Realizar inversión sobre la media, incrementando la amplitud de los $x_j$ tales que $P(x_j) = 1$, y disminuyendo la de aquellos tales que $P(x_i) = 0$. \\
+	Repetir los pasos \textbf{2-4} $\frac{\pi}{4}\sqrt{2^n}$ veces.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algoritmo de búsqueda de \textit{Grover}}
+	\begin{itemize}
+	\item En 1996  \textit{Boyer} mostró que tras $\frac{\pi}{8}\sqrt{2^n}$ iteraciones la tasa de error es de 0,5. Sin embargo, tras $\frac{\pi}{4}\sqrt{2^n}$ iteraciones esta tasa baja hasta $2^{-n}$.
+	\item Sin embargo, si seguimos aumentando el número de iteraciones los resultados empeoran. Esto se debe a que las transformaciones unitarias no son más que rotaciones en el espacio complejo y al rotar una solución muy próxima, podemos alejarnos.
+	\end{itemize}
+\end{frame}
+
+
 
 \end{document}
