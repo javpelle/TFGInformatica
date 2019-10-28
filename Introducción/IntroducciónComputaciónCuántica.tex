@@ -218,7 +218,7 @@
 	$\left({\begin{array}{cc}1&0\\0&-1\end{array} } \right)$ \puertaz
 	
 	\item Hadamard H:$\filados{\base0\to\dfrac{1}{\sqrt{2}}(\base0 + \base1)}{\base1\to\dfrac{1}{\sqrt{2}}(\base0 - \base1)}$ 
-	$\left({\begin{array}{cc}1&0\\0&-1\end{array} } \right)$ \puertah
+	$\left({\begin{array}{cc}\frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}\\\frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}}\end{array} } \right)$ \puertah
 	\end{itemize}
 \end{frame}
 
@@ -503,6 +503,27 @@
 	\item En 1996  \textit{Boyer} mostró que tras $\frac{\pi}{8}\sqrt{2^n}$ iteraciones la tasa de error es de 0,5. Sin embargo, tras $\frac{\pi}{4}\sqrt{2^n}$ iteraciones esta tasa baja hasta $2^{-n}$.
 	\item Sin embargo, si seguimos aumentando el número de iteraciones los resultados empeoran. Esto se debe a que las transformaciones unitarias no son más que rotaciones en el espacio complejo y al rotar una solución muy próxima, podemos alejarnos.
 	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algoritmo de búsqueda de \textit{Grover}}
+	Ejemplo en Qiskit para una lista de tamaño 8. Los estados a buscar son $\base{101}$ y $\base{110}$.\\
+	\includegraphics[scale=0.58]{imagenes/grovercodigo}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algoritmo de búsqueda de \textit{Grover}}
+	Circuito generado por el código.
+	\includegraphics[scale=0.525]{imagenes/grovercircuito}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Algoritmo de búsqueda de \textit{Grover}}
+	Resultados en simulador tras 1024 ejecuciones.
+	\begin{center}
+	\includegraphics[scale=0.7]{imagenes/groverresultados}
+	\end{center}
+	513 veces se saldó con la medición \textbf{101}, mientras que 510 lo hizo con \textbf{110}.
 \end{frame}
 
 
