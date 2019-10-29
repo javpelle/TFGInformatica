@@ -287,7 +287,10 @@
 \begin{frame}
 	\frametitle{Algunos experimentos. Codificación Densa}
 	\begin{itemize}
-	\item Vamos a ver una forma de codificar 2 bits clásicos mediante un solo qubit. Para ello Alice y Bob deben poseer cada uno previamente una de las partículas de un par EPR ($\psi_0$), como se ve en el siguiente esquema:
+	\item Vamos a ver una forma de codificar 2 bits clásicos mediante un solo qubit. Para ello Alice y Bob deben poseer cada uno previamente una de las partículas de un par EPR ($\psi_0$) y el proceso que seguiremos será el siguiente:
+	\begin{center}
+	\includegraphics[scale=0.8]{imagenes/superdense}\\
+	\end{center}
 	\end{itemize}
 \end{frame}
 
@@ -370,18 +373,6 @@
 	\begin{center}
 	$\Phi \otimes \psi_0 =  (a\base0 + b\base1) \otimes\dfrac{1}{\sqrt{2}}(\base{00} + \base{11}) = \dfrac{1}{\sqrt{2}} (a\base{000} + a\base{011} + b\base{100} + b\base{111}$
 	\end{center}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Algunos experimentos. Teleportación}
-	\begin{itemize}
-	\item Ahora Alice realiza las siguientes transformaciones sobre los dos primeros qubits (coinciden con el paso de decodificación en el experimento de Codificación Densa):
-	\begin{center}
-	$ (H \otimes I \otimes I)(\cnot \otimes I) (\Phi \otimes \psi_0) = ... = \dfrac{1}{2}(\base{00}(a\base0 + b\base1) + \base{01}(a\base1 + b\base0) + \base{10}(a\base0 - b\base1) + 
-	\base{11}(a\base1 - b\base0)) $
-	\end{center}
-	\item Por tanto si Alice mide los dos primeros qubits, tiene la misma posibilidad de medir $\base{00}, \base{10}, \base{01} o \base{11}$.
 	\end{itemize}
 \end{frame}
 
