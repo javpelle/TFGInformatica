@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
 import control.Controller;
 import model.Observable;
@@ -27,7 +26,7 @@ public class UI extends JFrame implements Observer{
 	/**
 	 * 
 	 */
-	private ToolBar toolBar;
+	private TabbedPane tabbedPane;
 	
 	/**
 	 * Constructor of view
@@ -52,12 +51,9 @@ public class UI extends JFrame implements Observer{
 		menuBar = new MenuBar();
 		setJMenuBar(menuBar);
 		
-		// Add tool bar
-		toolBar = new ToolBar();
-		add(toolBar, BorderLayout.NORTH);
-		
-		// Add Text Area
-		add(new JTextArea(), BorderLayout.CENTER);
+		// Add tabbed pane
+		tabbedPane = new TabbedPane();
+		add(tabbedPane, BorderLayout.CENTER);
 		
 		setVisible(true);
 	}
