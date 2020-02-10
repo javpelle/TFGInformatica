@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import control.Controller;
 import model.Observable;
 import model.Observer;
+import model.mutantoperator.MutantOperator;
 
 public class UI extends JFrame implements Observer{
 
@@ -43,7 +44,7 @@ public class UI extends JFrame implements Observer{
 		setIconImage(new ImageIcon("icon.jpg").getImage());
 		
 		// Size and Layout of view
-		setSize(new Dimension(1150, 700));
+		setSize(new Dimension(1280, 720));
 		setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -64,6 +65,13 @@ public class UI extends JFrame implements Observer{
 	public void onError(String msg) {
 		JFrame error = new JFrame();
 		JOptionPane.showMessageDialog(error, msg);		
+	}
+
+
+
+	@Override
+	public void updateMutantOperators(MutantOperator[] mutantOperatorList) {
+		
 	}
 
 }

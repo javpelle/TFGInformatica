@@ -10,7 +10,7 @@ public interface MutantOperator {
 	 * 
 	 * @return operator name showed in the view.
 	 */
-	public String toString();
+	public String getName();
 
 	/**
 	 * 
@@ -23,7 +23,7 @@ public interface MutantOperator {
 	 * @return The operator that will be replaced.
 	 */
 	public String getSearchOperator();
-	
+
 	/**
 	 * 
 	 * @return The replacement operator.
