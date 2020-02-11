@@ -1,27 +1,28 @@
-package model.mutantoperator.qiskit;
+package model.mutantoperator.qsharp;
 
 import model.mutantoperator.MutantOperator;
 
-public class OrAnd implements MutantOperator {
-
+public class GateZY implements MutantOperator{
 	@Override
 	public String getName() {
-		return "Or_And";
+		return "GateZ_GateY";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Replace Or operator by And operator.";
+		return "Replace Z gate with Y gate.";
 	}
 
 	@Override
 	public String getSearchOperator() {
-		return ".or(";
+		return "Z(";
 	}
 
 	@Override
 	public String getMutantOperator() {
-		return ".and(";
+		return "Y(";
 	}
 
 }
+
+

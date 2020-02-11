@@ -6,7 +6,7 @@ public class AndOr implements MutantOperator {
 
 	@Override
 	public String getName() {
-		return "Or_And ";
+		return "And_Or";
 	}
 
 	@Override
