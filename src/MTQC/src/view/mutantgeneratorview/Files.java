@@ -4,13 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import view.tools.JTableCheck;
-import view.tools.TextField;
 
 public class Files extends JPanel {
 
@@ -86,12 +86,12 @@ public class Files extends JPanel {
 
 	private void createSouthPanel() {
 		JPanel south = new JPanel();
+		south.setBorder(BorderFactory.createTitledBorder("Current path"));
 		south.setLayout(new BorderLayout());
 		path = new JTextArea(System.getProperty("user.dir"));
 		newPath = new JButton("Update Path");
 		south.add(new JScrollPane(path), BorderLayout.CENTER);
 		south.add(newPath, BorderLayout.EAST);
-		south.add(new TextField("Current path:"), BorderLayout.NORTH);
 		add(south, BorderLayout.SOUTH);
 	}
 
