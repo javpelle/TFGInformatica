@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import view.mutantgeneratorview.MutantsGenerator;
+import view.mutantsviewer.MutantsViewer;
 
 public class TabbedPane extends JTabbedPane {
 
@@ -15,8 +16,8 @@ public class TabbedPane extends JTabbedPane {
 		mutantsgenerator = new MutantsGenerator();
 		addTab("Mutants Generator", mutantsgenerator);
 
-		JPanel panel2 = new JPanel();
-		addTab("Mutants Viewer", panel2);
+		JPanel mutantsViewer = new MutantsViewer();
+		addTab("Mutants Viewer", mutantsViewer);
 
 		JPanel panel3 = new JPanel();
 		addTab("TestCase Runner", panel3);

@@ -28,6 +28,11 @@ public class UI extends JFrame implements Observer {
 	 * 
 	 */
 	private TabbedPane tabbedPane;
+	
+	/**
+	 * 
+	 */
+	private Controller c;
 
 	/**
 	 * Constructor of view
@@ -39,6 +44,8 @@ public class UI extends JFrame implements Observer {
 		super("Mutation Testing for Quantum Computing");
 		// Add this view as observer
 		o.addObserver(this);
+		
+		this.c = c;
 
 		setIconImage(new ImageIcon("icon.jpg").getImage());
 
