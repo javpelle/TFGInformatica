@@ -19,7 +19,7 @@ public class Files extends JPanel {
 	private JTableCheck table;
 
 	private JTextArea path;
-	
+
 	private JButton all;
 
 	private JButton none;
@@ -33,23 +33,20 @@ public class Files extends JPanel {
 
 		// createNorthPanel();
 
-		Object[][] data = { { true, "File1" }, { true, "File2" } };
+		Object[][] data = { { false, "File1" }, { false, "File2" } };
 		createCenterPanel(data);
 
 		createSouthPanel();
 
 	}
-/*
-	private void createNorthPanel() {
-		JPanel north = new JPanel();
-		north.setLayout(new BorderLayout());
-		mainFile = new JTextArea("File1");
-		mainFile.setEditable(false);
-		north.add(mainFile, BorderLayout.SOUTH);
-		north.add(new TextField("Current main file:"), BorderLayout.NORTH);
-		add(north, BorderLayout.NORTH);
-	}
-*/
+
+	/*
+	 * private void createNorthPanel() { JPanel north = new JPanel();
+	 * north.setLayout(new BorderLayout()); mainFile = new JTextArea("File1");
+	 * mainFile.setEditable(false); north.add(mainFile, BorderLayout.SOUTH);
+	 * north.add(new TextField("Current main file:"), BorderLayout.NORTH);
+	 * add(north, BorderLayout.NORTH); }
+	 */
 	private void createCenterPanel(Object[][] data) {
 		Object[] column = { "", "File" };
 
