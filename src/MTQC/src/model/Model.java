@@ -1,5 +1,8 @@
 package model;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import model.mutantoperator.MutantOperator;
 import model.mutantoperator.qiskit.AndOr;
 import model.mutantoperator.qiskit.OrAnd;
@@ -13,12 +16,14 @@ public class Model implements Observable<Observer> {
 
 	private boolean qiskit;
 
+	private String path;
+
 	private MutantOperator[] qiskitOperators = { new AndOr(), new OrAnd() };
 
 	private MutantOperator[] qsharpOperators = {};
 
 	public Model() {
-		qiskit = true;
+		qiskit = false;
 	}
 
 	/**
@@ -32,7 +37,7 @@ public class Model implements Observable<Observer> {
 		throw e;
 	}
 
-	private void notifyLanguageChange() {
+	public void notifyLanguageChange() {
 		if (qiskit) {
 			observer.updateMutantOperators(qiskitOperators);
 		} else {
@@ -48,6 +53,23 @@ public class Model implements Observable<Observer> {
 	@Override
 	public void removeObserver(Observer o) {
 		observer = null;
+	}
+
+	public void start() {
+		updatePath(System.getProperty("user.dir"));
+	}
+
+	public void updatePath(String path) {
+		this.path = path;
+		ArrayList<String> files = new ArrayList<String>();
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				files.add(listOfFiles[i].getName());
+			}
+		}
+		observer.updatePath(files);
 	}
 
 }

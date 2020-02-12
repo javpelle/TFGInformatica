@@ -3,6 +3,7 @@ package view.mutantgeneratorview;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +17,10 @@ public class Files extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private final static Object[] column = { "", "File" };
+
+	private JPanel center;
+
 	private JTableCheck table;
 
 	private JTextArea path;
@@ -26,33 +31,21 @@ public class Files extends JPanel {
 
 	private JButton newPath;
 
-	// private JTextArea mainFile;
+	private Object[][] data;
 
-	public Files() {
+	public Files(NewPathListener listener) {
 		setLayout(new BorderLayout());
 
-		// createNorthPanel();
+		createCenterPanel();
 
-		Object[][] data = { { false, "File1" }, { false, "File2" } };
-		createCenterPanel(data);
-
-		createSouthPanel();
+		createSouthPanel(listener);
 
 	}
 
-	/*
-	 * private void createNorthPanel() { JPanel north = new JPanel();
-	 * north.setLayout(new BorderLayout()); mainFile = new JTextArea("File1");
-	 * mainFile.setEditable(false); north.add(mainFile, BorderLayout.SOUTH);
-	 * north.add(new TextField("Current main file:"), BorderLayout.NORTH);
-	 * add(north, BorderLayout.NORTH); }
-	 */
-	private void createCenterPanel(Object[][] data) {
-		Object[] column = { "", "File" };
-
-		JPanel center = new JPanel();
+	private void createCenterPanel() {
+		center = new JPanel();
 		center.setLayout(new BorderLayout());
-		table = new JTableCheck(data, column);
+		table = new JTableCheck(column);
 		all = new JButton("All");
 		none = new JButton("None");
 		JPanel centerSouth = new JPanel();
@@ -81,7 +74,7 @@ public class Files extends JPanel {
 		});
 	}
 
-	private void createSouthPanel() {
+	private void createSouthPanel(NewPathListener listener) {
 		JPanel south = new JPanel();
 		south.setBorder(BorderFactory.createTitledBorder("Current path"));
 		south.setLayout(new BorderLayout());
@@ -90,6 +83,28 @@ public class Files extends JPanel {
 		south.add(new JScrollPane(path), BorderLayout.CENTER);
 		south.add(newPath, BorderLayout.EAST);
 		add(south, BorderLayout.SOUTH);
+
+		newPath.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				listener.updatePath(path.getText());
+			}
+		});
+	}
+
+	public void updatePath(ArrayList<String> files) {
+		data = new Object[files.size()][2];
+		table.clear();
+
+		for (int i = 0; i < files.size(); ++i) {
+			data[i][0] = false;
+			data[i][1] = files.get(i);
+			table.addRow(data[i]);
+		}
+
+	}
+
+	public interface NewPathListener {
+		public void updatePath(String path);
 	}
 
 }

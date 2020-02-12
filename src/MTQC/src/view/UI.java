@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import control.Controller;
 import model.Observable;
 import model.Observer;
 import model.mutantoperator.MutantOperator;
+import view.mutantgeneratorview.Files.NewPathListener;
 
 public class UI extends JFrame implements Observer {
 
@@ -28,11 +30,6 @@ public class UI extends JFrame implements Observer {
 	 * 
 	 */
 	private TabbedPane tabbedPane;
-	
-	/**
-	 * 
-	 */
-	private Controller c;
 
 	/**
 	 * Constructor of view
@@ -44,8 +41,6 @@ public class UI extends JFrame implements Observer {
 		super("Mutation Testing for Quantum Computing");
 		// Add this view as observer
 		o.addObserver(this);
-		
-		this.c = c;
 
 		setIconImage(new ImageIcon("icon.jpg").getImage());
 
@@ -59,7 +54,14 @@ public class UI extends JFrame implements Observer {
 		setJMenuBar(menuBar);
 
 		// Add tabbed pane
-		tabbedPane = new TabbedPane();
+		tabbedPane = new TabbedPane(new NewPathListener() {
+
+			@Override
+			public void updatePath(String path) {
+				c.updatePath(path);
+			}
+
+		});
 		add(tabbedPane, BorderLayout.CENTER);
 
 		setVisible(true);
@@ -74,6 +76,11 @@ public class UI extends JFrame implements Observer {
 	@Override
 	public void updateMutantOperators(MutantOperator[] mutantOperatorList) {
 
+	}
+
+	@Override
+	public void updatePath(ArrayList<String> files) {
+		tabbedPane.updatePath(files);
 	}
 
 }

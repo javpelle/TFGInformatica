@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import model.mutantoperator.MutantOperator;
 
 /**
@@ -19,5 +21,7 @@ public interface Observer {
 	 * @param qiskitOperators Mutant operator list
 	 */
 	public void updateMutantOperators(MutantOperator[] mutantOperatorList);
+	
+	public void updatePath(ArrayList<String> files);
 
 }

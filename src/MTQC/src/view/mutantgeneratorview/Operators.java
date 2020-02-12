@@ -18,29 +18,28 @@ public class Operators extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JTableCheck table;
-	
+
 	private JButton all;
 
 	private JButton none;
 
 	public Operators() {
 		setLayout(new BorderLayout());
-		
+
 		Object[][] data = { { false, "Operator1" }, { false, "Operator2" } };
-		
+
 		createCenterPanel(data);
 
 		createSouthPanel(data);
-		
-		
+
 	}
-	
+
 	private void createCenterPanel(Object[][] data) {
 		Object[] column = { "", "Operator" };
-		table = new JTableCheck(data, column);
+		table = new JTableCheck(column);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 	}
-	
+
 	private void createSouthPanel(Object[][] data) {
 		all = new JButton("All");
 		none = new JButton("None");
@@ -65,6 +64,6 @@ public class Operators extends JPanel {
 				}
 				table.updateUI();
 			}
-		});	
+		});
 	}
 }

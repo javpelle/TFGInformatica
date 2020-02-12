@@ -1,9 +1,12 @@
 package view.mutantgeneratorview;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import view.mutantgeneratorview.Files.NewPathListener;
 
 public class MutantsGenerator extends JPanel {
 
@@ -15,13 +18,12 @@ public class MutantsGenerator extends JPanel {
 
 	private Files files;
 
-	public MutantsGenerator() {
+	public MutantsGenerator(NewPathListener listener) {
 		setLayout(new BorderLayout());
-		
-		files = new Files();
+
+		files = new Files(listener);
 		operators = new Operators();
-	
-		
+
 		add(files, BorderLayout.WEST);
 		add(operators, BorderLayout.EAST);
 
@@ -29,6 +31,10 @@ public class MutantsGenerator extends JPanel {
 		JPanel south = new JPanel();
 		south.add(generate);
 		add(south, BorderLayout.SOUTH);
+	}
+
+	public void updatePath(ArrayList<String> fileList) {
+		files.updatePath(fileList);
 	}
 
 }

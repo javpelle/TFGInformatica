@@ -1,6 +1,7 @@
 package view.tools;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class JTableCheck extends JTable {
 
@@ -9,8 +10,11 @@ public class JTableCheck extends JTable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public JTableCheck(Object[][] rowData, Object[] columnNames) {
-		super(rowData, columnNames);
+	private DefaultTableModel model;
+
+	public JTableCheck(Object[] columnNames) {
+		super(new DefaultTableModel(new Object[1][2], columnNames));
+		model = (DefaultTableModel) getModel();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -25,6 +29,18 @@ public class JTableCheck extends JTable {
 
 	public boolean isCellEditable(int row, int column) {
 		return column == 0;
+	}
+
+	public void addRow(Object[] o) {
+		model.addRow(o);
+	}
+
+	public void clear() {
+		if (model.getRowCount() > 0) {
+			for (int i = model.getRowCount() - 1; i >= 0; i--) {
+				model.removeRow(i);
+			}
+		}
 	}
 
 }
