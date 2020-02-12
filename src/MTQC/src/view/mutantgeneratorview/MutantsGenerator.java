@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import model.mutantoperator.MutantOperator;
 import view.mutantgeneratorview.Files.NewPathListener;
 
 public class MutantsGenerator extends JPanel {
@@ -35,6 +36,10 @@ public class MutantsGenerator extends JPanel {
 
 	public void updatePath(ArrayList<String> fileList) {
 		files.updatePath(fileList);
+	}
+
+	public void updateOperators(MutantOperator[] mutantOperatorList) {
+		operators.updateOperators(mutantOperatorList);
 	}
 
 }

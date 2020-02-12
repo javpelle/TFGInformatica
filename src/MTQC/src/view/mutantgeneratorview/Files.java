@@ -31,8 +31,6 @@ public class Files extends JPanel {
 
 	private JButton newPath;
 
-	private Object[][] data;
-
 	public Files(NewPathListener listener) {
 		setLayout(new BorderLayout());
 
@@ -57,19 +55,13 @@ public class Files extends JPanel {
 
 		all.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (Object[] row : data) {
-					row[0] = true;
-				}
-				table.updateUI();
+				table.setAllTrue();
 			}
 		});
 
 		none.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (Object[] row : data) {
-					row[0] = false;
-				}
-				table.updateUI();
+				table.setAllFalse();
 			}
 		});
 	}
@@ -92,15 +84,10 @@ public class Files extends JPanel {
 	}
 
 	public void updatePath(ArrayList<String> files) {
-		data = new Object[files.size()][2];
 		table.clear();
-
 		for (int i = 0; i < files.size(); ++i) {
-			data[i][0] = false;
-			data[i][1] = files.get(i);
-			table.addRow(data[i]);
+			table.addRow(new Object[] { false, files.get(i) });
 		}
-
 	}
 
 	public interface NewPathListener {

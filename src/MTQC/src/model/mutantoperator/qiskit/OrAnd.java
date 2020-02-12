@@ -2,7 +2,7 @@ package model.mutantoperator.qiskit;
 
 import model.mutantoperator.MutantOperator;
 
-public class OrAnd implements MutantOperator {
+public class OrAnd extends MutantOperator {
 
 	@Override
 	public String getName() {

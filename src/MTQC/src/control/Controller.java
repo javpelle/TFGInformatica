@@ -17,4 +17,8 @@ public class Controller {
 	public void updatePath(String path) {
 		model.updatePath(path);
 	}
+
+	public void updateLanguage(boolean qiskit) {
+		model.updateMutantOperators(qiskit);		
+	}
 }

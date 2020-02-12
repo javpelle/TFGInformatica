@@ -2,7 +2,7 @@ package model.mutantoperator.qsharp;
 
 import model.mutantoperator.MutantOperator;
 
-public class PauliZY implements MutantOperator{
+public class PauliZY extends MutantOperator {
 	@Override
 	public String getName() {
 		return "PauliZ_Y";
@@ -24,5 +24,3 @@ public class PauliZY implements MutantOperator{
 	}
 
 }
-
-

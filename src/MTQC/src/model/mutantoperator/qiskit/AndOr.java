@@ -2,7 +2,7 @@ package model.mutantoperator.qiskit;
 
 import model.mutantoperator.MutantOperator;
 
-public class AndOr implements MutantOperator {
+public class AndOr extends MutantOperator {
 
 	@Override
 	public String getName() {

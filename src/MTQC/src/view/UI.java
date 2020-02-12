@@ -12,6 +12,7 @@ import control.Controller;
 import model.Observable;
 import model.Observer;
 import model.mutantoperator.MutantOperator;
+import view.MenuBar.LanguageListener;
 import view.mutantgeneratorview.Files.NewPathListener;
 
 public class UI extends JFrame implements Observer {
@@ -50,7 +51,14 @@ public class UI extends JFrame implements Observer {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Add menu bar
-		menuBar = new MenuBar();
+		menuBar = new MenuBar(new LanguageListener() {
+
+			@Override
+			public void languageChosen(boolean qiskit) {
+				c.updateLanguage(qiskit);
+			}
+
+		});
 		setJMenuBar(menuBar);
 
 		// Add tabbed pane
@@ -75,7 +83,7 @@ public class UI extends JFrame implements Observer {
 
 	@Override
 	public void updateMutantOperators(MutantOperator[] mutantOperatorList) {
-
+		tabbedPane.updateOperators(mutantOperatorList);
 	}
 
 	@Override

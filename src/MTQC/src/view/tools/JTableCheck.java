@@ -43,4 +43,20 @@ public class JTableCheck extends JTable {
 		}
 	}
 
+	public void setAllTrue() {
+		if (model.getRowCount() > 0) {
+			for (int i = 0; i < model.getRowCount(); ++i) {
+				model.setValueAt(true, i, 0);
+			}
+		}
+	}
+
+	public void setAllFalse() {
+		if (model.getRowCount() > 0) {
+			for (int i = 0; i < model.getRowCount(); ++i) {
+				model.setValueAt(false, i, 0);
+			}
+		}
+	}
+
 }

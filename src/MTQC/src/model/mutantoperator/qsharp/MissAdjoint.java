@@ -2,7 +2,7 @@ package model.mutantoperator.qsharp;
 
 import model.mutantoperator.MutantOperator;
 
-public class MissAdjoint implements MutantOperator{
+public class MissAdjoint extends MutantOperator {
 	@Override
 	public String getName() {
 		return "MissAdjoint";
@@ -24,5 +24,3 @@ public class MissAdjoint implements MutantOperator{
 	}
 
 }
-
-

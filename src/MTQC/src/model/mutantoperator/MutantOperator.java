@@ -4,30 +4,34 @@ package model.mutantoperator;
  * Interface
  * 
  */
-public interface MutantOperator {
+public abstract class MutantOperator {
 
 	/**
 	 * 
 	 * @return operator name showed in the view.
 	 */
-	public String getName();
+	public abstract String getName();
 
 	/**
 	 * 
 	 * @return String with brief mutant description.
 	 */
-	public String getDescription();
+	public abstract String getDescription();
 
 	/**
 	 * 
 	 * @return The operator that will be replaced.
 	 */
-	public String getSearchOperator();
+	public abstract String getSearchOperator();
 
 	/**
 	 * 
 	 * @return The replacement operator.
 	 */
-	public String getMutantOperator();
+	public abstract String getMutantOperator();
+	
+	public String toString() {
+		return getName();
+	}
 
 }

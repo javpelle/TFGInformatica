@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import model.mutantoperator.MutantOperator;
 import view.mutantgeneratorview.MutantsGenerator;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantsviewer.MutantsViewer;
@@ -31,6 +32,10 @@ public class TabbedPane extends JTabbedPane {
 
 	public void updatePath(ArrayList<String> files) {
 		mutantsgenerator.updatePath(files);
+	}
+
+	public void updateOperators(MutantOperator[] mutantOperatorList) {
+		mutantsgenerator.updateOperators(mutantOperatorList);
 	}
 
 }

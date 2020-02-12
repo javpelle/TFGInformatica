@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import model.mutantoperator.MutantOperator;
 import model.mutantoperator.qiskit.AndOr;
 import model.mutantoperator.qiskit.OrAnd;
+import model.mutantoperator.qsharp.GateHX;
+import model.mutantoperator.qsharp.GateHY;
 
 public class Model implements Observable<Observer> {
 
@@ -20,7 +22,7 @@ public class Model implements Observable<Observer> {
 
 	private MutantOperator[] qiskitOperators = { new AndOr(), new OrAnd() };
 
-	private MutantOperator[] qsharpOperators = {};
+	private MutantOperator[] qsharpOperators = { new GateHX(), new GateHY() };
 
 	public Model() {
 		qiskit = false;
@@ -57,6 +59,16 @@ public class Model implements Observable<Observer> {
 
 	public void start() {
 		updatePath(System.getProperty("user.dir"));
+		updateMutantOperators(false);
+	}
+
+	public void updateMutantOperators(boolean qiskit) {
+		this.qiskit = qiskit;
+		if (qiskit) {
+			observer.updateMutantOperators(qiskitOperators);
+		} else {
+			observer.updateMutantOperators(qsharpOperators);
+		}
 	}
 
 	public void updatePath(String path) {

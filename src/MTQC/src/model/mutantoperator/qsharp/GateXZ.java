@@ -2,7 +2,7 @@ package model.mutantoperator.qsharp;
 
 import model.mutantoperator.MutantOperator;
 
-public class GateXZ implements MutantOperator{
+public class GateXZ extends MutantOperator {
 	@Override
 	public String getName() {
 		return "GateX_GateZ";
@@ -24,5 +24,3 @@ public class GateXZ implements MutantOperator{
 	}
 
 }
-
-
