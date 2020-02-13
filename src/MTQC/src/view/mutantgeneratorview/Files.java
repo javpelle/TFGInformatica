@@ -93,5 +93,17 @@ public class Files extends JPanel {
 	public interface NewPathListener {
 		public void updatePath(String path);
 	}
+	
+	
+	public ArrayList<String>  getSelectedFiles(){
+		ArrayList<String> selectedFiles = new ArrayList<String>();
+		int[] selectedRows = table.getSelectedRows();
+		
+		for (int i:selectedRows) {
+			selectedFiles.add((String) table.getValueAt(i, 1));
+		}
+	
+		return selectedFiles;
+	}
 
 }

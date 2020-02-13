@@ -8,6 +8,7 @@ import javax.swing.JTabbedPane;
 import model.mutantoperator.MutantOperator;
 import view.mutantgeneratorview.MutantsGenerator;
 import view.mutantgeneratorview.Files.NewPathListener;
+import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.mutantsviewer.MutantsViewer;
 
 public class TabbedPane extends JTabbedPane {
@@ -18,8 +19,8 @@ public class TabbedPane extends JTabbedPane {
 
 	private MutantsViewer mutantsViewer;
 
-	public TabbedPane(NewPathListener listener) {
-		mutantsgenerator = new MutantsGenerator(listener);
+	public TabbedPane(NewPathListener listener, NewGenerateListener listenGenerate) {
+		mutantsgenerator = new MutantsGenerator(listener, listenGenerate);
 		addTab("Mutants Generator", mutantsgenerator);
 
 		mutantsViewer = new MutantsViewer();

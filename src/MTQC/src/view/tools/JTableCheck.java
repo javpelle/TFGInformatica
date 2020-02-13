@@ -1,5 +1,7 @@
 package view.tools;
 
+import java.util.ArrayList;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -58,5 +60,18 @@ public class JTableCheck extends JTable {
 			}
 		}
 	}
-
+	public int[]  getSelectedRows() {
+		ArrayList<Integer> selected = new ArrayList<Integer>();
+		for(int i=0; i < model.getRowCount(); i++) {
+			if ((boolean) model.getValueAt(i, 0)){
+				selected.add(i);
+			}
+		}
+		int[] selectedRows = new int[selected.size()];
+		
+		for(int i=0;i < selected.size(); i++) {
+			selectedRows[i] = selected.get(i);
+		}
+		return selectedRows;
+	}
 }

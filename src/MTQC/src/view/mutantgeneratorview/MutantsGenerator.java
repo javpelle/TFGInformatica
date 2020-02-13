@@ -1,6 +1,8 @@
 package view.mutantgeneratorview;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -19,7 +21,7 @@ public class MutantsGenerator extends JPanel {
 
 	private Files files;
 
-	public MutantsGenerator(NewPathListener listener) {
+	public MutantsGenerator(NewPathListener listener, NewGenerateListener listenGenerate) {
 		setLayout(new BorderLayout());
 
 		files = new Files(listener);
@@ -29,6 +31,11 @@ public class MutantsGenerator extends JPanel {
 		add(operators, BorderLayout.EAST);
 
 		generate = new JButton("Generate");
+		generate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				listenGenerate.generate(files.getSelectedFiles(), operators.getSelectedOperators());
+			}
+		});
 		JPanel south = new JPanel();
 		south.add(generate);
 		add(south, BorderLayout.SOUTH);
@@ -40,6 +47,10 @@ public class MutantsGenerator extends JPanel {
 
 	public void updateOperators(MutantOperator[] mutantOperatorList) {
 		operators.updateOperators(mutantOperatorList);
+	}
+	
+	public interface NewGenerateListener {
+		public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators);
 	}
 
 }

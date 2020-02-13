@@ -1,6 +1,9 @@
 package control;
 
+import java.util.ArrayList;
+
 import model.Model;
+import model.mutantoperator.MutantOperator;
 
 public class Controller {
 
@@ -20,5 +23,10 @@ public class Controller {
 
 	public void updateLanguage(boolean qiskit) {
 		model.updateMutantOperators(qiskit);		
+	}
+
+	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
+		model.generate(files, operators);
+		
 	}
 }

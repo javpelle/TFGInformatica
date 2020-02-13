@@ -3,6 +3,7 @@ package view.mutantgeneratorview;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -66,5 +67,16 @@ public class Operators extends JPanel {
 		for (int i = 0; i < mutantOperatorList.length; ++i) {
 			table.addRow(new Object[]{false, mutantOperatorList[i]});
 		}
+	}
+	
+	public ArrayList<MutantOperator>  getSelectedOperators(){
+		ArrayList<MutantOperator> selectedOperators = new ArrayList<MutantOperator>();
+		int[] selectedRows = table.getSelectedRows();
+		
+		for (int i:selectedRows) {
+			selectedOperators.add((MutantOperator) table.getValueAt(i, 1));
+		}
+	
+		return selectedOperators;
 	}
 }

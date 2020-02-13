@@ -14,6 +14,7 @@ import model.Observer;
 import model.mutantoperator.MutantOperator;
 import view.MenuBar.LanguageListener;
 import view.mutantgeneratorview.Files.NewPathListener;
+import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 
 public class UI extends JFrame implements Observer {
 
@@ -69,6 +70,16 @@ public class UI extends JFrame implements Observer {
 				c.updatePath(path);
 			}
 
+		}, new NewGenerateListener(){
+
+			@Override
+			public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
+				c.generate(files, operators);
+				
+			}
+			
+			
+			
 		});
 		add(tabbedPane, BorderLayout.CENTER);
 

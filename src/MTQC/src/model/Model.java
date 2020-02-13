@@ -1,7 +1,12 @@
 package model;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import model.mutantoperator.MutantOperator;
 import model.mutantoperator.qiskit.AndOr;
@@ -114,5 +119,67 @@ public class Model implements Observable<Observer> {
 		}
 		observer.updatePath(files);
 	}
+
+	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
+		for (int i = 0; i < files.size(); i++) {
+			for (int j = 0; j < operators.size(); j++) {
+				applyOperatorToFile(files.get(i), operators.get(j));
+			}
+		}
+		
+	}
+
+	private void applyOperatorToFile(String filePath, MutantOperator mutantOperator) {
+		
+		String searchWord = mutantOperator.getSearchOperator();
+		String replaceWord = mutantOperator.getMutantOperator();
+	 	File originalFile = new File(filePath);
+        String file = "";
+        BufferedReader reader = null;
+        FileWriter writer = null;
+         
+        try
+        {
+            reader = new BufferedReader(new FileReader(originalFile));
+            String line = reader.readLine();
+             
+            while (line != null) 
+            {
+            	file = file + line + System.lineSeparator();   
+                line = reader.readLine();
+            }
+             
+             
+            String[] splitSearch = file.split(searchWord);
+            String aux = new String();
+            for (int i = 0; i < splitSearch.length; i++) {
+            	aux = splitSearch[i];
+            	if (splitSearch[i].equals(searchWord)) {
+            		splitSearch[i] = replaceWord;
+            	}
+            	
+            	String modifiedFile = Arrays.toString(splitSearch);
+            	//Falta crear el nuevo archivo, con el nombre adecuado y escrbir en el el contenido de modifiedFile
+            	splitSearch[i] = aux;
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {   
+                reader.close();
+            } 
+            catch (IOException e) 
+            {
+                e.printStackTrace();
+            }
+        }
+   }
+		
+
 
 }
