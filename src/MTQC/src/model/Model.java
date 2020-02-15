@@ -1,13 +1,14 @@
 package model;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
+import javafx.util.Pair;
 import model.mutantoperator.MutantOperator;
 import model.mutantoperator.qiskit.AndOr;
 import model.mutantoperator.qiskit.OrAnd;
@@ -136,31 +137,50 @@ public class Model implements Observable<Observer> {
 	 	File originalFile = new File(filePath);
         String file = "";
         BufferedReader reader = null;
-        FileWriter writer = null;
+        ArrayList<Pair<Integer,Integer>> lineOffset = new ArrayList<Pair<Integer,Integer>>();
+        int lineCount = 0;
+        int totalOffset = 0;
          
         try
-        {
+        {	
             reader = new BufferedReader(new FileReader(originalFile));
             String line = reader.readLine();
              
             while (line != null) 
-            {
-            	file = file + line + System.lineSeparator();   
+            {	
+            	for(int offset = 0; offset < line.length(); offset++){
+            		if(line.startsWith(searchWord, offset)) {
+            			lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset));
+            		}
+            	}
+        
+            	file = file + line + System.lineSeparator();
+            	totalOffset = file.length();
+            	lineCount++;
                 line = reader.readLine();
             }
              
              
-            String[] splitSearch = file.split(searchWord);
-            String aux = new String();
-            for (int i = 0; i < splitSearch.length; i++) {
-            	aux = splitSearch[i];
-            	if (splitSearch[i].equals(searchWord)) {
-            		splitSearch[i] = replaceWord;
+            StringBuilder fileBuilder = new StringBuilder (file);
+            File saveFile;
+            BufferedWriter writer = null;
+            for (int i = 0; i < lineOffset.size(); i++) {
+            	fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + searchWord.length());
+            	fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
+            	
+            	saveFile = new File(Integer.toString(i) + mutantOperator.getName()+ "_" + lineOffset.get(i).getKey() 
+            			+ filePath);
+            	try {
+            	    writer = new BufferedWriter(new FileWriter(saveFile));
+            	    writer.write(fileBuilder.toString());
+            	} finally {
+            	    if (writer != null) writer.close();
             	}
             	
-            	String modifiedFile = Arrays.toString(splitSearch);
-            	//Falta crear el nuevo archivo, con el nombre adecuado y escrbir en el el contenido de modifiedFile
-            	splitSearch[i] = aux;
+            	//Devolvemos la estructura general de fileBuilder.
+            	
+            	fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + replaceWord.length());
+            	fileBuilder.insert(lineOffset.get(i).getValue(), searchWord);
             }
         }
         catch (IOException e)
