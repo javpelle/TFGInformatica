@@ -21,7 +21,7 @@ public class Files extends JPanel {
 
 	private JPanel center;
 
-	private JTableCheck table;
+	private JTableCheck<String> table;
 
 	private JTextArea path;
 
@@ -43,7 +43,7 @@ public class Files extends JPanel {
 	private void createCenterPanel() {
 		center = new JPanel();
 		center.setLayout(new BorderLayout());
-		table = new JTableCheck(column);
+		table = new JTableCheck<String>(column);
 		all = new JButton("All");
 		none = new JButton("None");
 		JPanel centerSouth = new JPanel();
@@ -93,17 +93,9 @@ public class Files extends JPanel {
 	public interface NewPathListener {
 		public void updatePath(String path);
 	}
-	
-	
-	public ArrayList<String>  getSelectedFiles(){
-		ArrayList<String> selectedFiles = new ArrayList<String>();
-		int[] selectedRows = table.getSelectedRows();
-		
-		for (int i:selectedRows) {
-			selectedFiles.add((String) table.getValueAt(i, 1));
-		}
-	
-		return selectedFiles;
+
+	public ArrayList<String> getSelectedFiles() {
+		return table.getTrueRows();
 	}
 
 }

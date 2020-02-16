@@ -18,15 +18,15 @@ public class Operators extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private final static Object[] column = { "", "Operators" };
 
-	private JTableCheck table;
+	private JTableCheck<MutantOperator> table;
 
 	private JButton all;
 
 	private JButton none;
-	
+
 	public Operators() {
 		setLayout(new BorderLayout());
 
@@ -37,7 +37,7 @@ public class Operators extends JPanel {
 	}
 
 	private void createCenterPanel() {
-		table = new JTableCheck(column);
+		table = new JTableCheck<MutantOperator>(column);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 	}
 
@@ -61,22 +61,15 @@ public class Operators extends JPanel {
 			}
 		});
 	}
-	
+
 	public void updateOperators(MutantOperator[] mutantOperatorList) {
 		table.clear();
 		for (int i = 0; i < mutantOperatorList.length; ++i) {
-			table.addRow(new Object[]{false, mutantOperatorList[i]});
+			table.addRow(new Object[] { false, mutantOperatorList[i] });
 		}
 	}
-	
-	public ArrayList<MutantOperator>  getSelectedOperators(){
-		ArrayList<MutantOperator> selectedOperators = new ArrayList<MutantOperator>();
-		int[] selectedRows = table.getSelectedRows();
-		
-		for (int i:selectedRows) {
-			selectedOperators.add((MutantOperator) table.getValueAt(i, 1));
-		}
-	
-		return selectedOperators;
+
+	public ArrayList<MutantOperator> getSelectedOperators() {
+		return table.getTrueRows();
 	}
 }

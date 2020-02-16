@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class JTableCheck extends JTable {
+public class JTableCheck<T> extends JTable {
 
 	/**
 	 * 
@@ -60,17 +60,14 @@ public class JTableCheck extends JTable {
 			}
 		}
 	}
-	public int[]  getSelectedRows() {
-		ArrayList<Integer> selected = new ArrayList<Integer>();
-		for(int i=0; i < model.getRowCount(); i++) {
-			if ((boolean) model.getValueAt(i, 0)){
-				selected.add(i);
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<T> getTrueRows() {
+		ArrayList<T> selectedRows = new ArrayList<T>();
+		for (int i = 0; i < model.getRowCount(); i++) {
+			if ((boolean) model.getValueAt(i, 0)) {
+				selectedRows.add((T) getValueAt(i, 1));
 			}
-		}
-		int[] selectedRows = new int[selected.size()];
-		
-		for(int i=0;i < selected.size(); i++) {
-			selectedRows[i] = selected.get(i);
 		}
 		return selectedRows;
 	}
