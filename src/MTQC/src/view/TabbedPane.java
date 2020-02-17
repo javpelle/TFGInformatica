@@ -44,6 +44,7 @@ public class TabbedPane extends JTabbedPane {
 
 	public void updateMutants(ArrayList<Mutant> mutantList) {
 		mutantsViewer.updateMutants(mutantList);
+		testCaseRunner.updateMutants(mutantList);
 	}
 
 }
