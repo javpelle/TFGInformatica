@@ -2,6 +2,8 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -11,6 +13,7 @@ import javax.swing.JOptionPane;
 import control.Controller;
 import model.Observable;
 import model.Observer;
+import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
 import view.MenuBar.LanguageListener;
 import view.mutantgeneratorview.Files.NewPathListener;
@@ -50,6 +53,14 @@ public class UI extends JFrame implements Observer {
 		setSize(new Dimension(960, 540));
 		setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		addWindowListener(new WindowAdapter()
+		{
+		    public void windowClosing(WindowEvent e)
+		    {
+		        c.removeMutants();
+		    }
+		});
 
 		// Add menu bar
 		menuBar = new MenuBar(new LanguageListener() {
@@ -100,6 +111,11 @@ public class UI extends JFrame implements Observer {
 	@Override
 	public void updatePath(ArrayList<String> files) {
 		tabbedPane.updatePath(files);
+	}
+
+	@Override
+	public void updateMutants(ArrayList<Mutant> mutantList) {
+		tabbedPane.updateMutants(mutantList);	
 	}
 
 }

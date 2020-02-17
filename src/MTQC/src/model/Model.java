@@ -129,7 +129,7 @@ public class Model implements Observable<Observer> {
 				mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
 			}
 		}
-
+		observer.updateMutants(mutantList);
 	}
 
 	private ArrayList<Mutant> applyOperatorToFile(String filePath, MutantOperator mutantOperator) {
@@ -141,7 +141,7 @@ public class Model implements Observable<Observer> {
 		String file = "";
 		BufferedReader reader = null;
 		ArrayList<Pair<Integer, Integer>> lineOffset = new ArrayList<Pair<Integer, Integer>>();
-		int lineCount = 0;
+		int lineCount = 1;
 		int totalOffset = 0;
 
 		try {
@@ -178,7 +178,7 @@ public class Model implements Observable<Observer> {
 					if (writer != null)
 						writer.close();
 				}
-				auxList.add(new Mutant(name, completeFilePath, filePathWrite ,lineOffset.get(i).getKey()));
+				auxList.add(new Mutant(name, completeFilePath, filePathWrite, lineOffset.get(i).getKey()));
 
 				// Devolvemos la estructura general de fileBuilder.
 
@@ -197,6 +197,17 @@ public class Model implements Observable<Observer> {
 			}
 		}
 		return auxList;
+	}
+
+	public void removeMutants() {
+		for (Mutant m : mutantList) {
+			try {
+				File f = new File(m.getMutantFile()); // file to be delete
+				f.delete();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

@@ -29,4 +29,8 @@ public class Controller {
 		model.generate(files, operators);
 		
 	}
+
+	public void removeMutants() {
+		model.removeMutants();		
+	}
 }

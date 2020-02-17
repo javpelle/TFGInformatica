@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
 
 /**
@@ -23,5 +24,7 @@ public interface Observer {
 	public void updateMutantOperators(MutantOperator[] mutantOperatorList);
 	
 	public void updatePath(ArrayList<String> files);
+
+	public void updateMutants(ArrayList<Mutant> mutantList);
 
 }
