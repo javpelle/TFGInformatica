@@ -136,7 +136,7 @@ public class Model implements Observable<Observer> {
 		ArrayList<Mutant> auxList = new ArrayList<Mutant>();
 		String searchWord = mutantOperator.getSearchOperator();
 		String replaceWord = mutantOperator.getMutantOperator();
-		String completeFilePath = path + "\\" + filePath;
+		String completeFilePath = path + File.separator + filePath;
 		File originalFile = new File(completeFilePath);
 		String file = "";
 		BufferedReader reader = null;
@@ -169,7 +169,7 @@ public class Model implements Observable<Observer> {
 				fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + searchWord.length());
 				fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
 				String name = Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
-				String filePathWrite = path + "\\" + name;
+				String filePathWrite = path + File.separator + name;
 				saveFile = new File(filePathWrite);
 				try {
 					writer = new BufferedWriter(new FileWriter(saveFile));
