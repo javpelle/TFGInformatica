@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.util.Pair;
+import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
 import model.mutantoperator.qiskit.AndOr;
 import model.mutantoperator.qiskit.OrAnd;
@@ -61,19 +62,20 @@ public class Model implements Observable<Observer> {
 			new PauliYZ(), new PauliZX(), new PauliZY(), new RotXY(), new RotXZ(), new RotYX(), new RotYZ(),
 			new RotZX(), new RotZY(), new ZeroOne() };
 
+	private ArrayList<Mutant> mutantList;
+
 	public Model() {
 		qiskit = false;
+		mutantList = new ArrayList<Mutant>();
 	}
 
 	/**
 	 * Notifies the observer that some error occurred, and throw an exception as
 	 * well.
 	 */
-	private void notifyError(RuntimeException e) {
+	private void notifyError(Exception e) {
 		String msg = e.getLocalizedMessage();
 		observer.onError(msg);
-
-		throw e;
 	}
 
 	public void notifyLanguageChange() {
@@ -124,82 +126,77 @@ public class Model implements Observable<Observer> {
 	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
 		for (int i = 0; i < files.size(); i++) {
 			for (int j = 0; j < operators.size(); j++) {
-				applyOperatorToFile(files.get(i), operators.get(j));
+				mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
 			}
 		}
-		
+
 	}
 
-	private void applyOperatorToFile(String filePath, MutantOperator mutantOperator) {
-		
+	private ArrayList<Mutant> applyOperatorToFile(String filePath, MutantOperator mutantOperator) {
+		ArrayList<Mutant> auxList = new ArrayList<Mutant>();
 		String searchWord = mutantOperator.getSearchOperator();
 		String replaceWord = mutantOperator.getMutantOperator();
-	 	File originalFile = new File(filePath);
-        String file = "";
-        BufferedReader reader = null;
-        ArrayList<Pair<Integer,Integer>> lineOffset = new ArrayList<Pair<Integer,Integer>>();
-        int lineCount = 0;
-        int totalOffset = 0;
-         
-        try
-        {	
-            reader = new BufferedReader(new FileReader(originalFile));
-            String line = reader.readLine();
-             
-            while (line != null) 
-            {	
-            	for(int offset = 0; offset < line.length(); offset++){
-            		if(line.startsWith(searchWord, offset)) {
-            			lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset));
-            		}
-            	}
-        
-            	file = file + line + System.lineSeparator();
-            	totalOffset = file.length();
-            	lineCount++;
-                line = reader.readLine();
-            }
-             
-             
-            StringBuilder fileBuilder = new StringBuilder (file);
-            File saveFile;
-            BufferedWriter writer = null;
-            for (int i = 0; i < lineOffset.size(); i++) {
-            	fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + searchWord.length());
-            	fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
-            	
-            	saveFile = new File(Integer.toString(i) + mutantOperator.getName()+ "_" + lineOffset.get(i).getKey() 
-            			+ filePath);
-            	try {
-            	    writer = new BufferedWriter(new FileWriter(saveFile));
-            	    writer.write(fileBuilder.toString());
-            	} finally {
-            	    if (writer != null) writer.close();
-            	}
-            	
-            	//Devolvemos la estructura general de fileBuilder.
-            	
-            	fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + replaceWord.length());
-            	fileBuilder.insert(lineOffset.get(i).getValue(), searchWord);
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {   
-                reader.close();
-            } 
-            catch (IOException e) 
-            {
-                e.printStackTrace();
-            }
-        }
-   }
-		
+		String completeFilePath = path + "\\" + filePath;
+		File originalFile = new File(completeFilePath);
+		String file = "";
+		BufferedReader reader = null;
+		ArrayList<Pair<Integer, Integer>> lineOffset = new ArrayList<Pair<Integer, Integer>>();
+		int lineCount = 0;
+		int totalOffset = 0;
 
+		try {
+			reader = new BufferedReader(new FileReader(originalFile));
+			String line = reader.readLine();
+
+			while (line != null) {
+				for (int offset = 0; offset < line.length(); offset++) {
+					if (line.startsWith(searchWord, offset)) {
+						lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset));
+					}
+				}
+
+				file = file + line + System.lineSeparator();
+				totalOffset = file.length();
+				lineCount++;
+				line = reader.readLine();
+			}
+
+			StringBuilder fileBuilder = new StringBuilder(file);
+			File saveFile;
+			BufferedWriter writer = null;
+			for (int i = 0; i < lineOffset.size(); i++) {
+
+				fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + searchWord.length());
+				fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
+				String name = Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
+				String filePathWrite = path + "\\" + name;
+				saveFile = new File(filePathWrite);
+				try {
+					writer = new BufferedWriter(new FileWriter(saveFile));
+					writer.write(fileBuilder.toString());
+				} finally {
+					if (writer != null)
+						writer.close();
+				}
+				auxList.add(new Mutant(name, completeFilePath, filePathWrite ,lineOffset.get(i).getKey()));
+
+				// Devolvemos la estructura general de fileBuilder.
+
+				fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + replaceWord.length());
+				fileBuilder.insert(lineOffset.get(i).getValue(), searchWord);
+			}
+		} catch (IOException e) {
+			notifyError(e);
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				notifyError(e);
+				e.printStackTrace();
+			}
+		}
+		return auxList;
+	}
 
 }
