@@ -31,4 +31,8 @@ public class JMutantList extends JList<Mutant> {
 		model.clear();
 	}
 
+	public Mutant getMutant(int index) {
+		return model.get(index);
+	}
+
 }

@@ -2,12 +2,17 @@ package view.mutantsviewer;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import model.mutant.Mutant;
 import view.tools.TextField;
 
 public class FileArea extends JPanel {
@@ -20,6 +25,8 @@ public class FileArea extends JPanel {
 	private JTextArea originalArea;
 
 	private JTextArea mutantArea;
+
+	private TextField line;
 
 	public FileArea() {
 		setLayout(new BorderLayout());
@@ -35,7 +42,8 @@ public class FileArea extends JPanel {
 	}
 
 	private void createNorthPanel() {
-		add(new TextField("Line..."), BorderLayout.NORTH);
+		line = new TextField("Line...");
+		add(line, BorderLayout.NORTH);
 	}
 
 	private JPanel createOriginal() {
@@ -56,6 +64,30 @@ public class FileArea extends JPanel {
 		mutant.setBorder(BorderFactory.createTitledBorder("Mutant"));
 		mutant.add(new JScrollPane(mutantArea), BorderLayout.CENTER);
 		return mutant;
+	}
+
+	public void updateMutant(Mutant mutant) {
+		line.setText("Line " + mutant.getLineChanged());
+		originalArea.setText(readFile(mutant.getOriginalFile()));
+		mutantArea.setText(readFile(mutant.getMutantFile()));
+	}
+
+	private String readFile(String file) {
+		String aux = "";
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line = reader.readLine();
+
+			while (line != null) {
+				aux = aux + line + System.lineSeparator();
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (Exception e) {
+			JFrame error = new JFrame();
+			JOptionPane.showMessageDialog(error, e.getMessage());
+		}
+		return aux;
 	}
 
 }

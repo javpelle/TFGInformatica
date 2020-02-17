@@ -1,6 +1,8 @@
 package view.mutantsviewer;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -25,7 +27,6 @@ public class MutantsViewer extends JPanel {
 		setLayout(new BorderLayout());
 
 		createWestPanel();
-
 		fileArea = new FileArea();
 		add(fileArea, BorderLayout.CENTER);
 
@@ -38,11 +39,25 @@ public class MutantsViewer extends JPanel {
 		mutantList = new JMutantList();
 		west.add(new JScrollPane(mutantList), BorderLayout.CENTER);
 		add(west, BorderLayout.WEST);
+
+		mutantList.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				JMutantList list = (JMutantList) evt.getSource();
+				if (evt.getClickCount() == 2) {
+					// Double-click detected
+					updateMutant(list.locationToIndex(evt.getPoint()));
+				}
+			}
+		});
 	}
 
 	public void updateMutants(ArrayList<Mutant> mutants) {
 		mutantList.clear();
 		mutantList.setMutants(mutants);
+	}
+
+	private void updateMutant(int i) {
+		fileArea.updateMutant(mutantList.getMutant(i));
 	}
 
 }
