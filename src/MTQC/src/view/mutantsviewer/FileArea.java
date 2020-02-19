@@ -73,14 +73,17 @@ public class FileArea extends JPanel {
 	}
 
 	private String readFile(String file) {
+		int lineCounter = 1;
 		String aux = "";
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 
 			while (line != null) {
-				aux = aux + line + System.lineSeparator();
+				System.out.println(lineCounter + "\tP");
+				aux = aux + lineCounter + "\t" + line + System.lineSeparator();
 				line = reader.readLine();
+				++lineCounter;
 			}
 			reader.close();
 		} catch (Exception e) {

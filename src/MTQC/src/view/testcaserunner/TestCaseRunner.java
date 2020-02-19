@@ -16,14 +16,23 @@ public class TestCaseRunner extends JPanel {
 
 	private MutantsView mutantsView;
 
+	private RunOptions runOptions;
+
 	public TestCaseRunner() {
 		setLayout(new BorderLayout());
 
 		mutantsView = new MutantsView();
 
 		add(mutantsView, BorderLayout.WEST);
+
+		runOptions = new RunOptions();
+
+		JPanel center = new JPanel();
+		center.setLayout(new BorderLayout());
+		center.add(runOptions, BorderLayout.NORTH);
+		add(center, BorderLayout.CENTER);
 	}
-	
+
 	public void updateMutants(ArrayList<Mutant> mutants) {
 		mutantsView.updateMutants(mutants);
 	}
