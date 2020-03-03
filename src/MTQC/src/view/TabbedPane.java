@@ -11,6 +11,7 @@ import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.mutantsviewer.MutantsViewer;
 import view.testcaserunner.TestCaseRunner;
+import view.testcaserunner.RunOptions.FileComboListener;
 
 public class TabbedPane extends JTabbedPane {
 
@@ -22,20 +23,21 @@ public class TabbedPane extends JTabbedPane {
 	
 	private TestCaseRunner testCaseRunner;
 
-	public TabbedPane(NewPathListener listener, NewGenerateListener listenGenerate) {
+	public TabbedPane(NewPathListener listener, NewGenerateListener listenGenerate, FileComboListener listenerComboFile) {
 		mutantsgenerator = new MutantsGenerator(listener, listenGenerate);
 		addTab("Mutants Generator", mutantsgenerator);
 
 		mutantsViewer = new MutantsViewer();
 		addTab("Mutants Viewer", mutantsViewer);
 
-		testCaseRunner = new TestCaseRunner();
+		testCaseRunner = new TestCaseRunner(listenerComboFile);
 		addTab("TestCase Runner", testCaseRunner);
 
 	}
 
 	public void updatePath(ArrayList<String> files) {
 		mutantsgenerator.updatePath(files);
+		testCaseRunner.refreshFileCombo(files);
 	}
 
 	public void updateOperators(MutantOperator[] mutantOperatorList) {
@@ -45,6 +47,11 @@ public class TabbedPane extends JTabbedPane {
 	public void updateMutants(ArrayList<Mutant> mutantList) {
 		mutantsViewer.updateMutants(mutantList);
 		testCaseRunner.updateMutants(mutantList);
+	}
+
+	public void updateFileMethods(ArrayList<String> fileMethods) {
+		testCaseRunner.updateFileMethods(fileMethods);
+		
 	}
 
 }

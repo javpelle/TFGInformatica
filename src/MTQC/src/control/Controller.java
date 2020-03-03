@@ -33,4 +33,13 @@ public class Controller {
 	public void removeMutants() {
 		model.removeMutants();		
 	}
+
+	public void refreshPath() {
+		model.refreshPath();
+	}
+
+	public void getFileMethods(String fileName) {
+		model.getFileMethods(fileName);
+		
+	}
 }

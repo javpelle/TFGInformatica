@@ -27,4 +27,6 @@ public interface Observer {
 
 	public void updateMutants(ArrayList<Mutant> mutantList);
 
+	public void updateFileMethods(ArrayList<String> fileMethods);
+
 }

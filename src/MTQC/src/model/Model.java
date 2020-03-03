@@ -210,4 +210,58 @@ public class Model implements Observable<Observer> {
 		}
 	}
 
+	public void refreshPath() {
+		updatePath(path);
+	}
+
+	public void getFileMethods(String fileName) {
+		String startMethodToken = "operation ";
+		String endMethodToken = "{";
+		
+		if(qiskit){
+			startMethodToken = "TupalabritaMagica";
+			endMethodToken = ": ";
+		}
+		
+		ArrayList<String> fileMethods = new ArrayList<String>();
+		
+		String completeFilePath = path + File.separator + fileName;
+		File file = new File(completeFilePath);
+		BufferedReader reader = null;
+		String fileString = "";
+		
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String line = reader.readLine();
+			while (line != null) {
+					fileString = fileString + line + System.lineSeparator();
+					line = reader.readLine();
+			}
+			
+			int indexStart = fileString.indexOf(startMethodToken, 0);
+			int indexEnd;
+			while(indexStart != -1){
+				
+				indexEnd = fileString.indexOf(endMethodToken, indexStart + startMethodToken.length());
+				fileMethods.add(fileString.substring(indexStart + startMethodToken.length(), indexEnd));
+				indexStart = fileString.indexOf(startMethodToken,indexEnd + endMethodToken.length());
+				
+			}
+			
+		} catch (IOException e) {
+			notifyError(e);
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				notifyError(e);
+				e.printStackTrace();
+			}
+		}
+		
+		observer.updateFileMethods(fileMethods);
+		
+	}
+
 }

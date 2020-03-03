@@ -18,6 +18,7 @@ import model.mutantoperator.MutantOperator;
 import view.MenuBar.LanguageListener;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
+import view.testcaserunner.RunOptions.FileComboListener;
 
 public class UI extends JFrame implements Observer {
 
@@ -91,6 +92,19 @@ public class UI extends JFrame implements Observer {
 			
 			
 			
+		}, new FileComboListener(){
+
+			@Override
+			public void refreshPath() {
+				c.refreshPath();
+			}
+
+			@Override
+			public void refreshMethods(String fileName) {
+				c.getFileMethods(fileName);
+				
+			}
+			
 		});
 		add(tabbedPane, BorderLayout.CENTER);
 
@@ -116,6 +130,12 @@ public class UI extends JFrame implements Observer {
 	@Override
 	public void updateMutants(ArrayList<Mutant> mutantList) {
 		tabbedPane.updateMutants(mutantList);	
+	}
+
+	@Override
+	public void updateFileMethods(ArrayList<String> fileMethods) {
+		tabbedPane.updateFileMethods(fileMethods);
+		
 	}
 
 }

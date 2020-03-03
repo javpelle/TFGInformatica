@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import model.mutant.Mutant;
+import view.testcaserunner.RunOptions.FileComboListener;
 
 public class TestCaseRunner extends JPanel {
 
@@ -18,14 +19,14 @@ public class TestCaseRunner extends JPanel {
 
 	private RunOptions runOptions;
 
-	public TestCaseRunner() {
+	public TestCaseRunner(FileComboListener listener) {
 		setLayout(new BorderLayout());
 
 		mutantsView = new MutantsView();
 
 		add(mutantsView, BorderLayout.WEST);
 
-		runOptions = new RunOptions();
+		runOptions = new RunOptions(listener);
 
 		JPanel center = new JPanel();
 		center.setLayout(new BorderLayout());
@@ -37,4 +38,12 @@ public class TestCaseRunner extends JPanel {
 		mutantsView.updateMutants(mutants);
 	}
 
+	public void refreshFileCombo(ArrayList<String> files) {
+		runOptions.refreshFileCombo(files);
+	}
+
+	public void updateFileMethods(ArrayList<String> fileMethods) {
+		runOptions.updateFileMethods(fileMethods);
+		
+	}
 }
