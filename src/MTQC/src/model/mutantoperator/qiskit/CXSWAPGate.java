@@ -2,26 +2,25 @@ package model.mutantoperator.qiskit;
 
 import model.mutantoperator.MutantOperator;
 
-public class AndOr extends MutantOperator {
-
+public class CXSWAPGate extends MutantOperator {
 	@Override
 	public String getName() {
-		return "And_Or";
+		return "GateCX_GateSWAP";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Replace And operator by Or operator.";
+		return "Replace CX gate with SWAP gate.";
 	}
 
 	@Override
 	public String getSearchOperator() {
-		return ".and(";
+		return ".cx(";
 	}
 
 	@Override
 	public String getMutantOperator() {
-		return ".or(";
+		return ".swap(";
 	}
 
 }

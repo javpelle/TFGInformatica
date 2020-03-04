@@ -11,8 +11,58 @@ import java.util.ArrayList;
 import javafx.util.Pair;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.mutantoperator.qiskit.AndOr;
-import model.mutantoperator.qiskit.OrAnd;
+import model.mutantoperator.qiskit.CCXCSWAPGate;
+import model.mutantoperator.qiskit.CHSWAPGate;
+import model.mutantoperator.qiskit.CHXGate;
+import model.mutantoperator.qiskit.CHYGate;
+import model.mutantoperator.qiskit.CHZGate;
+import model.mutantoperator.qiskit.CSWAPCCXGate;
+import model.mutantoperator.qiskit.CXHGate;
+import model.mutantoperator.qiskit.CXSWAPGate;
+import model.mutantoperator.qiskit.CXYGate;
+import model.mutantoperator.qiskit.CXZGate;
+import model.mutantoperator.qiskit.CYHGate;
+import model.mutantoperator.qiskit.CYSWAPGate;
+import model.mutantoperator.qiskit.CYXGate;
+import model.mutantoperator.qiskit.CYZGate;
+import model.mutantoperator.qiskit.CZHGate;
+import model.mutantoperator.qiskit.CZSWAPGate;
+import model.mutantoperator.qiskit.CZXGate;
+import model.mutantoperator.qiskit.CZYGate;
+import model.mutantoperator.qiskit.HXGate;
+import model.mutantoperator.qiskit.HYGate;
+import model.mutantoperator.qiskit.HZGate;
+import model.mutantoperator.qiskit.RXYGate;
+import model.mutantoperator.qiskit.RXZGate;
+import model.mutantoperator.qiskit.RYXGate;
+import model.mutantoperator.qiskit.RYZGate;
+import model.mutantoperator.qiskit.RZXGate;
+import model.mutantoperator.qiskit.RZYGate;
+import model.mutantoperator.qiskit.SSdgGate;
+import model.mutantoperator.qiskit.STGate;
+import model.mutantoperator.qiskit.SWAPCHGate;
+import model.mutantoperator.qiskit.SWAPCXGate;
+import model.mutantoperator.qiskit.SWAPCYGate;
+import model.mutantoperator.qiskit.SWAPCZGate;
+import model.mutantoperator.qiskit.SZGate;
+import model.mutantoperator.qiskit.SdgSGate;
+import model.mutantoperator.qiskit.SdgTGate;
+import model.mutantoperator.qiskit.SdgZGate;
+import model.mutantoperator.qiskit.TSGate;
+import model.mutantoperator.qiskit.TSdgGate;
+import model.mutantoperator.qiskit.TZGate;
+import model.mutantoperator.qiskit.XHGate;
+import model.mutantoperator.qiskit.XYGate;
+import model.mutantoperator.qiskit.XZGate;
+import model.mutantoperator.qiskit.YHGate;
+import model.mutantoperator.qiskit.YXGate;
+import model.mutantoperator.qiskit.YZGate;
+import model.mutantoperator.qiskit.ZHGate;
+import model.mutantoperator.qiskit.ZSGate;
+import model.mutantoperator.qiskit.ZSdgGate;
+import model.mutantoperator.qiskit.ZTGate;
+import model.mutantoperator.qiskit.ZXGate;
+import model.mutantoperator.qiskit.ZYGate;
 import model.mutantoperator.qsharp.GateHX;
 import model.mutantoperator.qsharp.GateHY;
 import model.mutantoperator.qsharp.GateHZ;
@@ -54,7 +104,15 @@ public class Model implements Observable<Observer> {
 
 	private String path;
 
-	private MutantOperator[] qiskitOperators = { new AndOr(), new OrAnd() };
+	private MutantOperator[] qiskitOperators = { new CCXCSWAPGate(), new CHSWAPGate(), new CHXGate(), new CHYGate(),
+			new CHZGate(), new CSWAPCCXGate(), new CXHGate(), new CXSWAPGate(), new CXYGate(), new CXZGate(),
+			new CYHGate(), new CYSWAPGate(), new CYXGate(), new CYZGate(), new CZHGate(), new CZSWAPGate(),
+			new CZXGate(), new CZYGate(), new HXGate(), new HYGate(), new HZGate(), new RXYGate(), new RXZGate(),
+			new RYXGate(), new RYZGate(), new RZXGate(), new RZYGate(), new SdgSGate(), new SdgTGate(), new SdgZGate(),
+			new SSdgGate(), new STGate(), new SWAPCHGate(), new SWAPCXGate(), new SWAPCYGate(), new SWAPCZGate(),
+			new SZGate(), new TSdgGate(), new TSGate(), new TZGate(), new XHGate(), new XYGate(), new XZGate(),
+			new YHGate(), new YXGate(), new YZGate(), new ZHGate(), new ZSdgGate(), new ZSGate(), new ZTGate(),
+			new ZXGate(), new ZYGate() };
 
 	private MutantOperator[] qsharpOperators = { new GateHX(), new GateHY(), new GateHZ(), new GateST(), new GateTS(),
 			new GateXH(), new GateXY(), new GateXZ(), new GateYH(), new GateYX(), new GateYZ(), new GateZH(),
@@ -217,37 +275,37 @@ public class Model implements Observable<Observer> {
 	public void getFileMethods(String fileName) {
 		String startMethodToken = "operation ";
 		String endMethodToken = "{";
-		
-		if(qiskit){
+
+		if (qiskit) {
 			startMethodToken = "TupalabritaMagica";
 			endMethodToken = ": ";
 		}
-		
+
 		ArrayList<String> fileMethods = new ArrayList<String>();
-		
+
 		String completeFilePath = path + File.separator + fileName;
 		File file = new File(completeFilePath);
 		BufferedReader reader = null;
 		String fileString = "";
-		
+
 		try {
 			reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while (line != null) {
-					fileString = fileString + line + System.lineSeparator();
-					line = reader.readLine();
+				fileString = fileString + line + System.lineSeparator();
+				line = reader.readLine();
 			}
-			
+
 			int indexStart = fileString.indexOf(startMethodToken, 0);
 			int indexEnd;
-			while(indexStart != -1){
-				
+			while (indexStart != -1) {
+
 				indexEnd = fileString.indexOf(endMethodToken, indexStart + startMethodToken.length());
 				fileMethods.add(fileString.substring(indexStart + startMethodToken.length(), indexEnd));
-				indexStart = fileString.indexOf(startMethodToken,indexEnd + endMethodToken.length());
-				
+				indexStart = fileString.indexOf(startMethodToken, indexEnd + endMethodToken.length());
+
 			}
-			
+
 		} catch (IOException e) {
 			notifyError(e);
 			e.printStackTrace();
@@ -259,9 +317,9 @@ public class Model implements Observable<Observer> {
 				e.printStackTrace();
 			}
 		}
-		
+
 		observer.updateFileMethods(fileMethods);
-		
+
 	}
 
 }
