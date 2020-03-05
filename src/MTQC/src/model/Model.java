@@ -102,6 +102,8 @@ public class Model implements Observable<Observer> {
 
 	private boolean qiskit;
 
+	private final static String tempDir = ".temp";
+
 	private String path;
 
 	private MutantOperator[] qiskitOperators = { new CCXCSWAPGate(), new CHSWAPGate(), new CHXGate(), new CHYGate(),
@@ -161,6 +163,7 @@ public class Model implements Observable<Observer> {
 
 	public void updateMutantOperators(boolean qiskit) {
 		this.qiskit = qiskit;
+		updatePath(path);
 		if (qiskit) {
 			observer.updateMutantOperators(qiskitOperators);
 		} else {
@@ -173,8 +176,14 @@ public class Model implements Observable<Observer> {
 		ArrayList<String> files = new ArrayList<String>();
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
+		String extension;
+		if (qiskit) {
+			extension = ".py";
+		} else {
+			extension = ".qs";
+		}
 		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
+			if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(extension)) {
 				files.add(listOfFiles[i].getName());
 			}
 		}
@@ -182,6 +191,8 @@ public class Model implements Observable<Observer> {
 	}
 
 	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
+		File file = new File(path + File.separator + tempDir);
+		file.mkdir();
 		for (int i = 0; i < files.size(); i++) {
 			for (int j = 0; j < operators.size(); j++) {
 				mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
@@ -227,7 +238,7 @@ public class Model implements Observable<Observer> {
 				fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + searchWord.length());
 				fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
 				String name = Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
-				String filePathWrite = path + File.separator + name;
+				String filePathWrite = path + File.separator + tempDir + File.separator + name;
 				saveFile = new File(filePathWrite);
 				try {
 					writer = new BufferedWriter(new FileWriter(saveFile));
@@ -273,12 +284,15 @@ public class Model implements Observable<Observer> {
 	}
 
 	public void getFileMethods(String fileName) {
-		String startMethodToken = "operation ";
-		String endMethodToken = "{";
+		String startMethodToken;
+		String endMethodToken;
 
 		if (qiskit) {
-			startMethodToken = "TupalabritaMagica";
-			endMethodToken = ": ";
+			startMethodToken = "def ";
+			endMethodToken = ":";
+		} else {
+			startMethodToken = "operation ";
+			endMethodToken = "{";
 		}
 
 		ArrayList<String> fileMethods = new ArrayList<String>();

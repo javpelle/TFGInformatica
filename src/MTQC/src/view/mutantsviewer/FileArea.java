@@ -80,7 +80,6 @@ public class FileArea extends JPanel {
 			String line = reader.readLine();
 
 			while (line != null) {
-				System.out.println(lineCounter + "\tP");
 				aux = aux + lineCounter + "\t" + line + System.lineSeparator();
 				line = reader.readLine();
 				++lineCounter;
