@@ -47,8 +47,10 @@ public class RunOptions extends JPanel {
 			}
 
 			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
+				if (files.getSelectedItem() != null) {
 				listener.refreshMethods((String) files.getSelectedItem());
 				//System.out.println((String) files.getSelectedItem());
+				}
 			}
 
 			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
