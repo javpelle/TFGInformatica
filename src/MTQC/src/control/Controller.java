@@ -42,4 +42,8 @@ public class Controller {
 		model.getFileMethods(fileName);
 		
 	}
+
+	public void updateTimeLimit(double timeLimit) {
+		model.setTimeLimit(timeLimit);
+	}
 }

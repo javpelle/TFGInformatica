@@ -1,6 +1,8 @@
 package view.testcaserunner;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -29,11 +31,11 @@ public class RunOptions extends JPanel {
 
 	private JButton timeSet;
 
-	public RunOptions(FileComboListener listener) {
+	public RunOptions(FileComboListener listenerCombo, SpinnerListener listenerSpinner) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		fileCombo(listener);
+		fileCombo(listenerCombo);
 		methodCombo();
-		timeLimit();
+		timeLimit(listenerSpinner);
 	}
 
 	private void fileCombo(FileComboListener listener) {
@@ -71,13 +73,18 @@ public class RunOptions extends JPanel {
 		add(aux);
 	}
 
-	private void timeLimit() {
+	private void timeLimit(SpinnerListener listener) {
 		JPanel aux = new JPanel();
 		aux.setLayout(new GridLayout(1, 3));
 		aux.add(new TextField("Time Limt:"));
 		spinner = new JSpinner(new SpinnerNumberModel(3.0, 0.1, 100.0, 0.1));
 		aux.add(spinner);
 		timeSet = new JButton("Set time");
+		timeSet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				listener.updateTime((double)spinner.getValue());
+			}
+		});
 		aux.add(timeSet);
 		add(aux);
 	}
@@ -99,5 +106,9 @@ public class RunOptions extends JPanel {
 			this.methods.addItem(fileMethods.get(i));
 		}
 		
+	}
+	
+	public interface SpinnerListener {
+		public void updateTime(double timeLimit);
 	}
 }

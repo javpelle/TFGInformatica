@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import model.mutant.Mutant;
 import view.testcaserunner.RunOptions.FileComboListener;
+import view.testcaserunner.RunOptions.SpinnerListener;
 
 public class TestCaseRunner extends JPanel {
 
@@ -19,14 +20,14 @@ public class TestCaseRunner extends JPanel {
 
 	private RunOptions runOptions;
 
-	public TestCaseRunner(FileComboListener listener) {
+	public TestCaseRunner(FileComboListener listenerCombo, SpinnerListener listenerSpinner) {
 		setLayout(new BorderLayout());
 
 		mutantsView = new MutantsView();
 
 		add(mutantsView, BorderLayout.WEST);
 
-		runOptions = new RunOptions(listener);
+		runOptions = new RunOptions(listenerCombo, listenerSpinner);
 
 		JPanel center = new JPanel();
 		center.setLayout(new BorderLayout());

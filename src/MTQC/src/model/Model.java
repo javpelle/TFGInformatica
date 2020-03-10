@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import exception.TimeLimitException;
 import javafx.util.Pair;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
@@ -123,10 +124,13 @@ public class Model implements Observable<Observer> {
 			new RotZX(), new RotZY(), new ZeroOne() };
 
 	private ArrayList<Mutant> mutantList;
+	
+	private double timeLimit;
 
 	public Model() {
 		qiskit = false;
 		mutantList = new ArrayList<Mutant>();
+		timeLimit = 3.0;
 	}
 
 	/**
@@ -334,6 +338,25 @@ public class Model implements Observable<Observer> {
 
 		observer.updateFileMethods(fileMethods);
 
+	}
+	
+	public void setTimeLimit(double timeLimit) {
+		try {
+			if (timeLimit <= 0) {
+				throw new TimeLimitException();
+			}
+			this.timeLimit = timeLimit;
+		} catch (TimeLimitException e) {
+			notifyError(e);
+		}
+	}
+
+	public void run(String file, String method) {
+		if (qiskit) {
+			Python.run();
+		} else {
+			CSharp.run();
+		}
 	}
 
 }

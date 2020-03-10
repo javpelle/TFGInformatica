@@ -19,6 +19,7 @@ import view.MenuBar.LanguageListener;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.testcaserunner.RunOptions.FileComboListener;
+import view.testcaserunner.RunOptions.SpinnerListener;
 
 public class UI extends JFrame implements Observer {
 
@@ -54,13 +55,11 @@ public class UI extends JFrame implements Observer {
 		setSize(new Dimension(960, 540));
 		setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		addWindowListener(new WindowAdapter()
-		{
-		    public void windowClosing(WindowEvent e)
-		    {
-		        c.removeMutants();
-		    }
+
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				c.removeMutants();
+			}
 		});
 
 		// Add menu bar
@@ -82,17 +81,15 @@ public class UI extends JFrame implements Observer {
 				c.updatePath(path);
 			}
 
-		}, new NewGenerateListener(){
+		}, new NewGenerateListener() {
 
 			@Override
 			public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
 				c.generate(files, operators);
-				
+
 			}
-			
-			
-			
-		}, new FileComboListener(){
+
+		}, new FileComboListener() {
 
 			@Override
 			public void refreshPath() {
@@ -102,9 +99,16 @@ public class UI extends JFrame implements Observer {
 			@Override
 			public void refreshMethods(String fileName) {
 				c.getFileMethods(fileName);
-				
+
 			}
-			
+
+		}, new SpinnerListener() {
+
+			@Override
+			public void updateTime(double timeLimit) {
+				c.updateTimeLimit(timeLimit);
+			}
+
 		});
 		add(tabbedPane, BorderLayout.CENTER);
 
@@ -129,13 +133,12 @@ public class UI extends JFrame implements Observer {
 
 	@Override
 	public void updateMutants(ArrayList<Mutant> mutantList) {
-		tabbedPane.updateMutants(mutantList);	
+		tabbedPane.updateMutants(mutantList);
 	}
 
 	@Override
 	public void updateFileMethods(ArrayList<String> fileMethods) {
 		tabbedPane.updateFileMethods(fileMethods);
-		
 	}
 
 }
