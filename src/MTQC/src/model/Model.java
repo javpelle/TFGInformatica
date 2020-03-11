@@ -93,6 +93,9 @@ import model.mutantoperator.qsharp.RotYZ;
 import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
+import model.test.MeasureTest;
+import model.test.ProbabilityTest;
+import model.test.Test;
 
 public class Model implements Observable<Observer> {
 
@@ -123,8 +126,10 @@ public class Model implements Observable<Observer> {
 			new PauliYZ(), new PauliZX(), new PauliZY(), new RotXY(), new RotXZ(), new RotYX(), new RotYZ(),
 			new RotZX(), new RotZY(), new ZeroOne() };
 
+	private Test[] tests = { new ProbabilityTest(), new MeasureTest() };
+
 	private ArrayList<Mutant> mutantList;
-	
+
 	private double timeLimit;
 
 	public Model() {
@@ -163,6 +168,7 @@ public class Model implements Observable<Observer> {
 	public void start() {
 		updatePath(System.getProperty("user.dir"));
 		updateMutantOperators(false);
+		observer.setTests(tests);
 	}
 
 	public void updateMutantOperators(boolean qiskit) {
@@ -339,7 +345,7 @@ public class Model implements Observable<Observer> {
 		observer.updateFileMethods(fileMethods);
 
 	}
-	
+
 	public void setTimeLimit(double timeLimit) {
 		try {
 			if (timeLimit <= 0) {

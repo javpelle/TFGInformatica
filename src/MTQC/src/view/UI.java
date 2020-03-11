@@ -15,6 +15,7 @@ import model.Observable;
 import model.Observer;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
+import model.test.Test;
 import view.MenuBar.LanguageListener;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
@@ -139,6 +140,11 @@ public class UI extends JFrame implements Observer {
 	@Override
 	public void updateFileMethods(ArrayList<String> fileMethods) {
 		tabbedPane.updateFileMethods(fileMethods);
+	}
+
+	@Override
+	public void setTests(Test[] tests) {
+		tabbedPane.setTests(tests);
 	}
 
 }

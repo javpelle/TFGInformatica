@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
+import model.test.Test;
 
 /**
  * An observer for UI. Will be notified when model update his state
@@ -28,5 +29,7 @@ public interface Observer {
 	public void updateMutants(ArrayList<Mutant> mutantList);
 
 	public void updateFileMethods(ArrayList<String> fileMethods);
+
+	public void setTests(Test[] tests);
 
 }

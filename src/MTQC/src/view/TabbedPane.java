@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane;
 
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
+import model.test.Test;
 import view.mutantgeneratorview.MutantsGenerator;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
@@ -54,6 +55,10 @@ public class TabbedPane extends JTabbedPane {
 	public void updateFileMethods(ArrayList<String> fileMethods) {
 		testCaseRunner.updateFileMethods(fileMethods);
 
+	}
+
+	public void setTests(Test[] tests) {
+		testCaseRunner.setTests(tests);		
 	}
 
 }

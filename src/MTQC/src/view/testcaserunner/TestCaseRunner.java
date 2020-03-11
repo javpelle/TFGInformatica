@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import model.mutant.Mutant;
+import model.test.Test;
 import view.testcaserunner.RunOptions.FileComboListener;
 import view.testcaserunner.RunOptions.SpinnerListener;
 
@@ -46,5 +47,9 @@ public class TestCaseRunner extends JPanel {
 	public void updateFileMethods(ArrayList<String> fileMethods) {
 		runOptions.updateFileMethods(fileMethods);
 		
+	}
+
+	public void setTests(Test[] tests) {
+		runOptions.setTests(tests);		
 	}
 }
