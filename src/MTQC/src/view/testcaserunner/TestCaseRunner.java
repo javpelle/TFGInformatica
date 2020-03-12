@@ -57,4 +57,8 @@ public class TestCaseRunner extends JPanel {
 	public void setTests(Test[] tests) {
 		runOptions.setTests(tests);
 	}
+
+	public void updateLanguage(boolean qiskit) {
+		tableView.updateLanguage(qiskit);		
+	}
 }

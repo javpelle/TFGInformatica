@@ -78,4 +78,8 @@ public class InputTableView extends JPanel {
 		add(aux, BorderLayout.SOUTH);
 	}
 
+	public void updateLanguage(boolean qiskit) {
+		table.updateLanguage(qiskit);		
+	}
+
 }

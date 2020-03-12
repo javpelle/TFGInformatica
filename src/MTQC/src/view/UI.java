@@ -123,8 +123,8 @@ public class UI extends JFrame implements Observer {
 	}
 
 	@Override
-	public void updateMutantOperators(MutantOperator[] mutantOperatorList) {
-		tabbedPane.updateOperators(mutantOperatorList);
+	public void updateMutantOperators(MutantOperator[] mutantOperatorList, boolean qiskit) {
+		tabbedPane.updateOperators(mutantOperatorList, qiskit);
 	}
 
 	@Override

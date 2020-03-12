@@ -43,8 +43,9 @@ public class TabbedPane extends JTabbedPane {
 		testCaseRunner.refreshFileCombo(files);
 	}
 
-	public void updateOperators(MutantOperator[] mutantOperatorList) {
+	public void updateOperators(MutantOperator[] mutantOperatorList, boolean qiskit) {
 		mutantsgenerator.updateOperators(mutantOperatorList);
+		testCaseRunner.updateLanguage(qiskit);
 	}
 
 	public void updateMutants(ArrayList<Mutant> mutantList) {

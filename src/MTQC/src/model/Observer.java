@@ -20,9 +20,10 @@ public interface Observer {
 	
 	/**
 	 * Notifies mutant operator list of language.
+	 * @param qiskit 
 	 * @param qiskitOperators Mutant operator list
 	 */
-	public void updateMutantOperators(MutantOperator[] mutantOperatorList);
+	public void updateMutantOperators(MutantOperator[] mutantOperatorList, boolean qiskit);
 	
 	public void updatePath(ArrayList<String> files);
 

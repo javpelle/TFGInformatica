@@ -149,9 +149,9 @@ public class Model implements Observable<Observer> {
 
 	public void notifyLanguageChange() {
 		if (qiskit) {
-			observer.updateMutantOperators(qiskitOperators);
+			observer.updateMutantOperators(qiskitOperators, true);
 		} else {
-			observer.updateMutantOperators(qsharpOperators);
+			observer.updateMutantOperators(qsharpOperators, false);
 		}
 	}
 
@@ -174,11 +174,7 @@ public class Model implements Observable<Observer> {
 	public void updateMutantOperators(boolean qiskit) {
 		this.qiskit = qiskit;
 		updatePath(path);
-		if (qiskit) {
-			observer.updateMutantOperators(qiskitOperators);
-		} else {
-			observer.updateMutantOperators(qsharpOperators);
-		}
+		notifyLanguageChange();
 	}
 
 	public void updatePath(String path) {
