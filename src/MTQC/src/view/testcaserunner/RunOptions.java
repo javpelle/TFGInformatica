@@ -129,6 +129,7 @@ public class RunOptions extends JPanel {
 
 	public void refreshFileCombo(ArrayList<String> files) {
 		this.files.removeAllItems();
+		this.files.addItem(null);
 		for (int i = 0; i < files.size(); i++) {
 			this.files.addItem(files.get(i));
 		}
