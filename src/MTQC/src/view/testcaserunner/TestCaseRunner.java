@@ -21,6 +21,8 @@ public class TestCaseRunner extends JPanel {
 
 	private RunOptions runOptions;
 
+	private InputTableView tableView;
+
 	public TestCaseRunner(FileComboListener listenerCombo, SpinnerListener listenerSpinner) {
 		setLayout(new BorderLayout());
 
@@ -29,10 +31,13 @@ public class TestCaseRunner extends JPanel {
 		add(mutantsView, BorderLayout.WEST);
 
 		runOptions = new RunOptions(listenerCombo, listenerSpinner);
+		tableView = new InputTableView();
 
 		JPanel center = new JPanel();
 		center.setLayout(new BorderLayout());
 		center.add(runOptions, BorderLayout.NORTH);
+		center.add(tableView, BorderLayout.CENTER);
+
 		add(center, BorderLayout.CENTER);
 	}
 
@@ -46,10 +51,10 @@ public class TestCaseRunner extends JPanel {
 
 	public void updateFileMethods(ArrayList<String> fileMethods) {
 		runOptions.updateFileMethods(fileMethods);
-		
+
 	}
 
 	public void setTests(Test[] tests) {
-		runOptions.setTests(tests);		
+		runOptions.setTests(tests);
 	}
 }

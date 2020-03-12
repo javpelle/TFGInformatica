@@ -57,7 +57,6 @@ public class RunOptions extends JPanel {
 			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
 				if (files.getSelectedItem() != null) {
 					listener.refreshMethods((String) files.getSelectedItem());
-					// System.out.println((String) files.getSelectedItem());
 				}
 			}
 
@@ -104,7 +103,7 @@ public class RunOptions extends JPanel {
 		JPanel aux2 = new JPanel();
 		aux2.setLayout(new GridLayout(1, 2));
 		aux2.add(new TextField("Shots:"));
-		shots = new JSpinner(new SpinnerNumberModel(10.0, 1.0, 10000.0, 1.0));
+		shots = new JSpinner(new SpinnerNumberModel(10, 1, 10000, 1));
 		shots.setEnabled(false);
 		aux2.add(shots);
 		testType.addPopupMenuListener(new PopupMenuListener() {

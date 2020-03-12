@@ -15,7 +15,7 @@ public class JTableCheck<T> extends JTable {
 	private DefaultTableModel model;
 
 	public JTableCheck(Object[] columnNames) {
-		super(new DefaultTableModel(new Object[1][2], columnNames));
+		super(new DefaultTableModel(columnNames, 0));
 		model = (DefaultTableModel) getModel();
 	}
 
