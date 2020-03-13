@@ -51,8 +51,12 @@ public class InputTable extends JTable {
 			aux +=  "]";
 			return aux;
 		} else {
-			return "";
-		}
+			String aux = "I(register[0]);";
+			for (int i = 1; i < numQBits; i++) {
+				aux += "I(register[" + i + "]);";
+			}
+			return aux;
+		} 
 		
 	}
 
