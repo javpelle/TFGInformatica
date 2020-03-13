@@ -106,8 +106,6 @@ public class Model implements Observable<Observer> {
 
 	private boolean qiskit;
 
-	private final static String tempDir = ".temp";
-
 	private String path;
 
 	private MutantOperator[] qiskitOperators = { new CCXCSWAPGate(), new CHSWAPGate(), new CHXGate(), new CHYGate(),
@@ -189,7 +187,8 @@ public class Model implements Observable<Observer> {
 			extension = ".qs";
 		}
 		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(extension)) {
+			if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(extension)
+					&& !listOfFiles[i].getName().startsWith("._")) {
 				files.add(listOfFiles[i].getName());
 			}
 		}
@@ -197,8 +196,6 @@ public class Model implements Observable<Observer> {
 	}
 
 	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
-		File file = new File(path + File.separator + tempDir);
-		file.mkdir();
 		for (int i = 0; i < files.size(); i++) {
 			for (int j = 0; j < operators.size(); j++) {
 				mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
@@ -243,8 +240,8 @@ public class Model implements Observable<Observer> {
 
 				fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + searchWord.length());
 				fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
-				String name = Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
-				String filePathWrite = path + File.separator + tempDir + File.separator + name;
+				String name = "._" + Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
+				String filePathWrite = path + File.separator + name;
 				saveFile = new File(filePathWrite);
 				try {
 					writer = new BufferedWriter(new FileWriter(saveFile));
