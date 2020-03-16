@@ -1,6 +1,6 @@
 package model.test;
 
-public class MeasureTest extends Test {
+public class OutputTest extends Test {
 
 	@Override
 	public int getIDTest() {
@@ -9,7 +9,7 @@ public class MeasureTest extends Test {
 
 	@Override
 	public String getNameTest() {
-		return "Measure Test";
+		return "Output Test";
 	}
 
 }

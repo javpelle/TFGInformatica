@@ -1,13 +1,20 @@
 package control;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import model.Model;
+import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
+import model.test.Test;
 
 public class Controller {
 
 	private Model model;
+	private static final String testTokenSeparator = "***";
 
 	public Controller(Model model) {
 		this.model = model;
@@ -45,5 +52,52 @@ public class Controller {
 
 	public void updateTimeLimit(double timeLimit) {
 		model.setTimeLimit(timeLimit);
+	}
+	
+	public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
+					int shots, String testFileName) {
+		
+		ArrayList<String> testSuite = setTestFromFile(testFileName);
+	
+	}
+
+	
+	
+	private ArrayList<String> setTestFromFile(String testFileName) {
+		
+		File file = new File(testFileName);
+		ArrayList<String> testSuite = new ArrayList<String>();
+		BufferedReader reader = null;
+		String testString = "";
+
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String line = reader.readLine();
+			while (line != null) {
+				
+				if (line.equals(testTokenSeparator)) { 
+					testSuite.add(testString);
+					testString = "";
+					
+				} else {
+					testString = testString + line + System.lineSeparator();
+				}
+		
+				line = reader.readLine();	
+			}
+			
+			
+		} catch (IOException e) {
+			model.notifyError(e);
+			
+		} finally {
+			try {
+				reader.close();
+				
+			} catch (IOException e) {
+				model.notifyError(e);
+			}
+		}
+		return testSuite;
 	}
 }

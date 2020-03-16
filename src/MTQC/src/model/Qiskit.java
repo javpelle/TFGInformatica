@@ -1,6 +1,6 @@
 package model;
 
-public class Python {
+public class Qiskit {
 
 	public static void run() {
 

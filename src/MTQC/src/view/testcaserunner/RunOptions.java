@@ -14,6 +14,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import model.mutantoperator.MutantOperator;
 import model.test.Test;
 import view.tools.TextField;
 
@@ -165,4 +166,13 @@ public class RunOptions extends JPanel {
 			testType.addItem(t);
 		}
 	}
+
+	public String getMethodName() {
+		return methods.getSelectedItem().toString();
+	}
+
+	public String getFileName() {
+		return files.getSelectedItem().toString();
+	}
+	
 }

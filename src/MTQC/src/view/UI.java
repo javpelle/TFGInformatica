@@ -21,6 +21,7 @@ import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.testcaserunner.RunOptions.FileComboListener;
 import view.testcaserunner.RunOptions.SpinnerListener;
+import view.testcaserunner.TestCaseRunner.RunListener;
 
 public class UI extends JFrame implements Observer {
 
@@ -110,6 +111,14 @@ public class UI extends JFrame implements Observer {
 				c.updateTimeLimit(timeLimit);
 			}
 
+		}, new RunListener() {
+
+			@Override
+			public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
+					int shots, String testFileName) {
+				c.runTests(selectedMutants, fileName, methodName, testType, shots, testFileName);
+			}
+	
 		});
 		add(tabbedPane, BorderLayout.CENTER);
 

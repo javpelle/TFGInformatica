@@ -1,6 +1,6 @@
 package model;
 
-public class CSharp {
+public class QSharp {
 
 	public static void run() {
 

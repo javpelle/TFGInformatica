@@ -93,7 +93,7 @@ import model.mutantoperator.qsharp.RotYZ;
 import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
-import model.test.MeasureTest;
+import model.test.OutputTest;
 import model.test.ProbabilityTest;
 import model.test.Test;
 
@@ -124,7 +124,7 @@ public class Model implements Observable<Observer> {
 			new PauliYZ(), new PauliZX(), new PauliZY(), new RotXY(), new RotXZ(), new RotYX(), new RotYZ(),
 			new RotZX(), new RotZY(), new ZeroOne() };
 
-	private Test[] tests = { new ProbabilityTest(), new MeasureTest() };
+	private Test[] tests = { new ProbabilityTest(), new OutputTest() };
 
 	private ArrayList<Mutant> mutantList;
 
@@ -140,7 +140,7 @@ public class Model implements Observable<Observer> {
 	 * Notifies the observer that some error occurred, and throw an exception as
 	 * well.
 	 */
-	private void notifyError(Exception e) {
+	public void notifyError(Exception e) {
 		String msg = e.getLocalizedMessage();
 		observer.onError(msg);
 	}
@@ -352,9 +352,9 @@ public class Model implements Observable<Observer> {
 
 	public void run(String file, String method) {
 		if (qiskit) {
-			Python.run();
+			Qiskit.run();
 		} else {
-			CSharp.run();
+			QSharp.run();
 		}
 	}
 

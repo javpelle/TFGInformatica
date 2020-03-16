@@ -12,6 +12,7 @@ import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.mutantsviewer.MutantsViewer;
 import view.testcaserunner.TestCaseRunner;
+import view.testcaserunner.TestCaseRunner.RunListener;
 import view.testcaserunner.RunOptions.FileComboListener;
 import view.testcaserunner.RunOptions.SpinnerListener;
 
@@ -26,14 +27,14 @@ public class TabbedPane extends JTabbedPane {
 	private TestCaseRunner testCaseRunner;
 
 	public TabbedPane(NewPathListener listener, NewGenerateListener listenGenerate, FileComboListener listenerComboFile,
-			SpinnerListener listenerSpinner) {
+			SpinnerListener listenerSpinner, RunListener listenerRun) {
 		mutantsgenerator = new MutantsGenerator(listener, listenGenerate);
 		addTab("Mutants Generator", mutantsgenerator);
 
 		mutantsViewer = new MutantsViewer();
 		addTab("Mutants Viewer", mutantsViewer);
 
-		testCaseRunner = new TestCaseRunner(listenerComboFile, listenerSpinner);
+		testCaseRunner = new TestCaseRunner(listenerComboFile, listenerSpinner, listenerRun);
 		addTab("TestCase Runner", testCaseRunner);
 
 	}

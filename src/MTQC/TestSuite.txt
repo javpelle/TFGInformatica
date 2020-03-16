@@ -1,0 +1,17 @@
+X(register[0]);
+Z(register[1]);
+int iteraciones = 1;
+***
+X(register[0]);
+X(register[1]);
+int iteraciones = 100;
+***
+X(register[0]);
+H(register[1]);
+int iteraciones = 10;
+***
+Z(register[0]);
+Z(register[1]);
+int iteraciones = 20;
+***
+

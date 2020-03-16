@@ -4,13 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import view.tools.InputTable;
 
@@ -34,21 +38,42 @@ public class InputTableView extends JPanel {
 	private JButton addColumn;
 
 	private JButton removeColumn;
+	
+	private JButton selectFile;
 
 	private JSpinner numQBits;
+	
+	private JFileChooser fileChooser;
+	
+	private  JTextArea filePath;
 
 	public InputTableView() {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder("Inputs"));
+		
+		createCenterPanel();
+		createNorthPanel();
+		
+	}
 
+
+	public void updateLanguage(boolean qiskit) {
+		table.updateLanguage(qiskit);		
+	}
+	
+	private void createCenterPanel() {
+		
+		JPanel aux = new JPanel(new BorderLayout());
+		aux.setLayout(new BorderLayout());
+		aux.setBorder(BorderFactory.createTitledBorder("Manual Test Inputs"));
 		table = new InputTable(defaultNumQBits);
-		add(new JScrollPane(table), BorderLayout.CENTER);
-
-		JPanel aux = new JPanel();
-		aux.setLayout(new GridLayout(3, 2));
+		aux.add(new JScrollPane(table), BorderLayout.CENTER);
+		
+		JPanel grid = new JPanel(new GridLayout());
+		grid.setLayout(new GridLayout(4, 2));
 
 		numQBits = new JSpinner(new SpinnerNumberModel(defaultNumQBits, 1, 10000, 1));
-		aux.add(numQBits);
+		grid.add(numQBits);
 
 		setQBits = new JButton("Set QBits");
 		setQBits.addActionListener(new ActionListener() {
@@ -56,7 +81,7 @@ public class InputTableView extends JPanel {
 				table.insertQuantumStates((int) numQBits.getValue());
 			}
 		});
-		aux.add(setQBits);
+		grid.add(setQBits);
 
 		addRow = new JButton("Add Row");
 		addRow.addActionListener(new ActionListener() {
@@ -64,22 +89,59 @@ public class InputTableView extends JPanel {
 				table.addRow();
 			}
 		});
-		aux.add(addRow);
+		grid.add(addRow);
 
 		removeRow = new JButton("Remove Row");
-		aux.add(removeRow);
+		grid.add(removeRow);
 
 		addColumn = new JButton("Add Column");
-		aux.add(addColumn);
+		grid.add(addColumn);
 
 		removeColumn = new JButton("Remove Column");
-		aux.add(removeColumn);
-
-		add(aux, BorderLayout.SOUTH);
+		grid.add(removeColumn);
+		
+		aux.add(grid, BorderLayout.SOUTH);
+		
+		add(aux, BorderLayout.CENTER);
+		
 	}
 
-	public void updateLanguage(boolean qiskit) {
-		table.updateLanguage(qiskit);		
+	private void createNorthPanel() {
+		JPanel aux = new JPanel(new BorderLayout());
+		aux.setLayout(new BorderLayout());
+		aux.setBorder(BorderFactory.createTitledBorder("Test File Selection"));
+		
+		filePath = new JTextArea(System.getProperty("user.dir"));
+		aux.add(new JScrollPane(filePath), BorderLayout.CENTER);
+		
+		fileChooser = new JFileChooser();
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("*.txt*", "txt");
+		fileChooser.addChoosableFileFilter(filter);
+		
+		selectFile = new JButton("Select Test File");
+		selectFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+				int result = fileChooser.showDialog(null, "Seleccionar");
+				if (result == JFileChooser.APPROVE_OPTION) {			
+				    updateFileSelection(fileChooser.getSelectedFile());
+				}
+			}
+		});
+		aux.add(selectFile, BorderLayout.EAST);
+		
+		add(aux, BorderLayout.NORTH);	
+		
 	}
 
+
+	protected void updateFileSelection(File selectedFile) {
+		filePath.setText(selectedFile.getAbsolutePath());
+	}
+
+
+	public String getTestFileName() {
+		return filePath.getText();
+	}
 }
