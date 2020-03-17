@@ -14,7 +14,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import model.mutantoperator.MutantOperator;
 import model.test.Test;
 import view.tools.TextField;
 
@@ -152,17 +151,17 @@ public class RunOptions extends JPanel {
 	public interface SpinnerListener {
 		public void updateTime(double timeLimit);
 	}
-	
+
 	public Test getTestType() {
 		return (Test) testType.getSelectedItem();
 	}
-	
+
 	public int getShots() {
 		return (int) shots.getValue();
 	}
 
 	public void setTests(Test[] tests) {
-		for (Test t: tests) {
+		for (Test t : tests) {
 			testType.addItem(t);
 		}
 	}
@@ -174,5 +173,5 @@ public class RunOptions extends JPanel {
 	public String getFileName() {
 		return files.getSelectedItem().toString();
 	}
-	
+
 }

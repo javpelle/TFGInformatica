@@ -17,6 +17,7 @@ public class JTableCheck<T> extends JTable {
 	public JTableCheck(Object[] columnNames) {
 		super(new DefaultTableModel(columnNames, 0));
 		model = (DefaultTableModel) getModel();
+		getTableHeader().setReorderingAllowed(false);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

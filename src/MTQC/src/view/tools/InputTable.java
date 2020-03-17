@@ -14,31 +14,86 @@ public class InputTable extends JTable {
 	private int numQBits;
 	
 	private boolean qiskit;
+			
 
-	public InputTable() {
-		super(new MyDefaultTableModel());
-		model = (MyDefaultTableModel) getModel();
-		numQBits = 0;
-		addColumn("Quantum Register");
-		qiskit = false;
-	}
-	
 	public InputTable(int numQBits) {
 		super(new MyDefaultTableModel());
 		model = (MyDefaultTableModel) getModel();
+		
 		this.numQBits = numQBits;
-		addColumn("Quantum Register");
 		qiskit = false;
+		
+		addEmptyColumn();
+		addEmptyRow();
+		
+		addColumn("Quantum Register");
+		addRow();
+		
+		updateColumnIndex();
+		updateRowIndex();
+		
+		getTableHeader().setReorderingAllowed(false);
+	}
+
+	private void updateRowIndex() {
+		for (int i = 1; i < model.getRowCount(); i++) {
+			model.setValueAt(i, i, 0);
+		}
+	}
+	
+	private void updateColumnIndex() {
+		for (int i = 1; i < model.getColumnCount(); i++) {
+			model.setValueAt(i, 0, i);
+		}
 	}
 
 	public void addColumn(String name) {
+		int column = model.getColumnCount();
 		model.addColumn(name);
+		model.setValueAt(column, 0, column);
+	}
+	
+	private void addEmptyColumn() {
+		model.addColumn("");
 	}
 
 	public void addRow() {
 		Object [] aux = new Object[model.getColumnCount()];
-		aux[0] = newDefaultState();
+		aux[0] = model.getRowCount();
+		aux[1] = newDefaultState();
 		model.addRow(aux);
+	}
+	
+	private void addEmptyRow() {
+		model.addRow(new Object[model.getColumnCount()]);
+	}
+
+	public void removeRow() {
+		int row = getSelectedRow();
+		if (row != -1 && row != 0) {
+			model.removeRow(row);
+			updateRowIndex();
+		}
+	}
+
+	public void removeColumn() {
+		int column = getSelectedColumn();
+		if (column != -1 && column != 0 && column != 1) {
+			model.removeColumn(column);
+			updateColumnIndex();
+		}
+	}
+
+	public void insertQuantumStates(int numQBits) {
+		this.numQBits = numQBits;
+		for (int i = 1; i < model.getRowCount(); i++) {
+			model.setValueAt(newDefaultState(), i, 1);
+		}
+	}
+	
+	public void updateLanguage(boolean qiskit) {
+		this.qiskit = qiskit;
+		insertQuantumStates(numQBits);
 	}
 	
 	private String newDefaultState() {
@@ -59,25 +114,9 @@ public class InputTable extends JTable {
 		} 
 		
 	}
-
-	public void removeRow(int row) {
-		model.removeRow(row);
-	}
-
-	public void removeColumn(int column) {
-		model.removeColumn(column);
-	}
-
-	public void insertQuantumStates(int numQBits) {
-		this.numQBits = numQBits;
-		for (int i = 0; i < model.getRowCount(); i++) {
-			model.setValueAt(newDefaultState(), i, 0);
-		}
-	}
 	
-	public void updateLanguage(boolean qiskit) {
-		this.qiskit = qiskit;
-		insertQuantumStates(numQBits);
+	public boolean isCellEditable(int row, int column) {
+		return column != 0 && row != 0;
 	}
 
 }

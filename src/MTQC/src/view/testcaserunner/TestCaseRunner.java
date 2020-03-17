@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import model.mutant.Mutant;
-import model.mutantoperator.MutantOperator;
 import model.test.Test;
 import view.testcaserunner.RunOptions.FileComboListener;
 import view.testcaserunner.RunOptions.SpinnerListener;
@@ -20,7 +19,7 @@ public class TestCaseRunner extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private JButton runTests;
 
 	private MutantsView mutantsView;
@@ -45,12 +44,13 @@ public class TestCaseRunner extends JPanel {
 		center.add(tableView, BorderLayout.CENTER);
 
 		add(center, BorderLayout.CENTER);
-		
+
 		runTests = new JButton("Run Tests");
 		runTests.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				listenerRun.runTests(mutantsView.getSelectedFiles(), runOptions.getFileName(), runOptions.getMethodName(),  
-						runOptions.getTestType(),runOptions.getShots(), tableView.getTestFileName());	
+				listenerRun.runTests(mutantsView.getSelectedFiles(), runOptions.getFileName(),
+						runOptions.getMethodName(), runOptions.getTestType(), runOptions.getShots(),
+						tableView.getTestFileName());
 			}
 		});
 		JPanel south = new JPanel();
@@ -76,9 +76,9 @@ public class TestCaseRunner extends JPanel {
 	}
 
 	public void updateLanguage(boolean qiskit) {
-		tableView.updateLanguage(qiskit);		
+		tableView.updateLanguage(qiskit);
 	}
-	
+
 	public interface RunListener {
 		public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
 				int shots, String testFileName);
