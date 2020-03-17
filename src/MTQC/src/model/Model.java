@@ -363,83 +363,12 @@ public class Model implements Observable<Observer> {
 		
 		for (String test: testSuite) {
 			if (!qiskit) {
-				addQSharpMain(fileName, methodName, test);
+				QSharp.addQSharpMain(fileName, methodName, path, test);
 			}
 			
 		}
 		
 		
-	}
-
-	private void addQSharpMain(String fileName, String methodName, String test) {
-		String outputType = getOutputType(methodName);
-		int numberOfOutputs = getNumberOfOuputs(outputType);
-		String completeFilePath = path + File.separator + fileName;
-		File originalFile = new File(completeFilePath);
-		String file = "";
-		BufferedReader reader = null;
-
-		/* try {
-			reader = new BufferedReader(new FileReader(originalFile));
-			String line = reader.readLine();
-
-			while (line != null) {
-					file = file + line + System.lineSeparator();
-					line = reader.readLine();
-			}
-			
-			StringBuilder fileBuilder = new StringBuilder(file);
-			int mainPos = fileBuilder.indexOf("operation ");
-			File saveFile;
-			BufferedWriter writer = null;
-			
-			
-			fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
-			String name = "._" + Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
-			String filePathWrite = path + File.separator + name;
-			saveFile = new File(filePathWrite);
-			try {
-				writer = new BufferedWriter(new FileWriter(saveFile));
-				writer.write(fileBuilder.toString());
-			} finally {
-				if (writer != null)
-					writer.close();
-			}
-		} catch (IOException e) {
-			notifyError(e);
-			e.printStackTrace();
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				notifyError(e);
-				e.printStackTrace();
-			}
-		}
-		return auxList; */
-	}
-
-	private int getNumberOfOuputs(String outputType) {
-		int lastIndex = 0;
-		int count = 0;
-		if (outputType.contains("Unit")) {
-			return 0;
-		} else {
-			while(lastIndex != -1){
-			    lastIndex = outputType.indexOf(",",lastIndex);
-			    if(lastIndex != -1){
-			        count ++;
-			        lastIndex += 1;
-			    }
-			}
-			return count + 1;
-		}
-		
-	}
-
-	private String getOutputType(String methodName) {
-		int index = methodName.lastIndexOf(":", methodName.length());
-		return methodName.substring(index);
 	}
 
 }
