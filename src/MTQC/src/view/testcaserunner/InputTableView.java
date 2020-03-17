@@ -141,7 +141,7 @@ public class InputTableView extends JPanel {
 		aux.setLayout(new BorderLayout());
 		aux.setBorder(BorderFactory.createTitledBorder("Test File Selection"));
 
-		filePath = new JTextArea(System.getProperty("user.dir"));
+		filePath = new JTextArea();
 		aux.add(new JScrollPane(filePath), BorderLayout.CENTER);
 
 		fileChooser = new JFileChooser();
@@ -192,7 +192,7 @@ public class InputTableView extends JPanel {
 	 * 
 	 * @param selectedFile
 	 */
-	protected void updateFileSelection(File selectedFile) {
+	private void updateFileSelection(File selectedFile) {
 		filePath.setText(selectedFile.getAbsolutePath());
 	}
 	
