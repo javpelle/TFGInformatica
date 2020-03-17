@@ -56,9 +56,15 @@ public class Controller {
 	
 	public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
 					int shots, String testFileName) {
+		if (testFileName != null){
+			ArrayList<String> testSuite = setTestFromFile(testFileName);
+			model.runTest(selectedMutants, fileName, methodName, testType, shots, testSuite);
+		} else {
+			//Tablita
+		}
 		
-		ArrayList<String> testSuite = setTestFromFile(testFileName);
 	
+		
 	}
 
 	
