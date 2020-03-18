@@ -54,7 +54,7 @@ public class UI extends JFrame implements Observer {
 		setIconImage(new ImageIcon("icon.jpg").getImage());
 
 		// Size and Layout of view
-		setSize(new Dimension(960, 540));
+		setSize(new Dimension(1280, 720));
 		setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -115,7 +115,7 @@ public class UI extends JFrame implements Observer {
 
 			@Override
 			public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
-					int shots, String testFileName) {
+					int shots, ArrayList<String> testFileName) {
 				c.runTests(selectedMutants, fileName, methodName, testType, shots, testFileName);
 			}
 	

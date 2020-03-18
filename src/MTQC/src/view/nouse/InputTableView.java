@@ -1,4 +1,4 @@
-package view.testcaserunner;
+package view.nouse;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -17,7 +17,6 @@ import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import view.tools.InputTable;
 import view.tools.TextField;
 
 public class InputTableView extends JPanel {

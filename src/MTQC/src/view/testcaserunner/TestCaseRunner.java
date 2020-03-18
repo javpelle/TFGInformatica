@@ -26,7 +26,7 @@ public class TestCaseRunner extends JPanel {
 
 	private RunOptions runOptions;
 
-	private InputTableView tableView;
+	private InputTest tableView;
 
 	public TestCaseRunner(FileComboListener listenerCombo, SpinnerListener listenerSpinner, RunListener listenerRun) {
 		setLayout(new BorderLayout());
@@ -36,7 +36,7 @@ public class TestCaseRunner extends JPanel {
 		add(mutantsView, BorderLayout.WEST);
 
 		runOptions = new RunOptions(listenerCombo, listenerSpinner);
-		tableView = new InputTableView();
+		tableView = new InputTest();
 
 		JPanel center = new JPanel();
 		center.setLayout(new BorderLayout());
@@ -50,7 +50,7 @@ public class TestCaseRunner extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				listenerRun.runTests(mutantsView.getSelectedFiles(), runOptions.getFileName(),
 						runOptions.getMethodName(), runOptions.getTestType(), runOptions.getShots(),
-						tableView.getTestFileName());
+						tableView.getTest());
 			}
 		});
 		JPanel south = new JPanel();
@@ -60,6 +60,10 @@ public class TestCaseRunner extends JPanel {
 
 	public void updateMutants(ArrayList<Mutant> mutants) {
 		mutantsView.updateMutants(mutants);
+	}
+	
+	public void updateLanguage(boolean qiskit) {
+		tableView.updateLanguage(qiskit);
 	}
 
 	public void refreshFileCombo(ArrayList<String> files) {
@@ -75,12 +79,8 @@ public class TestCaseRunner extends JPanel {
 		runOptions.setTests(tests);
 	}
 
-	public void updateLanguage(boolean qiskit) {
-		tableView.updateLanguage(qiskit);
-	}
-
 	public interface RunListener {
 		public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
-				int shots, String testFileName);
+				int shots, ArrayList<String> testList);
 	}
 }

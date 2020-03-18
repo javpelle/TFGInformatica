@@ -29,16 +29,16 @@ public class Controller {
 	}
 
 	public void updateLanguage(boolean qiskit) {
-		model.updateMutantOperators(qiskit);		
+		model.updateMutantOperators(qiskit);
 	}
 
 	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
 		model.generate(files, operators);
-		
+
 	}
 
 	public void removeMutants() {
-		model.removeMutants();		
+		model.removeMutants();
 	}
 
 	public void refreshPath() {
@@ -47,30 +47,27 @@ public class Controller {
 
 	public void getFileMethods(String fileName) {
 		model.getFileMethods(fileName);
-		
+
 	}
 
 	public void updateTimeLimit(double timeLimit) {
 		model.setTimeLimit(timeLimit);
 	}
-	
+
 	public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
-					int shots, String testFileName) {
-		if (testFileName != null){
-			ArrayList<String> testSuite = setTestFromFile(testFileName);
-			model.runTest(selectedMutants, fileName, methodName, testType, shots, testSuite);
+			int shots, ArrayList<String> testList) {
+		ArrayList<String> testSuite;
+		String file = testList.get(testList.size() - 1);
+		if (file != null) {
+			testSuite = setTestFromFile(file);
 		} else {
-			//Tablita
+			testList.remove(testList.size() - 1);
+			testSuite = testList;
 		}
-		
-	
-		
+		model.runTest(selectedMutants, fileName, methodName, testType, shots, testSuite);
 	}
 
-	
-	
 	private ArrayList<String> setTestFromFile(String testFileName) {
-		
 		File file = new File(testFileName);
 		ArrayList<String> testSuite = new ArrayList<String>();
 		BufferedReader reader = null;
@@ -80,30 +77,30 @@ public class Controller {
 			reader = new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while (line != null) {
-				
-				if (line.equals(testTokenSeparator)) { 
+
+				if (line.equals(testTokenSeparator)) {
 					testSuite.add(testString);
 					testString = "";
-					
+
 				} else {
 					testString = testString + line + System.lineSeparator();
 				}
-		
-				line = reader.readLine();	
+
+				line = reader.readLine();
 			}
-			
-			
+
 		} catch (IOException e) {
 			model.notifyError(e);
-			
+
 		} finally {
 			try {
 				reader.close();
-				
+
 			} catch (IOException e) {
 				model.notifyError(e);
 			}
 		}
 		return testSuite;
 	}
+
 }

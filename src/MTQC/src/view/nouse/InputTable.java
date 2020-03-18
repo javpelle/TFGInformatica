@@ -1,4 +1,4 @@
-package view.tools;
+package view.nouse;
 
 import javax.swing.JTable;
 
