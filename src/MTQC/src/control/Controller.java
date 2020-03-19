@@ -58,7 +58,7 @@ public class Controller {
 			int shots, ArrayList<String> testList) {
 		ArrayList<String> testSuite;
 		String file = testList.get(testList.size() - 1);
-		if (file != null) {
+		if (!file.equals("")) {
 			testSuite = setTestFromFile(file);
 		} else {
 			testList.remove(testList.size() - 1);

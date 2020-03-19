@@ -31,8 +31,23 @@ public class TabbedTextArea extends JTabbedPane {
 			"\t# Add any operations if needed" + System.lineSeparator()  + 
 			"\t" + System.lineSeparator()  + 
 			"\treturn ex.result().get_counts() # Change desired return";
-
-	private static final String qSharpText = "jaja";
+	
+	private static final String qSharpText = "//Select desired Qubit number to be used" + System.lineSeparator() + 
+	        "using (register = Qubit[2]) {" + System.lineSeparator() +
+	        "" + System.lineSeparator() + 
+        "\t//Inicialize variables and Qubits" + System.lineSeparator() +
+        "\tlet count = 1;" + System.lineSeparator() +
+        "\tlet initial = Zero;" + System.lineSeparator() +
+        	"" + System.lineSeparator() + 
+        "\t//Call method and save output" + System.lineSeparator() +
+        "\tlet(r1,r2,r3) =  TestBellState(register, count, initial);" + System.lineSeparator() +
+        	"" + System.lineSeparator() +
+        "\t//Reset all qubits to Zero state" + System.lineSeparator() +
+        "\tResetAll(register);" + System.lineSeparator() +
+        	"" + System.lineSeparator() + 
+        "\t//Return output" + System.lineSeparator() +
+        "\treturn (r1,r2,r3);" + System.lineSeparator() + 
+		"}";
 	
 	public TabbedTextArea () {
 		windows = new ArrayList<JTextArea>();
@@ -46,6 +61,7 @@ public class TabbedTextArea extends JTabbedPane {
 		windows.add(auxWindow);
 		aux.add(new JScrollPane(auxWindow), BorderLayout.CENTER);
 		addTab(String.valueOf(windows.size()), aux);
+		setSelectedIndex(windows.size() - 1);
 	}
 	
 	private void firstWindow() {

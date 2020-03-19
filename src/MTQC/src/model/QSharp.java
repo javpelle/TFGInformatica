@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class QSharp {
@@ -29,15 +30,15 @@ public class QSharp {
 			}
 			
 			String mainMethod = getMainMethod(methodName, test); 
+			tabString(mainMethod);
 			StringBuilder fileBuilder = new StringBuilder(file);
-			int mainPos = fileBuilder.indexOf("operation");
+			int mainPos = fileBuilder.lastIndexOf("}");
 			File saveFile;
 			BufferedWriter writer = null;
 			
 			
-			/* fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
-			String name = "._" + Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
-			String filePathWrite = path + File.separator + name;
+			fileBuilder.insert(mainPos, mainMethod);
+			String filePathWrite = path + File.separator + " modifiedMain" + fileName;
 			saveFile = new File(filePathWrite);
 			try {
 				writer = new BufferedWriter(new FileWriter(saveFile));
@@ -45,7 +46,7 @@ public class QSharp {
 			} finally {
 				if (writer != null)
 					writer.close();
-			} */
+			} 
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -61,18 +62,37 @@ public class QSharp {
 
 	private static String getMainMethod(String methodName, String testInput) {
 		String outputType = getOutputType(methodName);
-		int numberOfOutputs = getNumberOfOutputs(outputType);
-		
-		String[] NQubitsAndInput = testInput.split(System.lineSeparator(), 2);
+		return getMainHeader() + outputType + "{" + System.lineSeparator() + tabString(testInput) +
+				System.lineSeparator() + "}" + System.lineSeparator();
 	
-		String mainMethod = getMainHeader() + outputType + "{" + System.lineSeparator() +
-				getUsingDeclaration(NQubitsAndInput[0]) + NQubitsAndInput[1];
-						
-		//getMethodCall(methodName.indexOf(outputType);
-		
-		return null;
 	}
+	
 
+	private static String getOutputType(String methodName) {
+		int index = methodName.lastIndexOf(":", methodName.length());
+		return methodName.substring(index);
+	}
+	
+	private static String getMainHeader(){
+		return "operation MainQuantum() ";
+	}
+	
+	private static String tabString(String input) {
+		StringBuilder builder = new StringBuilder(input);
+		builder.insert(0, "\t");
+		
+		int index = builder.indexOf(System.lineSeparator());
+	    while (index != -1)
+	    {
+	        builder.replace(index, index + System.lineSeparator().length(), System.lineSeparator() + "\t");
+	        index += (System.lineSeparator() + "\t").length(); 
+	        index = builder.indexOf(System.lineSeparator(), index);
+	    }
+		return builder.toString();
+	}
+	/*
+	 * NOT IN USE
+	 
 	private static String getMethodCall(String methodName, int numberOfOutputs) {
 		String methodCall = "";
 		if (numberOfOutputs > 0) {
@@ -91,13 +111,16 @@ public class QSharp {
 		//methodCall = methodCall + 
 		return methodCall;
 		
-	}
-
-	private static String getUsingDeclaration(String numberOfQubits) {
+	} 
+	
+	/* NOT IN USE
+	 * private static String getUsingDeclaration(String numberOfQubits) {
 			return "\t" + "(register[" + numberOfQubits + "]) {" + System.lineSeparator();
 	}
-
-	private static int getNumberOfOutputs(String outputType) {
+	 */
+	
+	/* NOT IN USE
+	 * private static int getNumberOfOutputs(String outputType) {
 		int lastIndex = 0;
 		int count = 0;
 		if (outputType.contains("Unit")) {
@@ -114,13 +137,5 @@ public class QSharp {
 		}
 		
 	}
-
-	private static String getOutputType(String methodName) {
-		int index = methodName.lastIndexOf(":", methodName.length());
-		return methodName.substring(index);
-	}
-	
-	private static String getMainHeader(){
-		return "\t" + "operation MainQuantum() ";
-	}
+	 */
 }

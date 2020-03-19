@@ -3,22 +3,6 @@
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Diagnostics;
 
-    operation MainQuantum() : (Int, Int, Int) {
-        using (register = Qubit[2]) {
-
-             //Espacio para iniciar los Qubits
-             let count = 1;
-             let initial = Zero;
-             //Ejectuamos el método guardando el output
-             let(r1,r2,r3) =  TestBellState(register, count, initial);
-
-             //Aseguramos que los qubits estén a 0 antes de liberaros
-             ResetAll(register);
-
-             //Devolvemos el resultado
-             return (r1,r2,r3);
-		}
-	}
 
     operation Set(desired : Result, q1 : Qubit) : Unit {
         if (desired != M(q1)) {
