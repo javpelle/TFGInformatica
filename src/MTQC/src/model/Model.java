@@ -352,7 +352,7 @@ public class Model implements Observable<Observer> {
 
 	public void run(String file, String method) {
 		if (qiskit) {
-			Qiskit.run();
+			// Qiskit.run();
 		} else {
 			QSharp.run();
 		}
