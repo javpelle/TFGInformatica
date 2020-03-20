@@ -30,7 +30,7 @@ public class QSharp {
 			}
 			
 			String mainMethod = getMainMethod(methodName, test); 
-			tabString(mainMethod);
+			mainMethod = tabString(mainMethod);
 			StringBuilder fileBuilder = new StringBuilder(file);
 			int mainPos = fileBuilder.lastIndexOf("}");
 			File saveFile;

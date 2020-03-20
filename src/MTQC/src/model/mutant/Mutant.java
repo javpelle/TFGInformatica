@@ -1,5 +1,8 @@
 package model.mutant;
 
+import java.io.File;
+
+
 public class Mutant {
 
 	private String name;
@@ -7,6 +10,8 @@ public class Mutant {
 	private String originalFile;
 
 	private String mutantFile;
+
+	private static final String tempOriginalFile = "aux_temp";
 
 	private int lineChanged;
 
@@ -32,10 +37,30 @@ public class Mutant {
 	public int getLineChanged() {
 		return lineChanged;
 	}
-	
+
 	public String toString() {
 		return name;
 	}
-	
-	
+
+	public void switchOriginalMutantNames() {
+		File original = new File(originalFile);
+		File aux = new File(tempOriginalFile);
+		File mutant = new File(mutantFile);
+
+		original.renameTo(aux);
+		mutant.renameTo(original);
+
+	}
+
+	public void resetOriginalMutantNames() {
+		File original = new File(originalFile);
+		File aux = new File(tempOriginalFile);
+		File mutant = new File(mutantFile);
+
+		original.renameTo(mutant);
+		aux.renameTo(original);
+		
+		aux.delete();
+
+	}
 }
