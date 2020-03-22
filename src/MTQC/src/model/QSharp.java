@@ -1,25 +1,27 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
-public class QSharp {
-
-	public static void run() {
-
-	}
+public class QSharp extends Language {
 	
-	public static void addQSharpMain(String fileName, String methodName, String path, String test) {
+	protected static String main = "main_python.py";
+	protected static String init = "main_qsharp.qs";
+	private static String namespace = "";
+
+
+	private static String runShot(double timeLimit) {
+		return null;
+	}
+
+	private static String generateFile(String fileName, String methodName, String test) {
 		
-		String completeFilePath = path + File.separator + fileName;
-		File originalFile = new File(completeFilePath);
+		File originalFile = new File(fileName);
 		String file = "";
 		BufferedReader reader = null;
-
+		StringBuilder fileBuilder = null;
 		try {
 			reader = new BufferedReader(new FileReader(originalFile));
 			String line = reader.readLine();
@@ -29,35 +31,27 @@ public class QSharp {
 					line = reader.readLine();
 			}
 			
+			reader.close(); 
+			setNamespace(file);
 			String mainMethod = getMainMethod(methodName, test); 
 			mainMethod = tabString(mainMethod);
-			StringBuilder fileBuilder = new StringBuilder(file);
-			int mainPos = fileBuilder.lastIndexOf("}");
-			File saveFile;
-			BufferedWriter writer = null;
-			
-			
+			fileBuilder = new StringBuilder(file);
+			int mainPos = fileBuilder.lastIndexOf("}");	
 			fileBuilder.insert(mainPos, mainMethod);
-			String filePathWrite = path + File.separator + " modifiedMain" + fileName;
-			saveFile = new File(filePathWrite);
-			try {
-				writer = new BufferedWriter(new FileWriter(saveFile));
-				writer.write(fileBuilder.toString());
-			} finally {
-				if (writer != null)
-					writer.close();
-			} 
-		} catch (IOException e) {
 			
+			
+		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-			}
 		}
+		return fileBuilder.toString();
+	}
+
+	private static void setNamespace(String file) {
+		String token = "namespace ";
+		int ini =  file.indexOf(token);
+		int end = file.indexOf("{", ini);
+		namespace = file.substring(ini, end);
+		
 	}
 
 	private static String getMainMethod(String methodName, String testInput) {
@@ -90,6 +84,8 @@ public class QSharp {
 	    }
 		return builder.toString();
 	}
+	
+	
 	/*
 	 * NOT IN USE
 	 

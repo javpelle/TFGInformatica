@@ -355,7 +355,7 @@ public class Model implements Observable<Observer> {
 		if (qiskit) {
 			Qiskit.run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {
-			QSharp.run();
+			QSharp.run(mutantList, testSuit, test, file, method, timeLimit);
 		}
 	}
 
