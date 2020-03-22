@@ -64,7 +64,8 @@ public class Controller {
 			testList.remove(testList.size() - 1);
 			testSuite = testList;
 		}
-		model.runTest(selectedMutants, fileName, methodName, testType, shots, testSuite);
+		testType.setShots(shots);
+		model.run(selectedMutants, testSuite, testType, fileName, methodName);
 	}
 
 	private ArrayList<String> setTestFromFile(String testFileName) {

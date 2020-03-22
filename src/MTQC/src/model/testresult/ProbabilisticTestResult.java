@@ -4,31 +4,30 @@ import model.mutant.Mutant;
 
 public class ProbabilisticTestResult implements TestResult {
 	
-	private int success;
+	private String result;
 	
 	private Mutant mutant;
 	
-	public ProbabilisticTestResult(Mutant mutant) {
+	public ProbabilisticTestResult(Mutant mutant, String result) {
 		this.mutant = mutant;
+		this.result = result;
 	}
 	
-	@Override
-	public void addShot(int success) {
-		this.success = success;		
+	public ProbabilisticTestResult(String result) {
+		mutant = null;
+		this.result = result;
 	}
 
 	@Override
 	public String getName() {
 		return mutant.toString();
 	}
-
-	@Override
-	public String getSuccess() {
-		if (success == 1) {
-			return "Equal result";
-		}
-		return "Not equivalent mutant";
+	
+	public String getResult() {
+		return result;
 	}
+
+	
 	
 	
 }

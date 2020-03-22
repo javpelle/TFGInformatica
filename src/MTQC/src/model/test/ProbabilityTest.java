@@ -12,4 +12,14 @@ public class ProbabilityTest extends Test {
 		return "Probability Test (only simulator)";
 	}
 
+	@Override
+	public void setShots(int shots) {
+		
+	}
+
+	@Override
+	public int getShots() {
+		return 1;
+	}
+
 }

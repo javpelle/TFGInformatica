@@ -350,25 +350,13 @@ public class Model implements Observable<Observer> {
 		}
 	}
 
-	public void run(String file, String method) {
+	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file,
+			String method) {
 		if (qiskit) {
-			// Qiskit.run();
+			Qiskit.run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {
 			QSharp.run();
 		}
-	}
-
-	public void runTest(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType, int shots,
-			ArrayList<String> testSuite) {
-		
-		for (String test: testSuite) {
-			if (!qiskit) {
-				QSharp.addQSharpMain(fileName, methodName, path, test);
-			}
-			
-		}
-		
-		
 	}
 
 }
