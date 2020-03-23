@@ -1,4 +1,4 @@
-package model;
+package model.run;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,20 +8,19 @@ import model.mutant.Mutant;
 import model.test.Test;
 
 public abstract class Language {
+	
 	protected static String main = "";
 	protected static String init = "";
-	
 
-	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file,
-			String method, double timeLimit) {
+	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
+			double timeLimit) {
 		runOriginal(testSuit, test, file, method, timeLimit);
-		for (Mutant m: mutantList) {
+		for (Mutant m : mutantList) {
 			runMutant(m, testSuit, test, file, method, timeLimit);
 		}
 	}
-	
-	protected void runOriginal(ArrayList<String> testSuit, Test test, String file, String method,
-			double timeLimit) {
+
+	protected void runOriginal(ArrayList<String> testSuit, Test test, String file, String method, double timeLimit) {
 		for (String t : testSuit) {
 			String aux = generateFile(file, method, t);
 			writeFile(init, aux);
@@ -30,9 +29,9 @@ public abstract class Language {
 			}
 		}
 	}
-	
-	
-	protected void runMutant(Mutant mutant, ArrayList<String> testSuit, Test test, String file, String method, double timeLimit) {
+
+	protected void runMutant(Mutant mutant, ArrayList<String> testSuit, Test test, String file, String method,
+			double timeLimit) {
 		mutant.switchOriginalMutantNames();
 		for (String t : testSuit) {
 			String aux = generateFile(t, file, method);
@@ -43,11 +42,11 @@ public abstract class Language {
 		}
 		mutant.resetOriginalMutantNames();
 	}
-	
+
 	protected abstract String generateFile(String fileName, String methodName, String test);
-	
-	protected  abstract String runShot(double timeLimit);
-	
+
+	protected abstract String runShot(double timeLimit);
+
 	protected void writeFile(String fileName, String content) {
 		try {
 			File file = new File(fileName);
@@ -58,6 +57,15 @@ public abstract class Language {
 			fileWriter.write(content);
 			fileWriter.close();
 		} catch (Exception e) {
+		}
+	}
+	
+	protected String[] pythonCall(String file) {
+		if (System.getProperty("os.name").startsWith("Windows")) {
+			// We are running this software in Windows OS
+			return new String[]{"cmd.exe","/c","python", file};
+		} else {
+			return new String[]{"python", file};
 		}
 	}
 }
