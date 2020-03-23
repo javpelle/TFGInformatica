@@ -14,7 +14,7 @@ public class Qiskit extends Language {
 		init = "init_qiskit.py";
 		pythonCall = pythonCall(main);
 	}
-
+	
 	protected String runShot(double timeLimit) {
 		String ret = null;
 		try {
@@ -29,6 +29,9 @@ public class Qiskit extends Language {
 			}			
 		} catch (IOException | InterruptedException e) {
 
+		}
+		if (ret.equals("null")) {
+			ret = null;
 		}
 		return ret;
 	}
