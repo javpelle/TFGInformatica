@@ -7,16 +7,21 @@ import java.io.IOException;
 
 public class QSharp extends Language {
 	
-	protected static String main = "main_python.py";
-	protected static String init = "main_qsharp.qs";
 	private static String namespace = "";
 
-
-	private static String runShot(double timeLimit) {
+	public QSharp(){
+		main = "main_python.py";
+		init =  "main_qsharp.qs";
+	}
+	
+	protected String runShot(double timeLimit) {
+		String mainPython = "import qsharp" + System.lineSeparator() + "import " + namespace + " as qm" 
+		+ System.lineSeparator() + "print(qm.MainQuantum.simulate())";
+		this.writeFile(main, mainPython);
 		return null;
 	}
 
-	private static String generateFile(String fileName, String methodName, String test) {
+	protected String generateFile(String fileName, String methodName, String test) {
 		
 		File originalFile = new File(fileName);
 		String file = "";

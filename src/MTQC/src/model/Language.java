@@ -12,7 +12,7 @@ public abstract class Language {
 	protected static String init = "";
 	
 
-	public static void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file,
+	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file,
 			String method, double timeLimit) {
 		runOriginal(testSuit, test, file, method, timeLimit);
 		for (Mutant m: mutantList) {
@@ -20,7 +20,7 @@ public abstract class Language {
 		}
 	}
 	
-	private static void runOriginal(ArrayList<String> testSuit, Test test, String file, String method,
+	protected void runOriginal(ArrayList<String> testSuit, Test test, String file, String method,
 			double timeLimit) {
 		for (String t : testSuit) {
 			String aux = generateFile(file, method, t);
@@ -32,7 +32,7 @@ public abstract class Language {
 	}
 	
 	
-	private static void runMutant(Mutant mutant, ArrayList<String> testSuit, Test test, String file, String method, double timeLimit) {
+	protected void runMutant(Mutant mutant, ArrayList<String> testSuit, Test test, String file, String method, double timeLimit) {
 		mutant.switchOriginalMutantNames();
 		for (String t : testSuit) {
 			String aux = generateFile(t, file, method);
@@ -44,15 +44,11 @@ public abstract class Language {
 		mutant.resetOriginalMutantNames();
 	}
 	
-	private static String generateFile(String fileName, String methodName, String test) {
-		return null;
-	}
+	protected abstract String generateFile(String fileName, String methodName, String test);
 	
-	private static String runShot(double timeLimit) {
-		return null;
-	}
+	protected  abstract String runShot(double timeLimit);
 	
-	private static void writeFile(String fileName, String content) {
+	protected void writeFile(String fileName, String content) {
 		try {
 			File file = new File(fileName);
 			if (!file.exists()) {

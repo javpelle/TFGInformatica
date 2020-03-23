@@ -129,6 +129,9 @@ public class Model implements Observable<Observer> {
 	private ArrayList<Mutant> mutantList;
 
 	private double timeLimit;
+	
+	private Qiskit qiskitRunner = new Qiskit();
+	private QSharp qSharpRunner = new QSharp();
 
 	public Model() {
 		qiskit = false;
@@ -353,9 +356,9 @@ public class Model implements Observable<Observer> {
 	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file,
 			String method) {
 		if (qiskit) {
-			Qiskit.run(mutantList, testSuit, test, file, method, timeLimit);
+			qiskitRunner.run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {
-			QSharp.run(mutantList, testSuit, test, file, method, timeLimit);
+			qSharpRunner.run(mutantList, testSuit, test, file, method, timeLimit);
 		}
 	}
 
