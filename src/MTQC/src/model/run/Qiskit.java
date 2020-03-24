@@ -37,7 +37,10 @@ public class Qiskit extends Language {
 	}
 
 	protected String generateFile(String initialize, String file, String method) {
-		String header = "from " + file + " import " + method + System.lineSeparator();
+		String path = "";		
+		String header = "import sys" + System.lineSeparator();
+		header += "sys.path.insert(0, " + path + ")" + System.lineSeparator();
+		header += "from " + file + " import " + method + System.lineSeparator();
 		return header + System.lineSeparator() + initialize;
 	}
 

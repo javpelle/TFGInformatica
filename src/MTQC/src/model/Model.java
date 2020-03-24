@@ -287,14 +287,6 @@ public class Model implements Observable<Observer> {
 		return auxList;
 	}
 
-	private boolean checkMatcher(String substring, String searchWord) {
-		if (qiskit) {
-			return true;
-		} // QSharp
-		String regex = "\\W" + searchWord;
-		return substring.matches(regex);
-	}
-
 	public void removeMutants() {
 		for (Mutant m : mutantList) {
 			try {

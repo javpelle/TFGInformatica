@@ -17,7 +17,7 @@ public class TabbedTextArea extends JTabbedPane {
 
 	private ArrayList<JTextArea> windows;
 
-	private static final String qiskitText = "def __init__ ():" + System.lineSeparator() + "\tcr = ClassicalRegister(1)"
+	private static final String qiskitText = "def init ():" + System.lineSeparator() + "\tcr = ClassicalRegister(1)"
 			+ System.lineSeparator() + "\tqr = QuantumRegister(1)" + System.lineSeparator()
 			+ "\tqc = QuantumCircuit(qr, cr)" + System.lineSeparator() + "" + System.lineSeparator()
 			+ "\t# Initialize with desired quantum gates or QuantumCircuit.initialize() method" + System.lineSeparator()
