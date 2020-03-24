@@ -1,8 +1,6 @@
 package model.mutantoperator.qsharp;
 
-import model.mutantoperator.MutantOperator;
-
-public class MissAdjoint extends MutantOperator {
+public class MissAdjoint extends QSharpConstant {
 	@Override
 	public String getName() {
 		return "MissAdjoint";
@@ -15,7 +13,7 @@ public class MissAdjoint extends MutantOperator {
 
 	@Override
 	public String getSearchOperator() {
-		return "Adjoint ";
+		return "Adjoint";
 	}
 
 	@Override

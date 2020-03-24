@@ -1,8 +1,6 @@
 package model.mutantoperator.qsharp;
 
-import model.mutantoperator.MutantOperator;
-
-public class GateZY extends MutantOperator {
+public class GateZY extends QSharpGate {
 	@Override
 	public String getName() {
 		return "GateZ_GateY";

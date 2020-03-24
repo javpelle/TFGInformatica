@@ -1,8 +1,6 @@
 package model.mutantoperator.qsharp;
 
-import model.mutantoperator.MutantOperator;
-
-public class PauliYX extends MutantOperator {
+public class PauliYX extends QSharpConstant {
 	@Override
 	public String getName() {
 		return "PauliY_X";
