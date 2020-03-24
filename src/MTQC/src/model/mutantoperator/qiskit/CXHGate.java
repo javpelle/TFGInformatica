@@ -1,8 +1,6 @@
 package model.mutantoperator.qiskit;
 
-import model.mutantoperator.MutantOperator;
-
-public class CXHGate extends MutantOperator {
+public class CXHGate extends QiskitGate {
 	@Override
 	public String getName() {
 		return "GateCX_GateCH";

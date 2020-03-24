@@ -224,11 +224,9 @@ public class Model implements Observable<Observer> {
 
 			while (line != null) {
 				for (int offset = 0; offset < line.length(); offset++) {
-					if (line.startsWith(searchWord, offset)) {
-						if (qiskit || checkMatcher(line.substring(offset - 1, offset + 1), searchWord.substring(0, 1))){
-							lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset));
-						}
-						
+					if (line.startsWith(searchWord, offset)
+							&& (qiskit || mutantOperator.checkRegEx(line.substring(offset - 1, searchWord.length() + 1)))) {
+						lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset));
 					}
 				}
 
@@ -262,7 +260,9 @@ public class Model implements Observable<Observer> {
 				fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + replaceWord.length());
 				fileBuilder.insert(lineOffset.get(i).getValue(), searchWord);
 			}
-		} catch (IOException e) {
+		} catch (
+
+		IOException e) {
 			notifyError(e);
 			e.printStackTrace();
 		} finally {
@@ -276,8 +276,11 @@ public class Model implements Observable<Observer> {
 		return auxList;
 	}
 
-	private boolean checkMatcher(String substring,String searchWord) {
-		String regex = "\\W"+ searchWord;
+	private boolean checkMatcher(String substring, String searchWord) {
+		if (qiskit) {
+			return true;
+		} // QSharp
+		String regex = "\\W" + searchWord;
 		return substring.matches(regex);
 	}
 
@@ -360,8 +363,7 @@ public class Model implements Observable<Observer> {
 		}
 	}
 
-	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file,
-			String method) {
+	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method) {
 		if (qiskit) {
 			new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {

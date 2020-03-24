@@ -1,8 +1,6 @@
 package model.mutantoperator.qiskit;
 
-import model.mutantoperator.MutantOperator;
-
-public class HXGate extends MutantOperator {
+public class HXGate extends QiskitGate {
 	@Override
 	public String getName() {
 		return "GateH_GateX";

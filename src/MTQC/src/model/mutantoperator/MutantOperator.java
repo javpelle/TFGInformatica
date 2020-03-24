@@ -30,6 +30,8 @@ public abstract class MutantOperator {
 	 */
 	public abstract String getMutantOperator();
 	
+	public abstract boolean checkRegEx(String matcher);
+	
 	public String toString() {
 		return getName();
 	}
