@@ -225,7 +225,10 @@ public class Model implements Observable<Observer> {
 			while (line != null) {
 				for (int offset = 0; offset < line.length(); offset++) {
 					if (line.startsWith(searchWord, offset)) {
-						lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset));
+						if (qiskit || checkMatcher(line.substring(offset - 1, offset + 1), searchWord.substring(0, 1))){
+							lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset));
+						}
+						
 					}
 				}
 
@@ -271,6 +274,11 @@ public class Model implements Observable<Observer> {
 			}
 		}
 		return auxList;
+	}
+
+	private boolean checkMatcher(String substring,String searchWord) {
+		String regex = "\\W"+ searchWord;
+		return substring.matches(regex);
 	}
 
 	public void removeMutants() {

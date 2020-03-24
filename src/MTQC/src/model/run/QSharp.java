@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 public class QSharp extends Language {
 
@@ -18,7 +20,24 @@ public class QSharp extends Language {
 		String mainPython = "import qsharp" + System.lineSeparator() + "import " + namespace + " as qm"
 				+ System.lineSeparator() + "print(qm.MainQuantum.simulate())";
 		this.writeFile(main, mainPython);
-		return null;
+		String ret = null;
+		try {
+			
+			Process p = Runtime.getRuntime().exec(main);
+			if(!p.waitFor((long) timeLimit, TimeUnit.SECONDS)) {
+			    //timeout - kill the process. 
+			    p.destroy(); // consider using destroyForcibly instead
+			} else {
+				BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+				ret = in.readLine();
+			}			
+		} catch (IOException | InterruptedException e) {
+
+		}
+		if (ret.equals("null")) {
+			ret = null;
+		}
+		return ret;
 	}
 
 	protected String generateFile(String fileName, String methodName, String test) {
