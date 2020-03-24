@@ -10,8 +10,8 @@ public class Qiskit extends Language {
 	private String[] pythonCall;
 
 	public Qiskit() {
-		main = "main_qiskit.py";
-		init = "init_qiskit.py";
+		main = "qiskit\\main_qiskit.py";
+		init = "qiskit\\init_qiskit.py";
 		pythonCall = pythonCall(main);
 	}
 	
