@@ -17,6 +17,7 @@ import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
 import model.test.Test;
 import view.MenuBar.LanguageListener;
+import view.MenuBar.ResetListener;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.testcaserunner.RunOptions.FileComboListener;
@@ -63,7 +64,7 @@ public class UI extends JFrame implements Observer {
 				c.removeMutants();
 			}
 		});
-
+		
 		// Add menu bar
 		menuBar = new MenuBar(new LanguageListener() {
 
@@ -72,6 +73,13 @@ public class UI extends JFrame implements Observer {
 				c.updateLanguage(qiskit);
 			}
 
+		}, new ResetListener() {
+
+			@Override
+			public void reset() {
+				c.reset();
+			}
+			
 		});
 		setJMenuBar(menuBar);
 

@@ -170,6 +170,16 @@ public class Model implements Observable<Observer> {
 		updateMutantOperators(false);
 		observer.setTests(tests);
 	}
+	
+	public void reset() {
+		qiskit = false;
+		mutantList = new ArrayList<Mutant>();
+		timeLimit = 3.0;
+		removeMutants();
+		start();
+		observer.updateMutants(mutantList);
+		observer.updateFileMethods(new ArrayList<String>());
+	}
 
 	public void updateMutantOperators(boolean qiskit) {
 		this.qiskit = qiskit;

@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 import javax.swing.ButtonGroup;
@@ -12,10 +14,17 @@ public class MenuBar extends JMenuBar {
 
 	private static final long serialVersionUID = 1L;
 
-	public MenuBar(LanguageListener listener) {
+	public MenuBar(LanguageListener listener, ResetListener resetListener) {
 		JMenu menu1 = new JMenu("File");
 		add(menu1);
-		menu1.add(new JMenuItem("Save"));
+		JMenuItem reset = new JMenuItem("Reset");
+		menu1.add(reset);
+		reset.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				resetListener.reset();
+			}
+		});
 
 		JMenu menu2 = new JMenu("Language");
 		ButtonGroup language = new ButtonGroup();
@@ -47,6 +56,10 @@ public class MenuBar extends JMenuBar {
 
 	public interface LanguageListener {
 		public void languageChosen(boolean qiskit);
+	}
+	
+	public interface ResetListener {
+		public void reset();
 	}
 
 }

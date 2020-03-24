@@ -23,6 +23,10 @@ public class Controller {
 	public void start() {
 		model.start();
 	}
+	
+	public void reset() {
+		model.reset();
+	}
 
 	public void updatePath(String path) {
 		model.updatePath(path);
