@@ -170,7 +170,7 @@ public class Model implements Observable<Observer> {
 		updateMutantOperators(false);
 		observer.setTests(tests);
 	}
-	
+
 	public void reset() {
 		qiskit = false;
 		mutantList = new ArrayList<Mutant>();
@@ -233,14 +233,15 @@ public class Model implements Observable<Observer> {
 			String line = reader.readLine();
 
 			while (line != null) {
-				for (int offset = 0; offset < line.length(); offset++) {
-					if (line.startsWith(searchWord, offset)
-							&& (qiskit || mutantOperator.checkRegEx(line.substring(offset - 1, searchWord.length() + 1)))) {
-						lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset));
+				line = " " + line; 
+				for (int offset = 1; offset < line.length(); offset++) {
+					if (line.startsWith(searchWord, offset) && (qiskit || mutantOperator
+							.checkRegEx(line.substring(offset - 1, offset + searchWord.length() + 1)))) {
+						lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset - 1));
 					}
 				}
 
-				file = file + line + System.lineSeparator();
+				file = file + line.substring(1) + System.lineSeparator();
 				totalOffset = file.length();
 				lineCount++;
 				line = reader.readLine();
