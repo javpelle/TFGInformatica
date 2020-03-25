@@ -57,12 +57,11 @@ public class TabbedPane extends JTabbedPane {
 
 	public void updateMutants(ArrayList<Mutant> mutantList) {
 		mutantsViewer.updateMutants(mutantList);
-		testCaseRunner.updateMutants(mutantList);
 	}
 
-	public void updateFileMethods(ArrayList<String> fileMethods) {
+	public void updateFileMethods(ArrayList<String> fileMethods, ArrayList<Mutant> mutants, String fileName) {
 		testCaseRunner.updateFileMethods(fileMethods);
-
+		testCaseRunner.updateMutants(mutants, fileName);
 	}
 
 	public void setTests(Test[] tests) {

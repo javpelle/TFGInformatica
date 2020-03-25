@@ -68,8 +68,8 @@ public class FileArea extends JPanel {
 
 	public void updateMutant(Mutant mutant) {
 		line.setText("Line " + mutant.getLineChanged());
-		originalArea.setText(readFile(mutant.getOriginalFile()));
-		mutantArea.setText(readFile(mutant.getMutantFile()));
+		originalArea.setText(readFile(mutant.getOriginalCompletePath()));
+		mutantArea.setText(readFile(mutant.getMutantCompletePath()));
 	}
 
 	private String readFile(String file) {

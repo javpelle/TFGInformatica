@@ -63,10 +63,12 @@ public class MutantsView extends JPanel {
 		return table.getTrueRows();
 	}
 
-	public void updateMutants(ArrayList<Mutant> mutants) {
+	public void updateMutants(ArrayList<Mutant> mutants, String file) {
 		table.clear();
 		for (int i = 0; i < mutants.size(); ++i) {
-			table.addRow(new Object[] { false, mutants.get(i) });
+			if (mutants.get(i).getOriginalName().equals(file)) {
+				table.addRow(new Object[] { false, mutants.get(i) });
+			}
 		}	
 	}
 

@@ -58,8 +58,8 @@ public class TestCaseRunner extends JPanel {
 		add(south, BorderLayout.SOUTH);
 	}
 
-	public void updateMutants(ArrayList<Mutant> mutants) {
-		mutantsView.updateMutants(mutants);
+	public void updateMutants(ArrayList<Mutant> mutants, String fileName) {
+		mutantsView.updateMutants(mutants, fileName);
 	}
 	
 	public void updateLanguage(boolean qiskit) {

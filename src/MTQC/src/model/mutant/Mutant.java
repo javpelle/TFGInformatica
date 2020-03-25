@@ -8,28 +8,31 @@ import java.io.File;
  *
  */
 public class Mutant {
-	
+
 	/**
 	 * Mutant name.
 	 */
 	private String name;
 
-	
 	/**
 	 * Original file path.
 	 */
-	private String originalFile;
-	
-	
+	private String originalFilePath;
+
+	/**
+	 * Original file name.
+	 */
+	private String originalFileName;
+
 	/**
 	 * Mutant file path.
 	 */
-	private String mutantFile;
-	
+	private String mutantFilePath;
+
 	/**
-	 * Temporal path for original file.
+	 * Mutant file name.
 	 */
-	private static final String tempOriginalFile = "aux_temp";
+	private String mutantFileName;
 
 	/**
 	 * Line where file was been modified.
@@ -39,44 +42,55 @@ public class Mutant {
 	/**
 	 * Class Constructor
 	 * 
-	 * @param name Mutant Name.
+	 * @param name         Mutant Name.
 	 * @param originalFile Original File Path.
-	 * @param mutantFile Mutant File Path.
-	 * @param lineChanged Line where file was been modified.
+	 * @param mutantFile   Mutant File Path.
+	 * @param lineChanged  Line where file was been modified.
 	 */
-	public Mutant(String name, String originalFile, String mutantFile, int lineChanged) {
+	public Mutant(String name, String originalFilePath, String originalFileName, String mutantFilePath,
+			String mutantFileName, int lineChanged) {
 		this.name = name;
-		this.originalFile = originalFile;
-		this.mutantFile = mutantFile;
+		this.originalFilePath = originalFilePath;
+		this.originalFileName = originalFileName;
+		this.mutantFilePath = mutantFilePath;
+		this.mutantFileName = mutantFileName;
 		this.lineChanged = lineChanged;
 	}
-	
+
 	/**
 	 * Returns mutant name.
+	 * 
 	 * @return Mutant Name String.
 	 */
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Returns original File Path.
+	 * 
 	 * @return original File Path String.
 	 */
-	public String getOriginalFile() {
-		return originalFile;
+	public String getOriginalCompletePath() {
+		return originalFilePath + File.separator + originalFileName;
 	}
 	
+	public String getOriginalName() {
+		return originalFileName;
+	}
+
 	/**
 	 * Returns mutant File Path.
+	 * 
 	 * @return mutant File Path String.
 	 */
-	public String getMutantFile() {
-		return mutantFile;
+	public String getMutantCompletePath() {
+		return mutantFilePath + File.separator + mutantFileName;
 	}
-	
+
 	/**
 	 * Returns line changed.
+	 * 
 	 * @return line changed integer.
 	 */
 	public int getLineChanged() {
@@ -86,33 +100,5 @@ public class Mutant {
 	public String toString() {
 		return name;
 	}
-	
-	/**
-	 * Renames original file path to aux_temp path and
-	 * mutant file path to original.
-	 */
-	public void switchOriginalMutantNames() {
-		File original = new File(originalFile);
-		File aux = new File(tempOriginalFile);
-		File mutant = new File(mutantFile);
 
-		original.renameTo(aux);
-		mutant.renameTo(original);
-
-	}
-	
-	/**
-	 * Renames original file path to mutant path and
-	 * aux_temp file path to original.
-	 */
-	public void resetOriginalMutantNames() {
-		File original = new File(originalFile);
-		File aux = new File(tempOriginalFile);
-		File mutant = new File(mutantFile);
-
-		original.renameTo(mutant);
-		aux.renameTo(original);
-		
-		aux.delete();
-	}
 }

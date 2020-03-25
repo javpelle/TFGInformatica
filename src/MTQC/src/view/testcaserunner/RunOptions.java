@@ -171,6 +171,9 @@ public class RunOptions extends JPanel {
 	}
 
 	public String getFileName() {
+		if (files.getSelectedItem() == null) {
+			return null;
+		}
 		return files.getSelectedItem().toString();
 	}
 

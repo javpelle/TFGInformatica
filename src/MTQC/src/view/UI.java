@@ -155,8 +155,8 @@ public class UI extends JFrame implements Observer {
 	}
 
 	@Override
-	public void updateFileMethods(ArrayList<String> fileMethods) {
-		tabbedPane.updateFileMethods(fileMethods);
+	public void updateFileMethods(ArrayList<String> fileMethods, ArrayList<Mutant> mutants, String fileName) {
+		tabbedPane.updateFileMethods(fileMethods, mutants, fileName);
 	}
 
 	@Override

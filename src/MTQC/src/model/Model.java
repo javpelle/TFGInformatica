@@ -109,6 +109,8 @@ public class Model implements Observable<Observer> {
 	private boolean qiskit;
 
 	private String path;
+	
+	private static final String mutantPath = ".mutants";
 
 	private MutantOperator[] qiskitOperators = { new CCXCSWAPGate(), new CHSWAPGate(), new CHXGate(), new CHYGate(),
 			new CHZGate(), new CSWAPCCXGate(), new CXHGate(), new CXSWAPGate(), new CXYGate(), new CXZGate(),
@@ -178,7 +180,7 @@ public class Model implements Observable<Observer> {
 		removeMutants();
 		start();
 		observer.updateMutants(mutantList);
-		observer.updateFileMethods(new ArrayList<String>());
+		observer.updateFileMethods(new ArrayList<String>(), mutantList, null);
 	}
 
 	public void updateMutantOperators(boolean qiskit) {
@@ -208,6 +210,8 @@ public class Model implements Observable<Observer> {
 	}
 
 	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
+		File file = new File(mutantPath);
+		file.mkdir();
 		for (int i = 0; i < files.size(); i++) {
 			for (int j = 0; j < operators.size(); j++) {
 				mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
@@ -255,7 +259,7 @@ public class Model implements Observable<Observer> {
 				fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + searchWord.length());
 				fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
 				String name = "._" + Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
-				String filePathWrite = path + File.separator + name;
+				String filePathWrite = mutantPath + File.separator + name;
 				saveFile = new File(filePathWrite);
 				try {
 					writer = new BufferedWriter(new FileWriter(saveFile));
@@ -264,7 +268,7 @@ public class Model implements Observable<Observer> {
 					if (writer != null)
 						writer.close();
 				}
-				auxList.add(new Mutant(name, completeFilePath, filePathWrite, lineOffset.get(i).getKey()));
+				auxList.add(new Mutant(name, path, filePath, mutantPath, name ,lineOffset.get(i).getKey()));
 
 				// Devolvemos la estructura general de fileBuilder.
 
@@ -290,7 +294,7 @@ public class Model implements Observable<Observer> {
 	public void removeMutants() {
 		for (Mutant m : mutantList) {
 			try {
-				File f = new File(m.getMutantFile()); // file to be delete
+				File f = new File(m.getMutantCompletePath()); // file to be delete
 				f.delete();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -351,7 +355,7 @@ public class Model implements Observable<Observer> {
 			}
 		}
 
-		observer.updateFileMethods(fileMethods);
+		observer.updateFileMethods(fileMethods, mutantList, fileName);
 
 	}
 
@@ -368,9 +372,9 @@ public class Model implements Observable<Observer> {
 
 	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method) {
 		if (qiskit) {
-			new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
+			//new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {
-			new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
+			//new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
 		}
 	}
 

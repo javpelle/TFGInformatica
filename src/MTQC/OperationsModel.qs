@@ -1,4 +1,4 @@
-﻿namespace Quantum.Bell.Model {
+namespace Quantum.Bell.Model {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Diagnostics;
