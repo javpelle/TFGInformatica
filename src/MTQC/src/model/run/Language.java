@@ -11,51 +11,35 @@ import model.test.Test;
 public abstract class Language {
 
 	protected static String main = "";
-	protected static String init = "";
 
-	/**
-	 * public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit,
-	 * Test test, String file, String method, double timeLimit) {
-	 * runOriginal(testSuit, test, file, method, timeLimit); for (Mutant m :
-	 * mutantList) { runMutant(m, testSuit, test, file, method, timeLimit); } }
-	 * 
-	 * protected void runOriginal(ArrayList<String> testSuit, Test test, String
-	 * file, String method, double timeLimit) { for (String t : testSuit) { String
-	 * aux = generateFile(file, method, t); writeFile(init, aux); for (int i = 0; i
-	 * < test.getShots(); i++) { runShot(timeLimit); } } }
-	 * 
-	 * protected void runMutant(Mutant mutant, ArrayList<String> testSuit, Test
-	 * test, String file, String method, double timeLimit) {
-	 * mutant.switchOriginalMutantNames(); for (String t : testSuit) { String aux =
-	 * generateFile(t, file, method); writeFile(init, aux); for (int i = 0; i <
-	 * test.getShots(); i++) { runShot(timeLimit); } }
-	 * mutant.resetOriginalMutantNames(); }
-	 **/
+	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
+			double timeLimit) {
+		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit);
+		generateMain(files, test, timeLimit);
+	}
 
-	protected ArrayList<ArrayList<TestFile>> generateFiles(String orginalPath, ArrayList<Mutant> mutantList,
-			ArrayList<String> testSuit) {
+	protected abstract void generateMain(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit);
+
+	protected ArrayList<ArrayList<TestFile>> generateFiles(ArrayList<Mutant> mutantList, ArrayList<String> testSuit) {
 		ArrayList<ArrayList<TestFile>> files = new ArrayList<ArrayList<TestFile>>();
-		
+
 		ArrayList<TestFile> aux = new ArrayList<TestFile>();
 		for (int i = 0; i < testSuit.size(); i++) {
-			
+			aux.add(generateFile(mutantList.get(0).getOriginalCompletePath(), testSuit.get(i), i));
 		}
 		files.add(aux);
-		
 
 		for (Mutant m : mutantList) {
 			ArrayList<TestFile> aux2 = new ArrayList<TestFile>();
 			for (int i = 0; i < testSuit.size(); i++) {
-				aux2.add(generateFile(m, testSuit.get(i), i));
+				aux2.add(generateFile(m.getMutantCompletePath(), testSuit.get(i), i));
 			}
 			files.add(aux2);
 		}
 		return files;
 	}
 
-	protected abstract TestFile generateFile(Mutant m, String test, int id_test);
-
-	protected abstract String runShot(double timeLimit);
+	protected abstract TestFile generateFile(String pathFile, String test, int id_test);
 
 	protected void writeFile(String fileName, String content) {
 		try {
@@ -75,7 +59,7 @@ public abstract class Language {
 			// We are running this software in Windows OS
 			return new String[] { "cmd.exe", "/c", "python", file };
 		} else {
-			return new String[] { "python", file };
+			return new String[] { "/bin/bash", "-c", "python", file };
 		}
 	}
 }

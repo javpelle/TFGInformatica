@@ -63,7 +63,7 @@ public class TabbedTextArea extends JTabbedPane {
 	}
 
 	public void removeWindow() {
-		if (windows.size() > 0) {
+		if (windows.size() > 1) {
 			int index = getSelectedIndex();
 			remove(index);
 			windows.remove(index);

@@ -3,7 +3,11 @@ package model.run;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import files.TestFile;
+import model.test.Test;
 
 public class Qiskit extends Language {
 
@@ -11,7 +15,6 @@ public class Qiskit extends Language {
 
 	public Qiskit() {
 		main = "qiskit\\main_qiskit.py";
-		init = "qiskit\\init_qiskit.py";
 		pythonCall = pythonCall(main);
 	}
 	
@@ -42,6 +45,18 @@ public class Qiskit extends Language {
 		header += "sys.path.insert(0, " + path + ")" + System.lineSeparator();
 		header += "from " + file + " import " + method + System.lineSeparator();
 		return header + System.lineSeparator() + initialize;
+	}
+
+	@Override
+	protected void generateMain(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected TestFile generateFile(String pathFile, String test, int id_test) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

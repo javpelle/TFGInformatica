@@ -8,6 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import exception.EmptyListException;
+import exception.NullStringException;
+import exception.ShotsException;
 import exception.TimeLimitException;
 import javafx.util.Pair;
 import model.mutant.Mutant;
@@ -93,8 +96,6 @@ import model.mutantoperator.qsharp.RotYZ;
 import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
-import model.run.QSharp;
-import model.run.Qiskit;
 import model.test.OutputTest;
 import model.test.ProbabilityTest;
 import model.test.Test;
@@ -109,7 +110,7 @@ public class Model implements Observable<Observer> {
 	private boolean qiskit;
 
 	private String path;
-	
+
 	private static final String mutantPath = ".mutants";
 
 	private MutantOperator[] qiskitOperators = { new CCXCSWAPGate(), new CHSWAPGate(), new CHXGate(), new CHYGate(),
@@ -233,7 +234,7 @@ public class Model implements Observable<Observer> {
 			String line = reader.readLine();
 
 			while (line != null) {
-				line = " " + line; 
+				line = " " + line;
 				for (int offset = 1; offset < line.length(); offset++) {
 					if (line.startsWith(searchWord, offset) && (qiskit || mutantOperator
 							.checkRegEx(line.substring(offset - 1, offset + searchWord.length() + 1)))) {
@@ -264,7 +265,7 @@ public class Model implements Observable<Observer> {
 					if (writer != null)
 						writer.close();
 				}
-				auxList.add(new Mutant(name, path, filePath, mutantPath, name ,lineOffset.get(i).getKey()));
+				auxList.add(new Mutant(name, path, filePath, mutantPath, name, lineOffset.get(i).getKey()));
 
 				// Devolvemos la estructura general de fileBuilder.
 
@@ -356,21 +357,37 @@ public class Model implements Observable<Observer> {
 	}
 
 	public void setTimeLimit(double timeLimit) {
-		
+
 	}
 
-	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method, double timeLimit) {
+	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
+			double timeLimit) {
 		try {
 			if (timeLimit <= 0) {
 				throw new TimeLimitException();
 			}
-		} catch (TimeLimitException e) {
+			if (test.getShots() <= 0) {
+				throw new ShotsException();
+			}
+			if (testSuit.size() == 0) {
+				throw new EmptyListException("Test list");
+			}
+			if (file == null || file.equals("")) {
+				throw new NullStringException("file");
+			}
+			if (method == null || file.equals("")) {
+				throw new NullStringException("method");
+			}
+			if (mutantList.size() == 0) {
+				throw new EmptyListException("Mutant list");
+			}
+		} catch (TimeLimitException | ShotsException | EmptyListException | NullStringException e) {
 			notifyError(e);
 		}
 		if (qiskit) {
-			//new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
+			// new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {
-			//new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
+			// new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
 		}
 	}
 

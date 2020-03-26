@@ -156,6 +156,9 @@ public class RunOptions extends JPanel {
 	}
 
 	public String getMethodName() {
+		if (methods.getSelectedItem() == null) {
+			return null;
+		}
 		return methods.getSelectedItem().toString();
 	}
 

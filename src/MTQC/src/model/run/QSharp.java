@@ -5,7 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import files.TestFile;
+import model.test.Test;
 
 public class QSharp extends Language {
 
@@ -13,7 +17,6 @@ public class QSharp extends Language {
 
 	public QSharp() {
 		main = "main_python.py";
-		init = "main_qsharp.qs";
 	}
 
 	protected String runShot(double timeLimit) {
@@ -104,6 +107,18 @@ public class QSharp extends Language {
 			index = builder.indexOf(System.lineSeparator(), index);
 		}
 		return builder.toString();
+	}
+
+	@Override
+	protected void generateMain(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected TestFile generateFile(String pathFile, String test, int id_test) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/*
