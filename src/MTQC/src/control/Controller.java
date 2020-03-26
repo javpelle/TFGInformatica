@@ -59,7 +59,7 @@ public class Controller {
 	}
 
 	public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
-			int shots, ArrayList<String> testList) {
+			int shots, ArrayList<String> testList, double timeLimit) {
 		ArrayList<String> testSuite;
 		String file = testList.get(testList.size() - 1);
 		if (!file.equals("")) {
@@ -69,7 +69,7 @@ public class Controller {
 			testSuite = testList;
 		}
 		testType.setShots(shots);
-		model.run(selectedMutants, testSuite, testType, fileName, methodName);
+		model.run(selectedMutants, testSuite, testType, fileName, methodName, timeLimit);
 	}
 
 	private ArrayList<String> setTestFromFile(String testFileName) {

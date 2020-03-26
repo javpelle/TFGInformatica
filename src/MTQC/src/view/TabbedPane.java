@@ -15,7 +15,6 @@ import view.testcaserunner.TestCaseRunner;
 import view.testcaserunner.TestCaseRunner.RunListener;
 import view.testresults.TestResults;
 import view.testcaserunner.RunOptions.FileComboListener;
-import view.testcaserunner.RunOptions.SpinnerListener;
 
 public class TabbedPane extends JTabbedPane {
 
@@ -26,20 +25,20 @@ public class TabbedPane extends JTabbedPane {
 	private MutantsViewer mutantsViewer;
 
 	private TestCaseRunner testCaseRunner;
-	
+
 	private TestResults testResults;
 
 	public TabbedPane(NewPathListener listener, NewGenerateListener listenGenerate, FileComboListener listenerComboFile,
-			SpinnerListener listenerSpinner, RunListener listenerRun) {
+			RunListener listenerRun) {
 		mutantsgenerator = new MutantsGenerator(listener, listenGenerate);
 		addTab("Mutants Generator", mutantsgenerator);
 
 		mutantsViewer = new MutantsViewer();
 		addTab("Mutants Viewer", mutantsViewer);
 
-		testCaseRunner = new TestCaseRunner(listenerComboFile, listenerSpinner, listenerRun);
+		testCaseRunner = new TestCaseRunner(listenerComboFile, listenerRun);
 		addTab("TestCase Runner", testCaseRunner);
-		
+
 		testResults = new TestResults();
 		addTab("Test Results", testResults);
 
@@ -65,7 +64,7 @@ public class TabbedPane extends JTabbedPane {
 	}
 
 	public void setTests(Test[] tests) {
-		testCaseRunner.setTests(tests);		
+		testCaseRunner.setTests(tests);
 	}
 
 }

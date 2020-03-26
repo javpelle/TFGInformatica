@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import model.mutant.Mutant;
 import model.test.Test;
 import view.testcaserunner.RunOptions.FileComboListener;
-import view.testcaserunner.RunOptions.SpinnerListener;
 
 public class TestCaseRunner extends JPanel {
 
@@ -28,14 +27,14 @@ public class TestCaseRunner extends JPanel {
 
 	private InputTest inputTest;
 
-	public TestCaseRunner(FileComboListener listenerCombo, SpinnerListener listenerSpinner, RunListener listenerRun) {
+	public TestCaseRunner(FileComboListener listenerCombo, RunListener listenerRun) {
 		setLayout(new BorderLayout());
 
 		mutantsView = new MutantsView();
 
 		add(mutantsView, BorderLayout.WEST);
 
-		runOptions = new RunOptions(listenerCombo, listenerSpinner);
+		runOptions = new RunOptions(listenerCombo);
 		inputTest = new InputTest();
 
 		JPanel center = new JPanel();
@@ -50,7 +49,7 @@ public class TestCaseRunner extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				listenerRun.runTests(mutantsView.getSelectedFiles(), runOptions.getFileName(),
 						runOptions.getMethodName(), runOptions.getTestType(), runOptions.getShots(),
-						inputTest.getTest());
+						inputTest.getTest(), runOptions.getTimeLimit());
 			}
 		});
 		JPanel south = new JPanel();
@@ -61,7 +60,7 @@ public class TestCaseRunner extends JPanel {
 	public void updateMutants(ArrayList<Mutant> mutants, String fileName) {
 		mutantsView.updateMutants(mutants, fileName);
 	}
-	
+
 	public void updateLanguage(boolean qiskit) {
 		inputTest.updateLanguage(qiskit);
 	}
@@ -81,6 +80,6 @@ public class TestCaseRunner extends JPanel {
 
 	public interface RunListener {
 		public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
-				int shots, ArrayList<String> testList);
+				int shots, ArrayList<String> testList, double timeLimit);
 	}
 }

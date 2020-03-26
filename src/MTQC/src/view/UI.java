@@ -21,7 +21,6 @@ import view.MenuBar.ResetListener;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.testcaserunner.RunOptions.FileComboListener;
-import view.testcaserunner.RunOptions.SpinnerListener;
 import view.testcaserunner.TestCaseRunner.RunListener;
 
 public class UI extends JFrame implements Observer {
@@ -64,7 +63,7 @@ public class UI extends JFrame implements Observer {
 				c.removeMutants();
 			}
 		});
-		
+
 		// Add menu bar
 		menuBar = new MenuBar(new LanguageListener() {
 
@@ -79,7 +78,7 @@ public class UI extends JFrame implements Observer {
 			public void reset() {
 				c.reset();
 			}
-			
+
 		});
 		setJMenuBar(menuBar);
 
@@ -112,21 +111,14 @@ public class UI extends JFrame implements Observer {
 
 			}
 
-		}, new SpinnerListener() {
-
-			@Override
-			public void updateTime(double timeLimit) {
-				c.updateTimeLimit(timeLimit);
-			}
-
 		}, new RunListener() {
 
 			@Override
 			public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
-					int shots, ArrayList<String> testFileName) {
-				c.runTests(selectedMutants, fileName, methodName, testType, shots, testFileName);
+					int shots, ArrayList<String> testFileName, double timeLimit) {
+				c.runTests(selectedMutants, fileName, methodName, testType, shots, testFileName, timeLimit);
 			}
-	
+
 		});
 		add(tabbedPane, BorderLayout.CENTER);
 

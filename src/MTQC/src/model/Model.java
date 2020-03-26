@@ -132,12 +132,9 @@ public class Model implements Observable<Observer> {
 
 	private ArrayList<Mutant> mutantList;
 
-	private double timeLimit;
-
 	public Model() {
 		qiskit = false;
 		mutantList = new ArrayList<Mutant>();
-		timeLimit = 3.0;
 	}
 
 	/**
@@ -176,7 +173,6 @@ public class Model implements Observable<Observer> {
 	public void reset() {
 		qiskit = false;
 		mutantList = new ArrayList<Mutant>();
-		timeLimit = 3.0;
 		removeMutants();
 		start();
 		observer.updateMutants(mutantList);
@@ -360,17 +356,17 @@ public class Model implements Observable<Observer> {
 	}
 
 	public void setTimeLimit(double timeLimit) {
+		
+	}
+
+	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method, double timeLimit) {
 		try {
 			if (timeLimit <= 0) {
 				throw new TimeLimitException();
 			}
-			this.timeLimit = timeLimit;
 		} catch (TimeLimitException e) {
 			notifyError(e);
 		}
-	}
-
-	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method) {
 		if (qiskit) {
 			//new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {

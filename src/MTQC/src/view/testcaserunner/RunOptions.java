@@ -1,12 +1,10 @@
 package view.testcaserunner;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -30,17 +28,15 @@ public class RunOptions extends JPanel {
 
 	private JSpinner spinner;
 
-	private JButton timeSet;
-
 	private JComboBox<Test> testType;
 
 	private JSpinner shots;
 
-	public RunOptions(FileComboListener listenerCombo, SpinnerListener listenerSpinner) {
+	public RunOptions(FileComboListener listenerCombo) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		fileCombo(listenerCombo);
 		methodCombo();
-		timeLimit(listenerSpinner);
+		timeLimit();
 		testType();
 	}
 
@@ -78,19 +74,12 @@ public class RunOptions extends JPanel {
 		add(aux);
 	}
 
-	private void timeLimit(SpinnerListener listener) {
+	private void timeLimit() {
 		JPanel aux = new JPanel();
-		aux.setLayout(new GridLayout(1, 3));
-		aux.add(new TextField("Time Limt:"));
+		aux.setLayout(new GridLayout(1, 2));
+		aux.add(new TextField("Time Limit (seconds):"));
 		spinner = new JSpinner(new SpinnerNumberModel(3.0, 0.1, 100.0, 0.1));
 		aux.add(spinner);
-		timeSet = new JButton("Set time");
-		timeSet.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				listener.updateTime((double) spinner.getValue());
-			}
-		});
-		aux.add(timeSet);
 		add(aux);
 	}
 
@@ -148,10 +137,6 @@ public class RunOptions extends JPanel {
 		public void refreshMethods(String fileName);
 	}
 
-	public interface SpinnerListener {
-		public void updateTime(double timeLimit);
-	}
-
 	public Test getTestType() {
 		return (Test) testType.getSelectedItem();
 	}
@@ -164,6 +149,10 @@ public class RunOptions extends JPanel {
 		for (Test t : tests) {
 			testType.addItem(t);
 		}
+	}
+	
+	public double getTimeLimit() {
+		return (double) spinner.getValue();
 	}
 
 	public String getMethodName() {
