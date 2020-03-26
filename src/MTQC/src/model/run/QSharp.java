@@ -13,71 +13,30 @@ import model.test.Test;
 
 public class QSharp extends Language {
 
-	private static String namespace = "";
+	private static final String path = "qSharp";
+	private static final String main = "main_qSharp.py";
 
-	public QSharp() {
-		main = "main_python.py";
-	}
+	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,
+			String mutantName) {
 
-	protected String runShot(double timeLimit) {
-		String mainPython = "import qsharp" + System.lineSeparator() + "import " + namespace + " as qm"
-				+ System.lineSeparator() + "print(qm.MainQuantum.simulate())";
-		this.writeFile(main, mainPython);
-		String ret = null;
-		try {
-			
-			Process p = Runtime.getRuntime().exec(main);
-			if(!p.waitFor((long) timeLimit, TimeUnit.SECONDS)) {
-			    //timeout - kill the process. 
-			    p.destroy(); // consider using destroyForcibly instead
-			} else {
-				BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-				ret = in.readLine();
-			}			
-		} catch (IOException | InterruptedException e) {
-
-		}
-		if (ret.equals("null")) {
-			ret = null;
-		}
-		return ret;
-	}
-
-	protected String generateFile(String fileName, String methodName, String test) {
-
-		File originalFile = new File(fileName);
-		String file = "";
-		BufferedReader reader = null;
 		StringBuilder fileBuilder = null;
-		try {
-			reader = new BufferedReader(new FileReader(originalFile));
-			String line = reader.readLine();
+		String file = readFile(completePath);
+		String namespaceName = fileName.substring(0, fileName.length() - 3) + Integer.toString(id_test) ;
+		file = changeNamespace(file, namespaceName);
+		String mainMethod = getMainMethod(methodName, test);
+		mainMethod = tabString(mainMethod);
+		fileBuilder = new StringBuilder(file);
+		int mainPos = fileBuilder.lastIndexOf("}");
+		fileBuilder.insert(mainPos, System.lineSeparator() + System.lineSeparator() + mainMethod);
+		writeFile(path + File.separator + namespaceName + ".qs", fileBuilder.toString());
 
-			while (line != null) {
-				file = file + line + System.lineSeparator();
-				line = reader.readLine();
-			}
-
-			reader.close();
-			setNamespace(file);
-			String mainMethod = getMainMethod(methodName, test);
-			mainMethod = tabString(mainMethod);
-			fileBuilder = new StringBuilder(file);
-			int mainPos = fileBuilder.lastIndexOf("}");
-			fileBuilder.insert(mainPos, mainMethod);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return fileBuilder.toString();
+		return new TestFile(mutantName, id_test, path, namespaceName + ".qs");
 	}
 
-	private static void setNamespace(String file) {
-		String token = "namespace ";
-		int ini = file.indexOf(token);
+	private static String changeNamespace(String file, String namespaceName) {
+		int ini = file.indexOf("namespace ");
 		int end = file.indexOf("{", ini);
-		namespace = file.substring(ini, end);
-
+		return file.substring(0, ini) + "namespace " + namespaceName + file.substring(end);
 	}
 
 	private static String getMainMethod(String methodName, String testInput) {
@@ -110,25 +69,19 @@ public class QSharp extends Language {
 	}
 
 	@Override
-	protected void generateMain(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
-		// TODO Auto-generated method stub
+	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
 		
-	}
 
-	@Override
-	protected TestFile generateFile(String pathFile, String test, int id_test) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/*
 	 * NOT IN USE
 	 * 
-	 * private static String getMethodCall(String methodName, int numberOfOutputs) {
-	 * String methodCall = ""; if (numberOfOutputs > 0) { methodCall = methodCall +
-	 * "let ("; int i = 1; while(i < numberOfOutputs) { methodCall = methodCall +
-	 * "r" + Integer.toString(i) + ", "; i++; } methodCall = methodCall + "r" +
-	 * Integer.toString(i) + ")= "; }
+	 * private static String getMethodCall(String methodName, int
+	 * numberOfOutputs) { String methodCall = ""; if (numberOfOutputs > 0) {
+	 * methodCall = methodCall + "let ("; int i = 1; while(i < numberOfOutputs)
+	 * { methodCall = methodCall + "r" + Integer.toString(i) + ", "; i++; }
+	 * methodCall = methodCall + "r" + Integer.toString(i) + ")= "; }
 	 * 
 	 * StringBuilder fileBuilder = new StringBuilder(methodName); int index =
 	 * fileBuilder.length(); //fileBuiler //methodCall = methodCall + return
@@ -143,9 +96,10 @@ public class QSharp extends Language {
 
 	/*
 	 * NOT IN USE private static int getNumberOfOutputs(String outputType) { int
-	 * lastIndex = 0; int count = 0; if (outputType.contains("Unit")) { return 0; }
-	 * else { while(lastIndex != -1){ lastIndex = outputType.indexOf(",",lastIndex);
-	 * if(lastIndex != -1){ count ++; lastIndex += 1; } } return count + 1; }
+	 * lastIndex = 0; int count = 0; if (outputType.contains("Unit")) { return
+	 * 0; } else { while(lastIndex != -1){ lastIndex =
+	 * outputType.indexOf(",",lastIndex); if(lastIndex != -1){ count ++;
+	 * lastIndex += 1; } } return count + 1; }
 	 * 
 	 * }
 	 */

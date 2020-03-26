@@ -96,6 +96,7 @@ import model.mutantoperator.qsharp.RotYZ;
 import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
+import model.run.QSharp;
 import model.test.OutputTest;
 import model.test.ProbabilityTest;
 import model.test.Test;
@@ -255,7 +256,7 @@ public class Model implements Observable<Observer> {
 
 				fileBuilder.delete(lineOffset.get(i).getValue(), lineOffset.get(i).getValue() + searchWord.length());
 				fileBuilder.insert(lineOffset.get(i).getValue(), replaceWord);
-				String name = "._" + Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
+				String name = "_" + Integer.toString(i) + "_" + mutantOperator.getName() + "_" + filePath;
 				String filePathWrite = mutantPath + File.separator + name;
 				saveFile = new File(filePathWrite);
 				try {
@@ -387,7 +388,7 @@ public class Model implements Observable<Observer> {
 		if (qiskit) {
 			// new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {
-			// new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
+			new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
 		}
 	}
 

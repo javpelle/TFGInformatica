@@ -12,9 +12,10 @@ import model.test.Test;
 public class Qiskit extends Language {
 
 	private String[] pythonCall;
-
+	private static final String path = "qiskit";
+	private static final String main = "main_qiskit.py";
+	
 	public Qiskit() {
-		main = "qiskit\\main_qiskit.py";
 		pythonCall = pythonCall(main);
 	}
 	
@@ -48,13 +49,13 @@ public class Qiskit extends Language {
 	}
 
 	@Override
-	protected void generateMain(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
+	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	protected TestFile generateFile(String pathFile, String test, int id_test) {
+	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,
+			String mutantName) {
 		// TODO Auto-generated method stub
 		return null;
 	}

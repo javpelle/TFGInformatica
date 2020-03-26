@@ -1,32 +1,19 @@
 package files;
 
-import model.mutant.Mutant;
-
 public class TestFile {
 	
-	private Mutant m;
+	private String mutantName;
 	
 	private int idTest;
 	
 	private String path;
 	
-	private String file;
+	private String fileName;
 	
-	private String namespace;
-	
-	public TestFile (Mutant m, int idTest, String path, String file, String namespace) {
-		this.m = m;
+	public TestFile (String mutantName, int idTest, String path, String fileName) {
+		this.mutantName = mutantName;
 		this.idTest = idTest;
 		this.path = path;
-		this.file = file;
-		this.namespace = namespace;
-	}
-	
-	public TestFile (Mutant m, int idTest, String path, String file) {
-		this.m = m;
-		this.idTest = idTest;
-		this.path = path;
-		this.file = file;
-		namespace = null;
+		this.fileName = fileName;
 	}
 }

@@ -87,6 +87,10 @@ public class Mutant {
 	public String getMutantCompletePath() {
 		return mutantFilePath + File.separator + mutantFileName;
 	}
+	
+	public String getMutantFileName() {
+		return mutantFileName;
+	}
 
 	/**
 	 * Returns line changed.
