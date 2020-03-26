@@ -97,6 +97,7 @@ import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
 import model.run.QSharp;
+import model.run.Qiskit;
 import model.test.OutputTest;
 import model.test.ProbabilityTest;
 import model.test.Test;
@@ -174,8 +175,8 @@ public class Model implements Observable<Observer> {
 
 	public void reset() {
 		qiskit = false;
-		mutantList = new ArrayList<Mutant>();
 		removeMutants();
+		mutantList = new ArrayList<Mutant>();
 		start();
 		observer.updateMutants(mutantList);
 		observer.updateFileMethods(new ArrayList<String>(), mutantList, null);
@@ -386,7 +387,7 @@ public class Model implements Observable<Observer> {
 			notifyError(e);
 		}
 		if (qiskit) {
-			// new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
+			new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
 		} else {
 			new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
 		}

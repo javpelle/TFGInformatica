@@ -16,4 +16,8 @@ public class TestFile {
 		this.path = path;
 		this.fileName = fileName;
 	}
+	
+	public String getFileName() {
+		return fileName;
+	}
 }

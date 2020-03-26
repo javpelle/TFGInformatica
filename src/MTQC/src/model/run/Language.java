@@ -12,14 +12,37 @@ import model.mutant.Mutant;
 import model.test.Test;
 
 public abstract class Language {
+	
+	protected String path;
+	protected String main;
 
 	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
 			double timeLimit) {
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
-		generatePythonScript(files, test, timeLimit);
+		// generatePythonScript(files, test, timeLimit);
+
 	}
 
-	protected abstract void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit);
+	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
+		String script = generateImportLanguage();
+		script += System.lineSeparator();
+		for (ArrayList<TestFile> list: files) {
+			for (TestFile t: list) {
+				script += "import " + t.getFileName() + System.lineSeparator();
+			}
+		}
+		script += System.lineSeparator();
+		
+		for (ArrayList<TestFile> list: files) {
+			for (TestFile t: list) {
+				script += "for i in range(" + Integer.toString(test.getShots()) + "):" + System.lineSeparator();
+				script += "\t";
+			}
+		}
+		writeFile(path + File.separator + main, script);
+	}
+
+	protected abstract String generateImportLanguage();
 
 	protected ArrayList<ArrayList<TestFile>> generateFiles(ArrayList<Mutant> mutantList, ArrayList<String> testSuit,
 			String method) {
