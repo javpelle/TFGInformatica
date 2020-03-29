@@ -42,6 +42,11 @@ local.properties
 *.cb2
 .*.lb
 
+##############################
+## Python
+##############################
+__pycache__/
+
 ## Intermediate documents:
 *.dvi
 *.xdv

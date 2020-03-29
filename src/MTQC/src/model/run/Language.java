@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import files.TestFile;
@@ -20,6 +21,43 @@ public abstract class Language {
 			double timeLimit) {
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
 		generatePythonScript(files, test, timeLimit);
+		runMain();
+		deleteFiles(files);
+	}
+
+	private void deleteFiles(ArrayList<ArrayList<TestFile>> files) {
+		for (ArrayList<TestFile> list : files) {
+			for (TestFile t : list) {
+				deleteFile(t.getCompletePath());
+			}
+		}
+		deleteFile(path + File.separator + main);
+	}
+	
+	private void deleteFile(String file) {
+		try {
+			File f = new File(file); // file to be delete
+			f.delete();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void runMain() {
+		String ret = null;
+		try {
+
+			Process p = Runtime.getRuntime().exec(pythonCall(path + File.separator + main));
+			p.waitFor();
+			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			ret = in.readLine();
+			while (ret != null) {
+				System.out.println(ret);
+				ret = in.readLine();
+			}
+		} catch (IOException | InterruptedException e) {
+
+		}
 
 	}
 
@@ -43,7 +81,7 @@ public abstract class Language {
 		writeFile(path + File.separator + main, script);
 	}
 
-	protected abstract String generateImportLanguage();	
+	protected abstract String generateImportLanguage();
 
 	protected ArrayList<ArrayList<TestFile>> generateFiles(ArrayList<Mutant> mutantList, ArrayList<String> testSuit,
 			String method) {
@@ -69,7 +107,7 @@ public abstract class Language {
 
 	protected abstract TestFile generateFile(String completePath, String fileName, String test, int id_test,
 			String method, String mutantName);
-	
+
 	protected abstract String getMethodCall(String file);
 
 	protected void writeFile(String fileName, String content) {

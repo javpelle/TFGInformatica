@@ -26,7 +26,7 @@ public class TabbedTextArea extends JTabbedPane {
 			+ System.lineSeparator() + "" + System.lineSeparator() + "\t# Add any operations if needed"
 			+ System.lineSeparator() + "\t" + System.lineSeparator()
 			+ "\treturn ex.result().get_counts() # Change desired return" + System.lineSeparator()
-			+ "\t#return ex.result().get_statevector() # If probabilistic test chosen";
+			+ "\t#return pow(abs(ex.result().get_statevector()), 2) # If probabilistic test chosen";
 
 	private static final String qSharpText = "//Select desired Qubit number to be used" + System.lineSeparator()
 			+ "using (register = Qubit[2]) {" + System.lineSeparator() + "" + System.lineSeparator()
