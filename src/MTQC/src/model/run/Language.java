@@ -12,37 +12,38 @@ import model.mutant.Mutant;
 import model.test.Test;
 
 public abstract class Language {
-	
-	protected String path;
-	protected String main;
+
+	protected static final String path = "python";
+	protected static final String main = "main_mtqc.py";
 
 	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
 			double timeLimit) {
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
-		// generatePythonScript(files, test, timeLimit);
+		generatePythonScript(files, test, timeLimit);
 
 	}
 
 	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
 		String script = generateImportLanguage();
 		script += System.lineSeparator();
-		for (ArrayList<TestFile> list: files) {
-			for (TestFile t: list) {
+		script += "from tools import run_shots" + System.lineSeparator();
+		for (ArrayList<TestFile> list : files) {
+			for (TestFile t : list) {
 				script += "import " + t.getFileName() + System.lineSeparator();
 			}
 		}
 		script += System.lineSeparator();
-		
-		for (ArrayList<TestFile> list: files) {
-			for (TestFile t: list) {
-				script += "for i in range(" + Integer.toString(test.getShots()) + "):" + System.lineSeparator();
-				script += "\t";
+		script += "if __name__ == '__main__':" + System.lineSeparator();
+		for (ArrayList<TestFile> list : files) {
+			for (TestFile t : list) {
+				script += "\trun_shots(" + getMethodCall(t.getFileName()) + ", " + String.valueOf(timeLimit) + ", "
+						+ String.valueOf(test.getShots()) + ")" + System.lineSeparator();
 			}
 		}
 		writeFile(path + File.separator + main, script);
 	}
 
-	protected abstract String generateImportLanguage();
+	protected abstract String generateImportLanguage();	
 
 	protected ArrayList<ArrayList<TestFile>> generateFiles(ArrayList<Mutant> mutantList, ArrayList<String> testSuit,
 			String method) {
@@ -68,6 +69,8 @@ public abstract class Language {
 
 	protected abstract TestFile generateFile(String completePath, String fileName, String test, int id_test,
 			String method, String mutantName);
+	
+	protected abstract String getMethodCall(String file);
 
 	protected void writeFile(String fileName, String content) {
 		try {

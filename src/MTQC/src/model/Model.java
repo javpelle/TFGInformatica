@@ -169,12 +169,11 @@ public class Model implements Observable<Observer> {
 
 	public void start() {
 		updatePath(System.getProperty("user.dir"));
-		updateMutantOperators(false);
+		updateMutantOperators(qiskit);
 		observer.setTests(tests);
 	}
 
 	public void reset() {
-		qiskit = false;
 		removeMutants();
 		mutantList = new ArrayList<Mutant>();
 		start();

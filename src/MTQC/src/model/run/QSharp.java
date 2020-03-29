@@ -1,16 +1,14 @@
 package model.run;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import files.TestFile;
-import model.test.Test;
 
 public class QSharp extends Language {
 	
+	private static final String method = "MainQuantum";
+	
 	public QSharp() {
-		path = "qSharp";
-		main = "main_qSharp.py";
 		File file = new File(path);
 		file.mkdir();
 	}
@@ -68,13 +66,13 @@ public class QSharp extends Language {
 	}
 
 	@Override
-	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
-		
+	protected String generateImportLanguage() {
+		return "import qsharp" + System.lineSeparator();		
 	}
 
 	@Override
-	protected String generateImportLanguage() {
-		return "import qsharp" + System.lineSeparator();		
+	protected String getMethodCall(String file) {
+		return file + "." + method + ".simulate";
 	}
 
 }
