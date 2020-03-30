@@ -1,16 +1,20 @@
 package view.testcaserunner;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import model.mutant.Mutant;
 import model.test.Test;
 import view.testcaserunner.RunOptions.FileComboListener;
+import view.tools.LogArea;
 
 public class TestCaseRunner extends JPanel {
 
@@ -26,13 +30,22 @@ public class TestCaseRunner extends JPanel {
 	private RunOptions runOptions;
 
 	private InputTest inputTest;
+	
+	private LogArea log;
 
 	public TestCaseRunner(FileComboListener listenerCombo, RunListener listenerRun) {
 		setLayout(new BorderLayout());
 
 		mutantsView = new MutantsView();
-
-		add(mutantsView, BorderLayout.WEST);
+		log = new LogArea();
+		
+		JPanel west = new JPanel(new GridLayout(2, 1));
+		JPanel westAux = new JPanel(new BorderLayout());
+		westAux.setBorder(BorderFactory.createTitledBorder("Log"));
+		westAux.add(new JScrollPane(log));
+		west.add(mutantsView);
+		west.add(westAux);
+		add(west, BorderLayout.WEST);
 
 		runOptions = new RunOptions(listenerCombo);
 		inputTest = new InputTest();
@@ -81,5 +94,9 @@ public class TestCaseRunner extends JPanel {
 	public interface RunListener {
 		public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
 				int shots, ArrayList<String> testList, double timeLimit);
+	}
+
+	public void notify(String msg) {
+		log.setMessage(msg);		
 	}
 }

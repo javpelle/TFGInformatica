@@ -67,4 +67,12 @@ public class TabbedPane extends JTabbedPane {
 		testCaseRunner.setTests(tests);
 	}
 
+	public void notifyMutantsGenerator(String msg) {
+		mutantsgenerator.notify(msg);
+	}
+
+	public void notifyTestCaseRunner(String msg) {
+		testCaseRunner.notify(msg);	
+	}
+
 }

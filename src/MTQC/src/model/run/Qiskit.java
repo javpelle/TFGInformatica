@@ -6,6 +6,10 @@ import files.TestFile;
 
 public class Qiskit extends Language {
 
+	public Qiskit(NotifyListener listener) {
+		super(listener);
+	}
+
 	private static final String method = "init";
 
 	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,

@@ -16,13 +16,20 @@ public abstract class Language {
 
 	protected static final String path = "python";
 	protected static final String main = "main_mtqc.py";
-
+	
+	private NotifyListener listener;
+	
+	public Language (NotifyListener listener) {
+		this.listener = listener;
+	}
+	
 	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
 			double timeLimit) {
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
 		generatePythonScript(files, test, timeLimit);
 		runMain();
-		deleteFiles(files);
+		//deleteFiles(files);
+		listener.notify("Completed!\n");
 	}
 
 	private void deleteFiles(ArrayList<ArrayList<TestFile>> files) {
@@ -150,5 +157,9 @@ public abstract class Language {
 
 		}
 		return file;
+	}
+	
+	public interface NotifyListener {
+		public void notify(String msg);
 	}
 }

@@ -96,6 +96,7 @@ import model.mutantoperator.qsharp.RotYZ;
 import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
+import model.run.Language.NotifyListener;
 import model.run.QSharp;
 import model.run.Qiskit;
 import model.test.OutputTest;
@@ -208,14 +209,22 @@ public class Model implements Observable<Observer> {
 	}
 
 	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
-		File file = new File(mutantPath);
-		file.mkdir();
-		for (int i = 0; i < files.size(); i++) {
-			for (int j = 0; j < operators.size(); j++) {
-				mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
+		if (files.isEmpty()) {
+			observer.notifyMutantsGenerator("No files selected!\n");
+		} else if (operators.isEmpty()) {
+			observer.notifyMutantsGenerator("No operators selected!\n");
+		} else {
+			File file = new File(mutantPath);
+			file.mkdir();
+			for (int i = 0; i < files.size(); i++) {
+				for (int j = 0; j < operators.size(); j++) {
+					mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
+				}
 			}
+			observer.notifyMutantsGenerator(
+					"Completed. " + String.valueOf(mutantList.size()) + " mutants generated!\n");
+			observer.updateMutants(mutantList);
 		}
-		observer.updateMutants(mutantList);
 	}
 
 	private ArrayList<Mutant> applyOperatorToFile(String filePath, MutantOperator mutantOperator) {
@@ -382,13 +391,22 @@ public class Model implements Observable<Observer> {
 			if (mutantList.size() == 0) {
 				throw new EmptyListException("Mutant list");
 			}
+
+			NotifyListener listener = new NotifyListener() {
+
+				@Override
+				public void notify(String msg) {
+					observer.notifyTestCaseRunner(msg);
+				}
+
+			};
+			if (qiskit) {
+				new Qiskit(listener).run(mutantList, testSuit, test, file, method, timeLimit);
+			} else {
+				new QSharp(listener).run(mutantList, testSuit, test, file, method, timeLimit);
+			}
 		} catch (TimeLimitException | ShotsException | EmptyListException | NullStringException e) {
 			notifyError(e);
-		}
-		if (qiskit) {
-			new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
-		} else {
-			new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
 		}
 	}
 

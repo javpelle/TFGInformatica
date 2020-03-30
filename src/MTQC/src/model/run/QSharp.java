@@ -8,9 +8,8 @@ public class QSharp extends Language {
 	
 	private static final String method = "MainQuantum";
 	
-	public QSharp() {
-		File file = new File(path);
-		file.mkdir();
+	public QSharp(NotifyListener listener) {
+		super(listener);
 	}
 
 	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,

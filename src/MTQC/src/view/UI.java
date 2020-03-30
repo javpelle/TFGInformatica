@@ -156,4 +156,14 @@ public class UI extends JFrame implements Observer {
 		tabbedPane.setTests(tests);
 	}
 
+	@Override
+	public void notifyMutantsGenerator(String msg) {
+		tabbedPane.notifyMutantsGenerator(msg);
+	}
+
+	@Override
+	public void notifyTestCaseRunner(String msg) {
+		tabbedPane.notifyTestCaseRunner(msg);		
+	}
+
 }
