@@ -146,6 +146,7 @@ public class RunOptions extends JPanel {
 	}
 
 	public void setTests(Test[] tests) {
+		testType.removeAllItems();
 		for (Test t : tests) {
 			testType.addItem(t);
 		}

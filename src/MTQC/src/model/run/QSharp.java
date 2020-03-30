@@ -1,13 +1,19 @@
 package model.run;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import files.TestFile;
+import model.test.ProbabilityTest;
+import model.test.Test;
+import model.testresult.TestResult;
 
 public class QSharp extends Language {
-	
+
 	private static final String method = "MainQuantum";
-	
+
 	public QSharp(NotifyListener listener) {
 		super(listener);
 	}
@@ -17,7 +23,7 @@ public class QSharp extends Language {
 
 		StringBuilder fileBuilder = null;
 		String file = readFile(completePath);
-		String namespaceName = fileName.substring(0, fileName.length() - 3) + Integer.toString(id_test) ;
+		String namespaceName = fileName.substring(0, fileName.length() - 3) + Integer.toString(id_test);
 		file = changeNamespace(file, namespaceName);
 		String mainMethod = getMainMethod(methodName, test);
 		mainMethod = tabString(mainMethod);
@@ -66,12 +72,43 @@ public class QSharp extends Language {
 
 	@Override
 	protected String generateImportLanguage() {
-		return "import qsharp" + System.lineSeparator();		
+		return "import qsharp" + System.lineSeparator();
 	}
 
 	@Override
 	protected String getMethodCall(String file) {
 		return file + "." + method + ".simulate";
+	}
+
+	@Override
+	protected void generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test) {
+		boolean isProbabilistic = test instanceof ProbabilityTest;
+		for (TestFile t : files.get(0)) {		
+		}
+		for (ArrayList<TestFile> list : files.subList(1, files.size())) {
+			for (TestFile t : list) {
+				TestResult tr = test.newTestResult(t.getMutantName(), t.getIdTest());
+				if (isProbabilistic) {
+					generateProbabilisticResult(tr);
+				}
+				
+			}
+		}
+		String ret;
+		try {
+			ret = in.readLine();
+			while (ret != null) {
+				System.out.println(ret);
+				ret = in.readLine();
+			}
+		} catch (IOException e) {
+		}
+
+	}
+
+	private ArrayList<String> generateProbabilisticResult(TestResult tr) {
+		return null;
+		// TODO Auto-generated method stub	
 	}
 
 }

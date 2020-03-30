@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import files.TestFile;
 import model.mutant.Mutant;
 import model.test.Test;
+import view.testresults.TestResults;
 
 public abstract class Language {
 
@@ -23,13 +24,15 @@ public abstract class Language {
 		this.listener = listener;
 	}
 
-	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
+	public ArrayList<ArrayList<TestResults>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
 			double timeLimit) {
+		ArrayList<ArrayList<TestResults>> ret;
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
 		generatePythonScript(files, test, timeLimit);
-		runMain();
+		ret = runMain(files, test);
 		deleteFiles(files);
 		listener.notify("Completed!\n");
+		return ret;
 	}
 
 	private void deleteFiles(ArrayList<ArrayList<TestFile>> files) {
@@ -50,21 +53,16 @@ public abstract class Language {
 		}
 	}
 
-	private void runMain() {
-		String ret = null;
+	private ArrayList<ArrayList<TestResults>> runMain(ArrayList<ArrayList<TestFile>> files, Test test) {
 		try {
 			Process p = Runtime.getRuntime().exec(pythonCall(path, main));
 			p.waitFor();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			ret = in.readLine();
-			while (ret != null) {
-				System.out.println(ret);
-				ret = in.readLine();
-			}
+			generateResults(in, files, test);
 		} catch (IOException | InterruptedException e) {
 
 		}
-
+		return null;
 	}
 
 	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
@@ -162,4 +160,6 @@ public abstract class Language {
 	public interface NotifyListener {
 		public void notify(String msg);
 	}
+	
+	protected abstract void generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test);
 }

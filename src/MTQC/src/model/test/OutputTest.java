@@ -1,5 +1,8 @@
 package model.test;
 
+import model.testresult.OutputTestResult;
+import model.testresult.TestResult;
+
 public class OutputTest extends Test {
 
 	private int shots;
@@ -25,6 +28,11 @@ public class OutputTest extends Test {
 	
 	public int getShots() {
 		return shots;
+	}
+
+	@Override
+	public TestResult newTestResult(String mutantName, int idTest) {
+		return new OutputTestResult(mutantName, idTest);
 	}
 
 }

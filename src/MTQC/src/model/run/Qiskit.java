@@ -1,8 +1,11 @@
 package model.run;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.util.ArrayList;
 
 import files.TestFile;
+import model.test.Test;
 
 public class Qiskit extends Language {
 
@@ -31,6 +34,12 @@ public class Qiskit extends Language {
 	@Override
 	protected String getMethodCall(String file) {
 		return file + "." + method;
+	}
+
+	@Override
+	protected void generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

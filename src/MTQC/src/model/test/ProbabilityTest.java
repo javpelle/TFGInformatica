@@ -1,5 +1,8 @@
 package model.test;
 
+import model.testresult.ProbabilisticTestResult;
+import model.testresult.TestResult;
+
 public class ProbabilityTest extends Test {
 
 	@Override
@@ -14,12 +17,17 @@ public class ProbabilityTest extends Test {
 
 	@Override
 	public void setShots(int shots) {
-		
+
 	}
 
 	@Override
 	public int getShots() {
 		return 1;
+	}
+
+	@Override
+	public TestResult newTestResult(String mutantName, int idTest) {
+		return new ProbabilisticTestResult(mutantName, idTest);
 	}
 
 }

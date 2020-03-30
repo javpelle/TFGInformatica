@@ -1,7 +1,8 @@
 package model.test;
 
+import model.testresult.TestResult;
+
 public abstract class Test {
-	
 	public abstract int getIDTest();
 	
 	public abstract String getNameTest();
@@ -13,4 +14,7 @@ public abstract class Test {
 	public String toString() {
 		return getNameTest();
 	}
+	
+	public abstract TestResult newTestResult(String mutantName, int idTest);
+	
 }

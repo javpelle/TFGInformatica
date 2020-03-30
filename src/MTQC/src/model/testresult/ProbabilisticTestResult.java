@@ -1,33 +1,29 @@
 package model.testresult;
 
-import model.mutant.Mutant;
-
-public class ProbabilisticTestResult implements TestResult {
+public class ProbabilisticTestResult extends TestResult {
+	private String originalResult;
+	private String mutantResult;
 	
-	private String result;
-	
-	private Mutant mutant;
-	
-	public ProbabilisticTestResult(Mutant mutant, String result) {
-		this.mutant = mutant;
-		this.result = result;
-	}
-	
-	public ProbabilisticTestResult(String result) {
-		mutant = null;
-		this.result = result;
+	public ProbabilisticTestResult(String mutantName, int idTest) {
+		super(mutantName, idTest);
+		
 	}
 
 	@Override
 	public String getName() {
-		return mutant.toString();
-	}
-	
-	public String getResult() {
-		return result;
+		return mutantName + "_" + Integer.toString(idTest);
 	}
 
-	
-	
-	
+	@Override
+	public void setResult(String originalResult, String mutantResult) {
+		this.originalResult = originalResult;
+		this.mutantResult = mutantResult;
+	}
+
+	@Override
+	public String getResult() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
