@@ -16,19 +16,19 @@ public abstract class Language {
 
 	protected static final String path = "python";
 	protected static final String main = "main_mtqc.py";
-	
+
 	private NotifyListener listener;
-	
-	public Language (NotifyListener listener) {
+
+	public Language(NotifyListener listener) {
 		this.listener = listener;
 	}
-	
+
 	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
 			double timeLimit) {
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
 		generatePythonScript(files, test, timeLimit);
 		runMain();
-		//deleteFiles(files);
+		deleteFiles(files);
 		listener.notify("Completed!\n");
 	}
 
@@ -40,7 +40,7 @@ public abstract class Language {
 		}
 		deleteFile(path + File.separator + main);
 	}
-	
+
 	private void deleteFile(String file) {
 		try {
 			File f = new File(file); // file to be delete
@@ -53,8 +53,7 @@ public abstract class Language {
 	private void runMain() {
 		String ret = null;
 		try {
-
-			Process p = Runtime.getRuntime().exec(pythonCall(path + File.separator + main));
+			Process p = Runtime.getRuntime().exec(pythonCall(path, main));
 			p.waitFor();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			ret = in.readLine();
@@ -130,12 +129,13 @@ public abstract class Language {
 		}
 	}
 
-	protected String[] pythonCall(String file) {
+	protected String[] pythonCall(String path, String file) {
 		if (System.getProperty("os.name").startsWith("Windows")) {
 			// We are running this software in Windows OS
-			return new String[] { "cmd.exe", "/c", "python", file };
+			// QSharp python script must run from the same path as the methods it calls cuz ...?
+			return new String[] { "cmd.exe", "/c", "cd", path, "&&", "python", file, "&&", "cd", ".." };
 		} else {
-			return new String[] { "/bin/bash", "-c", "python", file };
+			return new String[] { "/bin/bash", "-c", "cd", path, "&&", "python", file, "&&", "cd", ".." };
 		}
 	}
 
@@ -158,7 +158,7 @@ public abstract class Language {
 		}
 		return file;
 	}
-	
+
 	public interface NotifyListener {
 		public void notify(String msg);
 	}

@@ -47,6 +47,11 @@ local.properties
 ##############################
 __pycache__/
 
+##############################
+## QSharp
+##############################
+obj/
+
 ## Intermediate documents:
 *.dvi
 *.xdv
