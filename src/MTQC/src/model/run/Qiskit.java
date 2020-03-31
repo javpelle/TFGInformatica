@@ -41,11 +41,7 @@ public class Qiskit extends Language {
 		for (int t = 0; t < files.get(0).size(); t++) {
 			ArrayList<String> aux = new ArrayList<String>();
 			for (int i = 0; i < test.getShots(); i++) {
-				try {
-					aux.add(in.readLine());
-				} catch (IOException e) {
-					aux.add("Error");
-				}
+				aux.add(readLine(in));
 			}
 			original.add(aux);
 		}
@@ -55,17 +51,25 @@ public class Qiskit extends Language {
 				TestResult tr = test.newTestResult(list.get(t).getMutantName(), list.get(t).getIdTest());
 				tr.setOriginalResult(original.get(t));
 				for (int i = 0; i < test.getShots(); i++) {
-					try {
-						tr.setMutantResult(in.readLine());
-					} catch (IOException e) {
-						tr.setMutantResult("Error");
-					}
+					tr.setMutantResult(readLine(in));
 				} 
 				aux.add(tr);				
 			}
 			results.add(aux);
 		}
 		return results;
+	}
+	
+	private String readLine(BufferedReader in) {
+		String line = null;
+		try {
+			do {
+				line = in.readLine();
+			} while (!line.startsWith(key));
+		} catch (IOException e) {
+			return "Error";
+		}
+		return line.substring(key.length(), line.length());
 	}
 
 }

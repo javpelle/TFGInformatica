@@ -17,9 +17,10 @@ public abstract class Language {
 
 	protected static final String path = "python";
 	protected static final String main = "main_mtqc.py";
+	protected static final String key = "_mtqc_";
 
-	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
-			double timeLimit) {
+	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test,
+			String file, String method, double timeLimit) {
 		ArrayList<ArrayList<TestResult>> ret;
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
 		generatePythonScript(files, test, timeLimit);
@@ -123,7 +124,8 @@ public abstract class Language {
 	protected String[] pythonCall(String path, String file) {
 		if (System.getProperty("os.name").startsWith("Windows")) {
 			// We are running this software in Windows OS
-			// QSharp python script must run from the same path as the methods it calls cuz ...?
+			// QSharp python script must run from the same path as the methods it calls cuz
+			// ...?
 			return new String[] { "cmd.exe", "/c", "cd", path, "&&", "python", file, "&&", "cd", ".." };
 		} else {
 			return new String[] { "/bin/bash", "-c", "cd", path, "&&", "python", file, "&&", "cd", ".." };
@@ -149,6 +151,7 @@ public abstract class Language {
 		}
 		return file;
 	}
-	
-	protected abstract ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test);
+
+	protected abstract ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in,
+			ArrayList<ArrayList<TestFile>> files, Test test);
 }

@@ -8,12 +8,12 @@
 
 from tools.func_timeout import func_timeout, FunctionTimedOut
 
-def run_shots (function, timeout, shots):
+def run_shots (function, timeout, shots, key = '_mtqc_'):
 	for i in range(shots):
 		try:
 			doitReturnValue = func_timeout(timeout, function)
-			print(doitReturnValue)
+			print(key, doitReturnValue)
 		except FunctionTimedOut:
-			print ("TimeLimit")
+			print (key, "TimeLimit")
 		except Exception as e:
-			print ("Exception")
+			print (key, "Exception")
