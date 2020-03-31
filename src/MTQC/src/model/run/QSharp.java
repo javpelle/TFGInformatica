@@ -14,10 +14,6 @@ public class QSharp extends Language {
 
 	private static final String method = "MainQuantum";
 
-	public QSharp(NotifyListener listener) {
-		super(listener);
-	}
-
 	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,
 			String mutantName) {
 
@@ -81,7 +77,7 @@ public class QSharp extends Language {
 	}
 
 	@Override
-	protected void generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test) {
+	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test) {
 		boolean isProbabilistic = test instanceof ProbabilityTest;
 		for (TestFile t : files.get(0)) {		
 		}
@@ -103,6 +99,7 @@ public class QSharp extends Language {
 			}
 		} catch (IOException e) {
 		}
+		return null;
 
 	}
 

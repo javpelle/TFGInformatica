@@ -1,5 +1,7 @@
 package model.testresult;
 
+import java.util.ArrayList;
+
 public class ProbabilisticTestResult extends TestResult {
 	private String originalResult;
 	private String mutantResult;
@@ -15,15 +17,19 @@ public class ProbabilisticTestResult extends TestResult {
 	}
 
 	@Override
-	public void setResult(String originalResult, String mutantResult) {
-		this.originalResult = originalResult;
+	public String getResult() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setMutantResult(String mutantResult) {
 		this.mutantResult = mutantResult;
 	}
 
 	@Override
-	public String getResult() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setOriginalResult(ArrayList<String> originalResult) {
+		this.originalResult = originalResult.get(0);		
 	}
 
 }

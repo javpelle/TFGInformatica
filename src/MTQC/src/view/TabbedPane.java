@@ -13,7 +13,7 @@ import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.mutantsviewer.MutantsViewer;
 import view.testcaserunner.TestCaseRunner;
 import view.testcaserunner.TestCaseRunner.RunListener;
-import view.testresults.TestResults;
+import view.testresults.TestResultsView;
 import view.testcaserunner.RunOptions.FileComboListener;
 
 public class TabbedPane extends JTabbedPane {
@@ -26,7 +26,7 @@ public class TabbedPane extends JTabbedPane {
 
 	private TestCaseRunner testCaseRunner;
 
-	private TestResults testResults;
+	private TestResultsView testResults;
 
 	public TabbedPane(NewPathListener listener, NewGenerateListener listenGenerate, FileComboListener listenerComboFile,
 			RunListener listenerRun) {
@@ -39,7 +39,7 @@ public class TabbedPane extends JTabbedPane {
 		testCaseRunner = new TestCaseRunner(listenerComboFile, listenerRun);
 		addTab("TestCase Runner", testCaseRunner);
 
-		testResults = new TestResults();
+		testResults = new TestResultsView();
 		addTab("Test Results", testResults);
 
 	}

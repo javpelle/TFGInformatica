@@ -96,7 +96,6 @@ import model.mutantoperator.qsharp.RotYZ;
 import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
-import model.run.Language.NotifyListener;
 import model.run.QSharp;
 import model.run.Qiskit;
 import model.test.OutputTest;
@@ -392,22 +391,15 @@ public class Model implements Observable<Observer> {
 				throw new EmptyListException("Mutant list");
 			}
 
-			NotifyListener listener = new NotifyListener() {
-
-				@Override
-				public void notify(String msg) {
-					observer.notifyTestCaseRunner(msg);
-				}
-
-			};
 			if (qiskit) {
-				new Qiskit(listener).run(mutantList, testSuit, test, file, method, timeLimit);
+				new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
 			} else {
-				new QSharp(listener).run(mutantList, testSuit, test, file, method, timeLimit);
+				new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
 			}
 		} catch (TimeLimitException | ShotsException | EmptyListException | NullStringException e) {
 			notifyError(e);
 		}
+		observer.notifyTestCaseRunner("Completed\n");
 	}
 
 }

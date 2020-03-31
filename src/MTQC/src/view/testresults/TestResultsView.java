@@ -2,7 +2,7 @@ package view.testresults;
 
 import javax.swing.JPanel;
 
-public class TestResults extends JPanel {
+public class TestResultsView extends JPanel {
 
 	/**
 	 * 

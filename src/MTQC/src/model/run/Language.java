@@ -11,27 +11,20 @@ import java.util.ArrayList;
 import files.TestFile;
 import model.mutant.Mutant;
 import model.test.Test;
-import view.testresults.TestResults;
+import model.testresult.TestResult;
 
 public abstract class Language {
 
 	protected static final String path = "python";
 	protected static final String main = "main_mtqc.py";
 
-	private NotifyListener listener;
-
-	public Language(NotifyListener listener) {
-		this.listener = listener;
-	}
-
-	public ArrayList<ArrayList<TestResults>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
+	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
 			double timeLimit) {
-		ArrayList<ArrayList<TestResults>> ret;
+		ArrayList<ArrayList<TestResult>> ret;
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
 		generatePythonScript(files, test, timeLimit);
 		ret = runMain(files, test);
 		deleteFiles(files);
-		listener.notify("Completed!\n");
 		return ret;
 	}
 
@@ -53,12 +46,12 @@ public abstract class Language {
 		}
 	}
 
-	private ArrayList<ArrayList<TestResults>> runMain(ArrayList<ArrayList<TestFile>> files, Test test) {
+	private ArrayList<ArrayList<TestResult>> runMain(ArrayList<ArrayList<TestFile>> files, Test test) {
 		try {
 			Process p = Runtime.getRuntime().exec(pythonCall(path, main));
 			p.waitFor();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			generateResults(in, files, test);
+			return generateResults(in, files, test);
 		} catch (IOException | InterruptedException e) {
 
 		}
@@ -156,10 +149,6 @@ public abstract class Language {
 		}
 		return file;
 	}
-
-	public interface NotifyListener {
-		public void notify(String msg);
-	}
 	
-	protected abstract void generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test);
+	protected abstract ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test);
 }
