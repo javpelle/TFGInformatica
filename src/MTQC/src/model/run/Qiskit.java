@@ -2,7 +2,6 @@ package model.run;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import files.TestFile;
@@ -35,41 +34,22 @@ public class Qiskit extends Language {
 	}
 
 	@Override
-	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test) {
+	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
+			Test test) {
 		ArrayList<ArrayList<TestResult>> results = new ArrayList<ArrayList<TestResult>>();
-		ArrayList<ArrayList<String>> original = new ArrayList<ArrayList<String>>();
-		for (int t = 0; t < files.get(0).size(); t++) {
-			ArrayList<String> aux = new ArrayList<String>();
-			for (int i = 0; i < test.getShots(); i++) {
-				aux.add(readLine(in));
-			}
-			original.add(aux);
-		}
-		for (ArrayList<TestFile> list : files.subList(1, files.size())) {
+		for (ArrayList<TestFile> list : files) {
 			ArrayList<TestResult> aux = new ArrayList<TestResult>();
 			for (int t = 0; t < list.size(); t++) {
 				TestResult tr = test.newTestResult(list.get(t).getMutantName(), list.get(t).getIdTest());
-				tr.setOriginalResult(original.get(t));
 				for (int i = 0; i < test.getShots(); i++) {
-					tr.setMutantResult(readLine(in));
-				} 
-				aux.add(tr);				
+					tr.setResult(readLine(in));
+				}
+				tr.make();
+				aux.add(tr);
 			}
 			results.add(aux);
 		}
 		return results;
-	}
-	
-	private String readLine(BufferedReader in) {
-		String line = null;
-		try {
-			do {
-				line = in.readLine();
-			} while (!line.startsWith(key));
-		} catch (IOException e) {
-			return "Error";
-		}
-		return line.substring(key.length(), line.length());
 	}
 
 }

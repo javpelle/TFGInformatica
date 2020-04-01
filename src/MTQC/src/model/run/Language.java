@@ -84,21 +84,16 @@ public abstract class Language {
 	protected ArrayList<ArrayList<TestFile>> generateFiles(ArrayList<Mutant> mutantList, ArrayList<String> testSuit,
 			String method) {
 		ArrayList<ArrayList<TestFile>> files = new ArrayList<ArrayList<TestFile>>();
-
-		ArrayList<TestFile> aux = new ArrayList<TestFile>();
+			
 		for (int i = 0; i < testSuit.size(); i++) {
+			ArrayList<TestFile> aux = new ArrayList<TestFile>();
 			aux.add(generateFile(mutantList.get(0).getOriginalCompletePath(), mutantList.get(0).getOriginalName(),
 					testSuit.get(i), i, method, "original"));
-		}
-		files.add(aux);
-
-		for (Mutant m : mutantList) {
-			ArrayList<TestFile> aux2 = new ArrayList<TestFile>();
-			for (int i = 0; i < testSuit.size(); i++) {
-				aux2.add(generateFile(m.getMutantCompletePath(), m.getMutantFileName(), testSuit.get(i), i, method,
+			for (Mutant m : mutantList) {
+				aux.add(generateFile(m.getMutantCompletePath(), m.getMutantFileName(), testSuit.get(i), i, method,
 						m.getName()));
 			}
-			files.add(aux2);
+			files.add(aux);
 		}
 		return files;
 	}
@@ -154,4 +149,16 @@ public abstract class Language {
 
 	protected abstract ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in,
 			ArrayList<ArrayList<TestFile>> files, Test test);
+	
+	protected String readLine(BufferedReader in) {
+		String line = null;
+		try {
+			do {
+				line = in.readLine();
+			} while (!line.startsWith(key));
+		} catch (IOException e) {
+			return "Error";
+		}
+		return line.substring(key.length() + 1, line.length());
+	}
 }

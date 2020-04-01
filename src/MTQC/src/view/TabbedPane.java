@@ -13,7 +13,7 @@ import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.mutantsviewer.MutantsViewer;
 import view.testcaserunner.TestCaseRunner;
 import view.testcaserunner.TestCaseRunner.RunListener;
-import view.testresults.TestResultsView;
+import view.testresultsview.TestResultsView;
 import view.testcaserunner.RunOptions.FileComboListener;
 
 public class TabbedPane extends JTabbedPane {

@@ -34,10 +34,11 @@ public class TabbedTextArea extends JTabbedPane {
 			+ System.lineSeparator() + "\tlet initial = Zero;" + System.lineSeparator() + "" + System.lineSeparator()
 			+ "\t//Call method and save output" + System.lineSeparator()
 			+ "\tlet(r1,r2,r3) =  TestBellState(register, count, initial);" + System.lineSeparator() + ""
-			+ System.lineSeparator() + "\t//Reset all qubits to Zero state" + System.lineSeparator()
-			+ "\tResetAll(register);" + System.lineSeparator() + "" + System.lineSeparator() + "\t//Return output"
-			+ System.lineSeparator() + "\treturn (r1,r2,r3);" + System.lineSeparator()
-			+ "\t//DumpMachine(\"dump.txt\");// If probabilistic test chosen. Don't change dump.txt" + System.lineSeparator() + "}";
+			+ System.lineSeparator() + "\t//If probabilistic test chosen." + System.lineSeparator()
+			+ "\t//DumpMachine();" + System.lineSeparator() + System.lineSeparator()
+			+ "\t//Reset all qubits to Zero state" + System.lineSeparator() + "\tResetAll(register);"
+			+ System.lineSeparator() + "" + System.lineSeparator() + "\t//Return output" + System.lineSeparator()
+			+ "\treturn (r1,r2,r3);" + System.lineSeparator() + "}";
 
 	public TabbedTextArea() {
 		windows = new ArrayList<JTextArea>();

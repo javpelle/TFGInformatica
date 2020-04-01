@@ -13,6 +13,7 @@ import model.testresult.TestResult;
 public class QSharp extends Language {
 
 	private static final String method = "MainQuantum";
+	private static final String probabilsiticKey = "|";
 
 	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,
 			String mutantName) {
@@ -77,35 +78,43 @@ public class QSharp extends Language {
 	}
 
 	@Override
-	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files, Test test) {
+	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
+			Test test) {
 		boolean isProbabilistic = test instanceof ProbabilityTest;
-		for (TestFile t : files.get(0)) {		
-		}
-		for (ArrayList<TestFile> list : files.subList(1, files.size())) {
-			for (TestFile t : list) {
-				TestResult tr = test.newTestResult(t.getMutantName(), t.getIdTest());
-				if (isProbabilistic) {
-					generateProbabilisticResult(tr);
+		ArrayList<ArrayList<TestResult>> results = new ArrayList<ArrayList<TestResult>>();
+		for (ArrayList<TestFile> list : files) {
+			ArrayList<TestResult> aux = new ArrayList<TestResult>();
+			for (int t = 0; t < list.size(); t++) {
+				TestResult tr = test.newTestResult(list.get(t).getMutantName(), list.get(t).getIdTest());
+				for (int i = 0; i < test.getShots(); i++) {
+					if (isProbabilistic) {
+						tr.setResult(readLineProbabilistic(in));
+					} else {
+						tr.setResult(readLine(in));
+					}
 				}
-				
+				tr.make();
+				aux.add(tr);
 			}
+			results.add(aux);
 		}
-		String ret;
+		return results;
+	}
+
+	private String readLineProbabilistic(BufferedReader in) {
+		String line = null;
+		String result = "";
 		try {
-			ret = in.readLine();
-			while (ret != null) {
-				System.out.println(ret);
-				ret = in.readLine();
-			}
+			do {
+				line = in.readLine();
+			} while (!line.startsWith(probabilsiticKey));
+			do {
+				result = result + line.substring(line.indexOf("["), line.indexOf("]") + 1); 
+				line = in.readLine();		
+			} while (line.startsWith(probabilsiticKey));
 		} catch (IOException e) {
+			return "Error";
 		}
-		return null;
-
+		return result;
 	}
-
-	private ArrayList<String> generateProbabilisticResult(TestResult tr) {
-		return null;
-		// TODO Auto-generated method stub	
-	}
-
 }

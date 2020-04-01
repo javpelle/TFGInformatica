@@ -1,14 +1,11 @@
 package model.testresult;
 
-import java.util.ArrayList;
-
 public class ProbabilisticTestResult extends TestResult {
-	private String originalResult;
-	private String mutantResult;
-	
+	private String result;
+
 	public ProbabilisticTestResult(String mutantName, int idTest) {
 		super(mutantName, idTest);
-		
+
 	}
 
 	@Override
@@ -23,13 +20,15 @@ public class ProbabilisticTestResult extends TestResult {
 	}
 
 	@Override
-	public void setMutantResult(String mutantResult) {
-		this.mutantResult = mutantResult;
+	public void setResult(String result) {
+		this.result = result;
 	}
 
 	@Override
-	public void setOriginalResult(ArrayList<String> originalResult) {
-		this.originalResult = originalResult.get(0);		
+	public void make() {
 	}
 
+	public String toString() {
+		return result;
+	}
 }

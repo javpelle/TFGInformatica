@@ -1,13 +1,17 @@
 package model.testresult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class OutputTestResult extends TestResult {
-	private ArrayList<String> originalResult;
-	private ArrayList<String> mutantResult;
+
+	private ArrayList<String> result;
+	private HashMap<String, Integer> map;
+
 	public OutputTestResult(String mutantName, int idTest) {
 		super(mutantName, idTest);
-		mutantResult = new ArrayList<String>();
+		result = new ArrayList<String>();
 	}
 
 	public String getName() {
@@ -21,14 +25,30 @@ public class OutputTestResult extends TestResult {
 	}
 
 	@Override
-	public void setMutantResult(String mutantResult) {
-		this.mutantResult.add(mutantResult);		
+	public void setResult(String result) {
+		this.result.add(result);
 	}
 
 	@Override
-	public void setOriginalResult(ArrayList<String> originalResult) {
-		this.originalResult = originalResult;
+	public void make() {
+		HashMap<String, Integer> map = new HashMap<>();
+		for (String r : result) {
+			if (map.containsKey(r)) {
+				map.put(r, map.get(r) + 1);
+			} else {
+				map.put(r, 1);
+			}
+		}
+		this.map = map;
 	}
-	
+
+	public String toString() {
+		String ret = "";
+		for (HashMap.Entry<String, Integer> entry : map.entrySet()) {
+			ret += "(" + entry.getKey() + ", " + entry.getValue() + ", "
+					+ String.valueOf((double) Math.round(entry.getValue() * 1000.0 / result.size()) / 10.0) + "%)";
+		}
+		return ret;
+	}
 
 }
