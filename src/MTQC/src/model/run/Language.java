@@ -155,7 +155,7 @@ public abstract class Language {
 		try {
 			do {
 				line = in.readLine();
-			} while (!line.startsWith(key));
+			} while (line != null && !line.startsWith(key));
 		} catch (IOException e) {
 			return "Error";
 		}

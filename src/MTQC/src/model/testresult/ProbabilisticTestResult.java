@@ -14,12 +14,6 @@ public class ProbabilisticTestResult extends TestResult {
 	}
 
 	@Override
-	public String getResult() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void setResult(String result) {
 		this.result = result;
 	}
@@ -29,6 +23,16 @@ public class ProbabilisticTestResult extends TestResult {
 	}
 
 	public String toString() {
+		return result;
+	}
+
+	@Override
+	public boolean getKill(TestResult original, double confidence) {
+		return !result.equals((String) original.getResult());
+	}
+
+	@Override
+	protected Object getResult() {
 		return result;
 	}
 }

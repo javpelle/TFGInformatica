@@ -13,7 +13,9 @@ public abstract class TestResult {
 
 	public abstract void setResult(String result);
 
-	public abstract String getResult();
-
 	public abstract void make();
+	
+	public abstract boolean getKill(TestResult original, double confidence);
+	
+	protected abstract Object getResult();
 }

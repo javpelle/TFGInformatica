@@ -16,12 +16,14 @@ import model.Observer;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
 import model.test.Test;
+import model.testresult.TestResult;
 import view.MenuBar.LanguageListener;
 import view.MenuBar.ResetListener;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.testcaserunner.RunOptions.FileComboListener;
 import view.testcaserunner.TestCaseRunner.RunListener;
+import view.testresultsview.TestResultsView.ConfidenceListener;
 
 public class UI extends JFrame implements Observer {
 
@@ -119,6 +121,13 @@ public class UI extends JFrame implements Observer {
 				c.runTests(selectedMutants, fileName, methodName, testType, shots, testFileName, timeLimit);
 			}
 
+		}, new ConfidenceListener() {
+
+			@Override
+			public void updateConfidence(double confidence) {
+				c.updateConfidence(confidence);				
+			}
+			
 		});
 		add(tabbedPane, BorderLayout.CENTER);
 
@@ -164,6 +173,16 @@ public class UI extends JFrame implements Observer {
 	@Override
 	public void notifyTestCaseRunner(String msg) {
 		tabbedPane.notifyTestCaseRunner(msg);		
+	}
+
+	@Override
+	public void notifyResults(ArrayList<ArrayList<TestResult>> results) {
+		tabbedPane.notifyResults(results);		
+	}
+
+	@Override
+	public void updateKills(ArrayList<ArrayList<Boolean>> kills) {
+		tabbedPane.updateKills(kills);
 	}
 
 }

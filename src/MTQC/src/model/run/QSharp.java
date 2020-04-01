@@ -107,7 +107,7 @@ public class QSharp extends Language {
 		try {
 			do {
 				line = in.readLine();
-			} while (!line.startsWith(probabilsiticKey));
+			} while (line != null && !line.startsWith(probabilsiticKey));
 			do {
 				result = result + line.substring(line.indexOf("["), line.indexOf("]") + 1); 
 				line = in.readLine();		

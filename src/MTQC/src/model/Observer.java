@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
 import model.test.Test;
+import model.testresult.TestResult;
 
 /**
  * An observer for UI. Will be notified when model update his state
@@ -37,5 +38,9 @@ public interface Observer {
 	public void notifyMutantsGenerator(String msg);
 	
 	public void notifyTestCaseRunner(String msg);
+
+	public void notifyResults(ArrayList<ArrayList<TestResult>> results);
+
+	public void updateKills(ArrayList<ArrayList<Boolean>> kills);
 
 }

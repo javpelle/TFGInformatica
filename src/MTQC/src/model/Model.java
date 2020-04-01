@@ -101,6 +101,7 @@ import model.run.Qiskit;
 import model.test.OutputTest;
 import model.test.ProbabilityTest;
 import model.test.Test;
+import model.testresult.TestResult;
 
 public class Model implements Observable<Observer> {
 
@@ -114,6 +115,10 @@ public class Model implements Observable<Observer> {
 	private String path;
 
 	private static final String mutantPath = ".mutants";
+
+	private double confidence;
+
+	private ArrayList<ArrayList<TestResult>> results;
 
 	private MutantOperator[] qiskitOperators = { new CCXCSWAPGate(), new CHSWAPGate(), new CHXGate(), new CHYGate(),
 			new CHZGate(), new CSWAPCCXGate(), new CXHGate(), new CXSWAPGate(), new CXYGate(), new CXZGate(),
@@ -136,6 +141,7 @@ public class Model implements Observable<Observer> {
 	private ArrayList<Mutant> mutantList;
 
 	public Model() {
+		confidence = 1.0;
 		qiskit = false;
 		mutantList = new ArrayList<Mutant>();
 	}
@@ -365,8 +371,11 @@ public class Model implements Observable<Observer> {
 
 	}
 
-	public void setTimeLimit(double timeLimit) {
-
+	public void updateConfidence(double confidence) {
+		this.confidence = confidence;
+		if (results != null) {
+			getKills();
+		}
 	}
 
 	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
@@ -392,14 +401,30 @@ public class Model implements Observable<Observer> {
 			}
 
 			if (qiskit) {
-				new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
+				results = new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
 			} else {
-				new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
+				results = new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
 			}
+			
+			observer.notifyResults(results);
+			getKills();
+			observer.notifyTestCaseRunner("Completed\n");
 		} catch (TimeLimitException | ShotsException | EmptyListException | NullStringException e) {
 			notifyError(e);
 		}
-		observer.notifyTestCaseRunner("Completed\n");
+	}
+	
+	private void getKills() {
+		ArrayList<ArrayList<Boolean>> kills = new ArrayList<ArrayList<Boolean>>();
+		for (ArrayList<TestResult> list: results) {
+			ArrayList<Boolean> aux = new ArrayList<Boolean>();
+			for (int i = 1; i < list.size(); i++) {
+				aux.add(list.get(i).getKill(list.get(0), confidence));
+			}
+			kills.add(aux);
+		}
+		
+		observer.updateKills(kills);
 	}
 
 }

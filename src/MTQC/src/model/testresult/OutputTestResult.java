@@ -2,7 +2,6 @@ package model.testresult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class OutputTestResult extends TestResult {
 
@@ -19,19 +18,13 @@ public class OutputTestResult extends TestResult {
 	}
 
 	@Override
-	public String getResult() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void setResult(String result) {
 		this.result.add(result);
 	}
 
 	@Override
 	public void make() {
-		HashMap<String, Integer> map = new HashMap<>();
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		for (String r : result) {
 			if (map.containsKey(r)) {
 				map.put(r, map.get(r) + 1);
@@ -49,6 +42,35 @@ public class OutputTestResult extends TestResult {
 					+ String.valueOf((double) Math.round(entry.getValue() * 1000.0 / result.size()) / 10.0) + "%)";
 		}
 		return ret;
+	}
+
+	@Override
+	public boolean getKill(TestResult original, double confidence) {
+		int max = 0;
+		@SuppressWarnings("unchecked")
+		HashMap<String, Integer> originalMap = (HashMap<String, Integer>) original.getResult();
+
+		for (HashMap.Entry<String, Integer> entry : map.entrySet()) {
+			if (!originalMap.containsKey(entry.getKey())) {
+				max = Math.max(max, entry.getValue());
+			} else {
+				max = Math.max(max, Math.abs(entry.getValue() - originalMap.get(entry.getKey())));
+			}
+		}
+		
+		for (HashMap.Entry<String, Integer> entry : originalMap.entrySet()) {
+			if (!map.containsKey(entry.getKey())) {
+				max = Math.max(max, entry.getValue());
+			}
+		}
+		double percentageByCount = 100.0 / result.size();
+		double confidenceCounts = confidence / percentageByCount;
+		return max > confidenceCounts;
+	}
+
+	@Override
+	protected Object getResult() {
+		return map;
 	}
 
 }

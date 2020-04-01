@@ -54,8 +54,8 @@ public class Controller {
 
 	}
 
-	public void updateTimeLimit(double timeLimit) {
-		model.setTimeLimit(timeLimit);
+	public void updateConfidence(double confidence) {
+		model.updateConfidence(confidence);
 	}
 
 	public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
