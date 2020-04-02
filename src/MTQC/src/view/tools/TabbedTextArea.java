@@ -25,7 +25,7 @@ public class TabbedTextArea extends JTabbedPane {
 			+ System.lineSeparator() + "\tex = execute(qc, backend = Aer.get_backend('statevector_simulator'))"
 			+ System.lineSeparator() + "" + System.lineSeparator() + "\t# Add any operations if needed"
 			+ System.lineSeparator() + "\t" + System.lineSeparator()
-			+ "\treturn ex.result().get_counts() # Change desired return" + System.lineSeparator()
+			+ "\treturn next(iter(ex.result().get_counts())) # Change desired return" + System.lineSeparator()
 			+ "\t#return pow(abs(ex.result().get_statevector()), 2) # If probabilistic test chosen";
 
 	private static final String qSharpText = "//Select desired Qubit number to be used" + System.lineSeparator()

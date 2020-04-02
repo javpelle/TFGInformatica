@@ -154,6 +154,13 @@ public class Model implements Observable<Observer> {
 		String msg = e.getLocalizedMessage();
 		observer.onError(msg);
 	}
+	
+	/**
+	 * Notifies the observer that some error occurred.
+	 */
+	public void notifyError(String msg) {
+		observer.onError(msg);
+	}
 
 	public void notifyLanguageChange() {
 		if (qiskit) {
@@ -411,6 +418,8 @@ public class Model implements Observable<Observer> {
 			observer.notifyTestCaseRunner("Completed\n");
 		} catch (TimeLimitException | ShotsException | EmptyListException | NullStringException e) {
 			notifyError(e);
+		} catch (Exception e) {
+			notifyError("Unknown error occurred during execution. Please, check your test and try again.");
 		}
 	}
 	
