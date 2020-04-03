@@ -18,6 +18,7 @@ public abstract class Language {
 	protected static final String path = "python";
 	protected static final String main = "main_mtqc.py";
 	protected static final String key = "_mtqc_";
+	protected static final String probabilisticQsharpResultFile = "result.txt";
 
 	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test,
 			String file, String method, double timeLimit) {
@@ -36,6 +37,7 @@ public abstract class Language {
 			}
 		}
 		deleteFile(path + File.separator + main);
+		deleteFile(path + File.separator + probabilisticQsharpResultFile);
 	}
 
 	private void deleteFile(String file) {
@@ -73,11 +75,13 @@ public abstract class Language {
 		for (ArrayList<TestFile> list : files) {
 			for (TestFile t : list) {
 				script += "\trun_shots(" + getMethodCall(t.getFileName()) + ", " + String.valueOf(timeLimit) + ", "
-						+ String.valueOf(test.getShots()) + ")" + System.lineSeparator();
+						+ String.valueOf(test.getShots()) + isProbQsharp(test) + ")" + System.lineSeparator();
 			}
 		}
 		writeFile(path + File.separator + main, script);
 	}
+
+	protected abstract String isProbQsharp(Test test);
 
 	protected abstract String generateImportLanguage();
 

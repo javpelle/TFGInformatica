@@ -2,7 +2,12 @@ package model.run;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import files.TestFile;
@@ -13,7 +18,7 @@ import model.testresult.TestResult;
 public class QSharp extends Language {
 
 	private static final String method = "MainQuantum";
-	private static final String probabilsiticKey = "|";
+	private static final String probabilsiticKey = "∣";
 
 	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,
 			String mutantName) {
@@ -73,6 +78,14 @@ public class QSharp extends Language {
 	}
 
 	@Override
+	protected String isProbQsharp(Test test) {
+		if (test instanceof ProbabilityTest) {
+			return ", probQSharp=True";
+		} else {
+			return "";
+		}
+	}
+
 	protected String getMethodCall(String file) {
 		return file + "." + method + ".simulate";
 	}
@@ -81,6 +94,15 @@ public class QSharp extends Language {
 	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
 			Test test) {
 		boolean isProbabilistic = test instanceof ProbabilityTest;
+		BufferedReader reader = null;
+		if (isProbabilistic) {
+			File resultFile = new File(path + File.separator + probabilisticQsharpResultFile);
+			try {
+				reader = new BufferedReader(new InputStreamReader(
+	                      new FileInputStream(resultFile), "UTF8"));
+			} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			}
+		}
 		ArrayList<ArrayList<TestResult>> results = new ArrayList<ArrayList<TestResult>>();
 		for (ArrayList<TestFile> list : files) {
 			ArrayList<TestResult> aux = new ArrayList<TestResult>();
@@ -88,7 +110,7 @@ public class QSharp extends Language {
 				TestResult tr = test.newTestResult(list.get(t).getMutantName(), list.get(t).getIdTest());
 				for (int i = 0; i < test.getShots(); i++) {
 					if (isProbabilistic) {
-						tr.setResult(readLineProbabilistic(in));
+						tr.setResult(readLineProbabilistic(reader));
 					} else {
 						tr.setResult(readLine(in));
 					}
@@ -101,20 +123,24 @@ public class QSharp extends Language {
 		return results;
 	}
 
-	private String readLineProbabilistic(BufferedReader in) {
-		String line = null;
+	private String readLineProbabilistic(BufferedReader reader) {
 		String result = "";
 		try {
-			do {
-				line = in.readLine();
-			} while (line != null && !line.startsWith(probabilsiticKey));
-			do {
-				result = result + line.substring(line.indexOf("["), line.indexOf("]") + 1); 
-				line = in.readLine();		
-			} while (line.startsWith(probabilsiticKey));
+			String line = reader.readLine();
+			while (line != null && !line.startsWith(probabilsiticKey)) {
+				line = reader.readLine();
+			}
+			if (line != null) {
+				do {
+					result = result + line.substring(line.indexOf("["), line.indexOf("]") + 1);
+					line = reader.readLine();
+				} while (line != null && line.startsWith(probabilsiticKey));
+			} else {
+				reader.close();
+			}
 		} catch (IOException e) {
-			return "Error";
 		}
+
 		return result;
 	}
 }

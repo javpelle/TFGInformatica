@@ -52,4 +52,9 @@ public class Qiskit extends Language {
 		return results;
 	}
 
+	@Override
+	protected String isProbQsharp(Test test) {
+		return "";
+	}
+
 }
