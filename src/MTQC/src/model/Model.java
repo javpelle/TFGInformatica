@@ -408,9 +408,9 @@ public class Model implements Observable<Observer> {
 			}
 
 			if (qiskit) {
-				results = new Qiskit().run(mutantList, testSuit, test, file, method, timeLimit);
+				results = new Qiskit().run(mutantList, testSuit, test, method, timeLimit);
 			} else {
-				results = new QSharp().run(mutantList, testSuit, test, file, method, timeLimit);
+				results = new QSharp().run(mutantList, testSuit, test, method, timeLimit);
 			}
 			
 			observer.notifyResults(results);
