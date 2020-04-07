@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view.testcaserunner;
 
 import java.awt.BorderLayout;
@@ -12,6 +22,12 @@ import javax.swing.JScrollPane;
 import model.mutant.Mutant;
 import view.tools.JTableCheck;
 
+/**
+ * Shows generated mutants for a file.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class MutantsView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +42,9 @@ public class MutantsView extends JPanel {
 
 	private JButton none;
 
+	/**
+	 * Empty constructor.
+	 */
 	public MutantsView() {
 		setLayout(new BorderLayout());
 
@@ -33,6 +52,9 @@ public class MutantsView extends JPanel {
 
 	}
 
+	/**
+	 * Creates center panel.
+	 */
 	private void createCenterPanel() {
 		center = new JPanel();
 		center.setLayout(new BorderLayout());
@@ -59,17 +81,28 @@ public class MutantsView extends JPanel {
 		});
 	}
 
+	/**
+	 * Gets the selected mutants.
+	 * 
+	 * @return A list with the selected mutants.
+	 */
 	public ArrayList<Mutant> getSelectedFiles() {
 		return table.getTrueRows();
 	}
 
+	/**
+	 * Updates the view with given mutants.
+	 * 
+	 * @param mutants List of mutants needed to be show.
+	 * @param file    Name of the selected file.
+	 */
 	public void updateMutants(ArrayList<Mutant> mutants, String file) {
 		table.clear();
 		for (int i = 0; i < mutants.size(); ++i) {
 			if (mutants.get(i).getOriginalName().equals(file)) {
 				table.addRow(new Object[] { false, mutants.get(i) });
 			}
-		}	
+		}
 	}
 
 }

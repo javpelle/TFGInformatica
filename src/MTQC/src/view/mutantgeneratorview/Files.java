@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view.mutantgeneratorview;
 
 import java.awt.BorderLayout;
@@ -13,6 +23,12 @@ import javax.swing.JTextArea;
 
 import view.tools.JTableCheck;
 
+/**
+ * File selection field on the MutantsGenerator tab.
+ * 
+ * @author Javier & Luis.
+ *
+ */
 public class Files extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -31,6 +47,11 @@ public class Files extends JPanel {
 
 	private JButton newPath;
 
+	/**
+	 * Constructor for the class.
+	 * 
+	 * @param listener Listener for the change of path.
+	 */
 	public Files(NewPathListener listener) {
 		setLayout(new BorderLayout());
 
@@ -40,6 +61,9 @@ public class Files extends JPanel {
 
 	}
 
+	/**
+	 * Method which creates the center panel.
+	 */
 	private void createCenterPanel() {
 		center = new JPanel();
 		center.setLayout(new BorderLayout());
@@ -66,6 +90,11 @@ public class Files extends JPanel {
 		});
 	}
 
+	/**
+	 * Creates the south panel.
+	 * 
+	 * @param listener Listener for the change of path.
+	 */
 	private void createSouthPanel(NewPathListener listener) {
 		JPanel south = new JPanel();
 		south.setBorder(BorderFactory.createTitledBorder("Current path"));
@@ -83,6 +112,11 @@ public class Files extends JPanel {
 		});
 	}
 
+	/**
+	 * Updates the files in the new path.
+	 * 
+	 * @param files List of files in the new path.
+	 */
 	public void updatePath(ArrayList<String> files) {
 		table.clear();
 		for (int i = 0; i < files.size(); ++i) {
@@ -90,10 +124,21 @@ public class Files extends JPanel {
 		}
 	}
 
+	/**
+	 * Interface for the listener on path change.
+	 * 
+	 * @author Javier & Luis
+	 *
+	 */
 	public interface NewPathListener {
 		public void updatePath(String path);
 	}
 
+	/**
+	 * Used to get the selected files.
+	 * 
+	 * @return A list with the name of selected files.
+	 */
 	public ArrayList<String> getSelectedFiles() {
 		return table.getTrueRows();
 	}

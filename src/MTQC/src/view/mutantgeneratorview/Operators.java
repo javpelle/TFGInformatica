@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view.mutantgeneratorview;
 
 import java.awt.BorderLayout;
@@ -12,11 +22,14 @@ import javax.swing.JScrollPane;
 import model.mutantoperator.MutantOperator;
 import view.tools.JTableCheck;
 
+/**
+ * Panel which shows all mutants availables for the selected language.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class Operators extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private final static Object[] column = { "", "Operators" };
@@ -27,6 +40,9 @@ public class Operators extends JPanel {
 
 	private JButton none;
 
+	/**
+	 * Construcotr for the class.
+	 */
 	public Operators() {
 		setLayout(new BorderLayout());
 
@@ -36,11 +52,17 @@ public class Operators extends JPanel {
 
 	}
 
+	/**
+	 * Creates the center panel of the view.
+	 */
 	private void createCenterPanel() {
 		table = new JTableCheck<MutantOperator>(column);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 	}
 
+	/**
+	 * Creates the south panel of the view.
+	 */
 	private void createSouthPanel() {
 		all = new JButton("All");
 		none = new JButton("None");
@@ -62,6 +84,11 @@ public class Operators extends JPanel {
 		});
 	}
 
+	/**
+	 * Updates the operators to be show.
+	 * 
+	 * @param mutantOperatorList List of mutant operators needed to be show.
+	 */
 	public void updateOperators(MutantOperator[] mutantOperatorList) {
 		table.clear();
 		for (int i = 0; i < mutantOperatorList.length; ++i) {
@@ -69,6 +96,11 @@ public class Operators extends JPanel {
 		}
 	}
 
+	/**
+	 * Gets the selected operators by the user.
+	 * 
+	 * @return A list with the mutant operators selected by the user.
+	 */
 	public ArrayList<MutantOperator> getSelectedOperators() {
 		return table.getTrueRows();
 	}

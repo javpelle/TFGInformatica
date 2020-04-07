@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view;
 
 import java.awt.BorderLayout;
@@ -25,20 +35,26 @@ import view.testcaserunner.RunOptions.FileComboListener;
 import view.testcaserunner.TestCaseRunner.RunListener;
 import view.testresultsview.TestResultsView.ConfidenceListener;
 
+/**
+ * View for the entire program.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class UI extends JFrame implements Observer {
 
 	/**
-	 * 
+	 * Unique identifier.
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * Menu bar for the view.
 	 */
 	private MenuBar menuBar;
 
 	/**
-	 * 
+	 * Multiple tab object of the view.
 	 */
 	private TabbedPane tabbedPane;
 
@@ -125,9 +141,9 @@ public class UI extends JFrame implements Observer {
 
 			@Override
 			public void updateConfidence(double confidence) {
-				c.updateConfidence(confidence);				
+				c.updateConfidence(confidence);
 			}
-			
+
 		});
 		add(tabbedPane, BorderLayout.CENTER);
 
@@ -172,12 +188,12 @@ public class UI extends JFrame implements Observer {
 
 	@Override
 	public void notifyTestCaseRunner(String msg) {
-		tabbedPane.notifyTestCaseRunner(msg);		
+		tabbedPane.notifyTestCaseRunner(msg);
 	}
 
 	@Override
 	public void notifyResults(ArrayList<ArrayList<TestResult>> results) {
-		tabbedPane.notifyResults(results);		
+		tabbedPane.notifyResults(results);
 	}
 
 	@Override

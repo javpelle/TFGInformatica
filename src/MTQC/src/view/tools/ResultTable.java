@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view.tools;
 
 import java.awt.BorderLayout;
@@ -10,17 +20,25 @@ import javax.swing.JScrollPane;
 
 import model.testresult.TestResult;
 
+/**
+ * Table used to display results obtained from a single test.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class ResultTable extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private ArrayList<TestResult> results;
 	private TextField[][] labels;
 	private TextField[][] resume;
 	private TextField[] cols;
 
+	/**
+	 * Constructor for the class.
+	 * 
+	 * @param results Obtained result for a test.
+	 */
 	public ResultTable(ArrayList<TestResult> results) {
 		setLayout(new BorderLayout());
 		this.results = results;
@@ -32,6 +50,9 @@ public class ResultTable extends JPanel {
 		northPanel();
 	}
 
+	/**
+	 * Creates north panel.
+	 */
 	private void northPanel() {
 		JPanel north = new JPanel();
 		north.setBorder(BorderFactory.createTitledBorder("Resume"));
@@ -45,16 +66,21 @@ public class ResultTable extends JPanel {
 		resume[1][1] = new TextField("");
 		resume[1][2] = new TextField("");
 		resume[1][3] = new TextField("");
-		
+
 		for (int i = 0; i < 2; i++) {
-			for(int j = 0; j < 4; j++) {
+			for (int j = 0; j < 4; j++) {
 				north.add(resume[i][j]);
 			}
 		}
 		add(north, BorderLayout.NORTH);
-		
+
 	}
 
+	/**
+	 * Creates center panel.
+	 * 
+	 * @param center JPanel for the center of the view.
+	 */
 	private void centerPanel(JPanel center) {
 		cols[0] = new TextField("Name");
 		cols[1] = new TextField("Result");
@@ -73,6 +99,11 @@ public class ResultTable extends JPanel {
 		add(new JScrollPane(center), BorderLayout.CENTER);
 	}
 
+	/**
+	 * Updates on the muntant kills.
+	 * 
+	 * @param kills List of booleans which indicates which mutant dies.
+	 */
 	public void updateKills(ArrayList<Boolean> kills) {
 		int yes = 0;
 		int no = 0;
@@ -89,6 +120,6 @@ public class ResultTable extends JPanel {
 		resume[1][1].setText(String.valueOf(yes));
 		resume[1][2].setText(String.valueOf(kills.size()));
 		resume[1][3].setText(String.valueOf((double) Math.round(yes * 1000.0 / kills.size()) / 10.0) + "%");
-		
+
 	}
 }

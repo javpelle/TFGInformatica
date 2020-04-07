@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view;
 
 import java.awt.event.ActionEvent;
@@ -13,12 +23,29 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
+/**
+ * Typical menu bar of the UI.
+ * 
+ * @author luisl
+ *
+ */
 public class MenuBar extends JMenuBar {
-
+	/**
+	 * Unique identifier.
+	 */
 	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * URL for the readme of the repository.
+	 */
+
 	private static final String URL_Readme = "https://github.com/javpelle/TFGInformatica/blob/master/README.md";
 
+	/**
+	 * Constructor for the class.
+	 * 
+	 * @param listener      Listener for the language change field.
+	 * @param resetListener Listener for the reset button.
+	 */
 	public MenuBar(LanguageListener listener, ResetListener resetListener) {
 		JMenu menu1 = new JMenu("File");
 		add(menu1);
@@ -79,10 +106,22 @@ public class MenuBar extends JMenuBar {
 
 	}
 
+	/**
+	 * Interface for the listener on language change.
+	 * 
+	 * @author Javier & Luis
+	 *
+	 */
 	public interface LanguageListener {
 		public void languageChosen(boolean qiskit);
 	}
 
+	/**
+	 * Interface for the listener on reset button.
+	 * 
+	 * @author Javier & Luis.
+	 *
+	 */
 	public interface ResetListener {
 		public void reset();
 	}

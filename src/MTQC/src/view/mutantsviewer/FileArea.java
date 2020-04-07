@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view.mutantsviewer;
 
 import java.awt.BorderLayout;
@@ -15,11 +25,14 @@ import javax.swing.JTextArea;
 import model.mutant.Mutant;
 import view.tools.TextField;
 
+/**
+ * Shows the content of file and a mutant.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class FileArea extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JTextArea originalArea;
@@ -28,6 +41,9 @@ public class FileArea extends JPanel {
 
 	private TextField line;
 
+	/**
+	 * Empty constructor for the class.
+	 */
 	public FileArea() {
 		setLayout(new BorderLayout());
 
@@ -41,11 +57,19 @@ public class FileArea extends JPanel {
 
 	}
 
+	/**
+	 * Creates north panel of the view.
+	 */
 	private void createNorthPanel() {
 		line = new TextField("Line...");
 		add(line, BorderLayout.NORTH);
 	}
 
+	/**
+	 * Creates the panel which shows the content in the original file.
+	 * 
+	 * @return JPanel for the original file.
+	 */
 	private JPanel createOriginal() {
 		JPanel original = new JPanel();
 		original.setLayout(new BorderLayout());
@@ -56,6 +80,11 @@ public class FileArea extends JPanel {
 		return original;
 	}
 
+	/**
+	 * Creates the panel which shows the content in the mutant file.
+	 * 
+	 * @return JPanel for the mutant file.
+	 */
 	private JPanel createMutant() {
 		JPanel mutant = new JPanel();
 		mutant.setLayout(new BorderLayout());
@@ -66,12 +95,23 @@ public class FileArea extends JPanel {
 		return mutant;
 	}
 
+	/**
+	 * Updates the content in a mutant file.
+	 * 
+	 * @param mutant Mutant to be showed.
+	 */
 	public void updateMutant(Mutant mutant) {
 		line.setText("Line " + mutant.getLineChanged());
 		originalArea.setText(readFile(mutant.getOriginalCompletePath()));
 		mutantArea.setText(readFile(mutant.getMutantCompletePath()));
 	}
 
+	/**
+	 * Read the content of a file.
+	 * 
+	 * @param file Name of the file it needs to read.
+	 * @return String with the content of the file.
+	 */
 	private String readFile(String file) {
 		int lineCounter = 1;
 		String aux = "";

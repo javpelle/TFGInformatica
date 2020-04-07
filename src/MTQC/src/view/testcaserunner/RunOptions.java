@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view.testcaserunner;
 
 import java.awt.GridLayout;
@@ -15,11 +25,14 @@ import javax.swing.event.PopupMenuListener;
 import model.test.Test;
 import view.tools.TextField;
 
+/**
+ * Panel with all the different paraments for running the tests.
+ * 
+ * @author Javier & Luis.
+ *
+ */
 public class RunOptions extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox<String> files;
@@ -32,6 +45,11 @@ public class RunOptions extends JPanel {
 
 	private JSpinner shots;
 
+	/**
+	 * Constructor for the class.
+	 * 
+	 * @param listenerCombo Listener for the selected file field.
+	 */
 	public RunOptions(FileComboListener listenerCombo) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		fileCombo(listenerCombo);
@@ -40,6 +58,11 @@ public class RunOptions extends JPanel {
 		testType();
 	}
 
+	/**
+	 * Generates the file field.
+	 * 
+	 * @param listener Listener for this field.
+	 */
 	private void fileCombo(FileComboListener listener) {
 		JPanel aux = new JPanel();
 		aux.setLayout(new GridLayout(1, 2));
@@ -65,6 +88,9 @@ public class RunOptions extends JPanel {
 		add(aux);
 	}
 
+	/**
+	 * Generates the method field.
+	 */
 	private void methodCombo() {
 		JPanel aux = new JPanel();
 		aux.setLayout(new GridLayout(1, 2));
@@ -74,6 +100,9 @@ public class RunOptions extends JPanel {
 		add(aux);
 	}
 
+	/**
+	 * Generates the timeLimit field.
+	 */
 	private void timeLimit() {
 		JPanel aux = new JPanel();
 		aux.setLayout(new GridLayout(1, 2));
@@ -83,6 +112,9 @@ public class RunOptions extends JPanel {
 		add(aux);
 	}
 
+	/**
+	 * Generates the TestType field.
+	 */
 	public void testType() {
 		JPanel aux1 = new JPanel();
 		aux1.setLayout(new GridLayout(1, 2));
@@ -115,6 +147,11 @@ public class RunOptions extends JPanel {
 		add(aux2);
 	}
 
+	/**
+	 * Refresh file field.
+	 * 
+	 * @param files List of new files.
+	 */
 	public void refreshFileCombo(ArrayList<String> files) {
 		this.files.removeAllItems();
 		this.files.addItem(null);
@@ -123,6 +160,11 @@ public class RunOptions extends JPanel {
 		}
 	}
 
+	/**
+	 * Updates method field.
+	 * 
+	 * @param fileMethods List of methods declared in the selected file.
+	 */
 	public void updateFileMethods(ArrayList<String> fileMethods) {
 		this.methods.removeAllItems();
 		for (int i = 0; i < fileMethods.size(); i++) {
@@ -131,31 +173,62 @@ public class RunOptions extends JPanel {
 
 	}
 
+	/**
+	 * Interface Listener for file selection.
+	 * 
+	 * @author Javier & Luis
+	 *
+	 */
 	public interface FileComboListener {
 		public void refreshPath();
 
 		public void refreshMethods(String fileName);
 	}
 
+	/**
+	 * Gets the type of test selected.
+	 * 
+	 * @return Selected test type.
+	 */
 	public Test getTestType() {
 		return (Test) testType.getSelectedItem();
 	}
 
+	/**
+	 * Gets the number of shots.
+	 * 
+	 * @return Number of shots.
+	 */
 	public int getShots() {
 		return (int) shots.getValue();
 	}
 
+	/**
+	 * Sets the different type of test available.
+	 * 
+	 * @param tests List with all the available test types.
+	 */
 	public void setTests(Test[] tests) {
 		testType.removeAllItems();
 		for (Test t : tests) {
 			testType.addItem(t);
 		}
 	}
-	
+
+	/**
+	 * Gets the time limit for a test to run.
+	 * 
+	 * @return Time limit.
+	 */
 	public double getTimeLimit() {
 		return (double) spinner.getValue();
 	}
 
+	/**
+	 * Gets the name of the method wanted to be tested.
+	 * 
+	 * @return Name of the method.
+	 */
 	public String getMethodName() {
 		if (methods.getSelectedItem() == null) {
 			return null;
@@ -163,6 +236,11 @@ public class RunOptions extends JPanel {
 		return methods.getSelectedItem().toString();
 	}
 
+	/**
+	 * Gets the name of the selected file.
+	 * 
+	 * @return Name of the selected file.
+	 */
 	public String getFileName() {
 		if (files.getSelectedItem() == null) {
 			return null;

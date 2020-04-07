@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package view.testcaserunner;
 
 import java.awt.BorderLayout;
@@ -17,11 +27,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import view.tools.TabbedTextArea;
 
+/**
+ * Panel used to allow the user to create tests.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class InputTest extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JFileChooser fileChooser;
@@ -36,6 +49,9 @@ public class InputTest extends JPanel {
 
 	private JButton removeTest;
 
+	/**
+	 * Empty constructor for the class.
+	 */
 	public InputTest() {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder("Inputs"));
@@ -45,6 +61,9 @@ public class InputTest extends JPanel {
 
 	}
 
+	/**
+	 * Creates the center panel.
+	 */
 	private void createCenterPanel() {
 
 		JPanel center = new JPanel(new BorderLayout());
@@ -65,7 +84,7 @@ public class InputTest extends JPanel {
 			}
 		});
 		south.add(newTest);
-		
+
 		removeTest = new JButton("Remove test");
 		removeTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,10 +93,12 @@ public class InputTest extends JPanel {
 		});
 		south.add(removeTest);
 		add(south, BorderLayout.SOUTH);
-		
 
 	}
 
+	/**
+	 * Creates the north panel.
+	 */
 	private void createNorthPanel() {
 		JPanel aux = new JPanel(new BorderLayout());
 		aux.setLayout(new BorderLayout());
@@ -108,20 +129,27 @@ public class InputTest extends JPanel {
 	}
 
 	/**
+	 * Updates the test file selection field.
 	 * 
-	 * @param selectedFile
+	 * @param selectedFile File object for the selected file.
 	 */
 	private void updateFileSelection(File selectedFile) {
 		filePath.setText(selectedFile.getAbsolutePath());
 	}
-	
+
+	/**
+	 * Updates the example test for a language.
+	 * 
+	 * @param qiskit Used to know if Qiskit language is selected.
+	 */
 	public void updateLanguage(boolean qiskit) {
 		inputTest.updateLanguage(qiskit);
 	}
 
 	/**
+	 * Gets all test written by the user in the text areas.
 	 * 
-	 * @return
+	 * @return A list with all tests.
 	 */
 	public ArrayList<String> getTest() {
 		ArrayList<String> list = inputTest.getTests();
