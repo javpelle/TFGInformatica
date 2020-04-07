@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package model.run;
 
 import java.io.BufferedReader;
@@ -14,11 +24,25 @@ import model.test.ProbabilityTest;
 import model.test.Test;
 import model.testresult.TestResult;
 
+/**
+ * Language concrete class, which overrides some methods in order to implement
+ * the well behavior for QSharp language.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class QSharp extends Language {
-
+	/**
+	 * Name for the initialization method.
+	 */
 	private static final String method = "MainQuantum";
+
+	/**
+	 * Token used to get the lines which contains amplitudes on a Probability Test
+	 */
 	private static final String probabilsiticKey = "∣";
 
+	@Override
 	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,
 			String mutantName) {
 
@@ -36,12 +60,27 @@ public class QSharp extends Language {
 		return new TestFile(mutantName, id_test, path, namespaceName + ".qs");
 	}
 
+	/**
+	 * Changes the name space of a QSharp file.
+	 * 
+	 * @param file          Name of the file.
+	 * @param namespaceName Name of the new namespace.
+	 * @return String which contains the declaration of the namespace.
+	 */
 	private static String changeNamespace(String file, String namespaceName) {
 		int ini = file.indexOf("namespace ");
 		int end = file.indexOf("{", ini);
 		return file.substring(0, ini) + "namespace " + namespaceName + file.substring(end);
 	}
 
+	/**
+	 * Dynamically generates main method on QSharp used to initialize qubits and
+	 * calling tested method,
+	 * 
+	 * @param methodName Name of the method to be tested.
+	 * @param testInput  Test to be implemented.
+	 * @return String which contains the declaration of main method.
+	 */
 	private static String getMainMethod(String methodName, String testInput) {
 		String outputType = getOutputType(methodName);
 		return getMainHeader() + outputType + "{" + System.lineSeparator() + tabString(testInput)
@@ -49,15 +88,32 @@ public class QSharp extends Language {
 
 	}
 
+	/**
+	 * Return the method return type.
+	 * 
+	 * @param methodName Name of the method.
+	 * @return String which contains the type of the method output.
+	 */
 	private static String getOutputType(String methodName) {
 		int index = methodName.lastIndexOf(":", methodName.length());
 		return methodName.substring(index);
 	}
 
+	/**
+	 * Get the header of main method on QSharp.
+	 * 
+	 * @return String which containts the header of main method.
+	 */
 	private static String getMainHeader() {
 		return "operation MainQuantum() ";
 	}
 
+	/**
+	 * Given a String, the method tabs after each line break.
+	 * 
+	 * @param input String to be tabbed.
+	 * @return The initial String with a new tab character after each line break.
+	 */
 	private static String tabString(String input) {
 		StringBuilder builder = new StringBuilder(input);
 		builder.insert(0, "\t");
@@ -85,6 +141,7 @@ public class QSharp extends Language {
 		}
 	}
 
+	@Override
 	protected String getMethodCall(String file) {
 		return file + "." + method + ".simulate";
 	}
@@ -97,8 +154,7 @@ public class QSharp extends Language {
 		if (isProbabilistic) {
 			File resultFile = new File(path + File.separator + probabilisticQsharpResultFile);
 			try {
-				reader = new BufferedReader(new InputStreamReader(
-	                      new FileInputStream(resultFile), "UTF8"));
+				reader = new BufferedReader(new InputStreamReader(new FileInputStream(resultFile), "UTF8"));
 			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			}
 		}
@@ -122,6 +178,14 @@ public class QSharp extends Language {
 		return results;
 	}
 
+	/**
+	 * Reads the probabilities of a quantum state. Used for Probability type of
+	 * test.
+	 * 
+	 * @param reader Reader used to read from standar output.
+	 * @return A String which contains the probabilities for each posible quantum
+	 *         state.
+	 */
 	private String readLineProbabilistic(BufferedReader reader) {
 		String result = "";
 		try {

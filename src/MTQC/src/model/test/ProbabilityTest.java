@@ -1,8 +1,25 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package model.test;
 
 import model.testresult.ProbabilisticTestResult;
 import model.testresult.TestResult;
 
+/**
+ * Concrete Test which represents a test which checks the internal state of a
+ * quantum system. This type of test is only useful for simulation.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class ProbabilityTest extends Test {
 
 	@Override

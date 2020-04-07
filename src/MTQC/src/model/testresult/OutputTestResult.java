@@ -1,18 +1,47 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package model.testresult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Concrete TestResult class which represents the results obtained from running
+ * a "Montecarlo" type of test.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class OutputTestResult extends TestResult {
-
+	/**
+	 * A list of all the results obtained from each shot.
+	 */
 	private ArrayList<String> result;
+	/**
+	 * Represents the ocurrences of each result.
+	 */
 	private HashMap<String, Integer> map;
 
+	/**
+	 * Constructor for the class.
+	 * 
+	 * @param mutantName Name of the mutant.
+	 * @param idTest     Identifier for test.
+	 */
 	public OutputTestResult(String mutantName, int idTest) {
 		super(mutantName, idTest);
 		result = new ArrayList<String>();
 	}
-
+	
+	@Override
 	public String getName() {
 		return mutantName + "_" + Integer.toString(idTest);
 	}
@@ -34,7 +63,10 @@ public class OutputTestResult extends TestResult {
 		}
 		this.map = map;
 	}
-
+	
+	/**
+	 * Overrides the Object toString method.
+	 */
 	public String toString() {
 		String ret = "";
 		for (HashMap.Entry<String, Integer> entry : map.entrySet()) {
@@ -57,7 +89,7 @@ public class OutputTestResult extends TestResult {
 				max = Math.max(max, Math.abs(entry.getValue() - originalMap.get(entry.getKey())));
 			}
 		}
-		
+
 		for (HashMap.Entry<String, Integer> entry : originalMap.entrySet()) {
 			if (!map.containsKey(entry.getKey())) {
 				max = Math.max(max, entry.getValue());

@@ -1,3 +1,13 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package model.run;
 
 import java.io.BufferedReader;
@@ -14,6 +24,8 @@ import model.test.Test;
 import model.testresult.TestResult;
 
 /**
+ * This class is used to generate all test files, run them, and collect the
+ * results.
  * 
  * @author Javier & Luis
  *
@@ -214,9 +226,10 @@ public abstract class Language {
 		} catch (Exception e) {
 		}
 	}
-	
+
 	/**
 	 * Gets the correct shell commands for each OS.
+	 * 
 	 * @param path Directory where main python script is.
 	 * @param file Name of the main python script.
 	 * @return List of commands to be executed.
@@ -231,9 +244,10 @@ public abstract class Language {
 			return new String[] { "/bin/bash", "-c", "cd", path, "&&", "python", file, "&&", "cd", ".." };
 		}
 	}
-	
+
 	/**
 	 * Reads the content from a file.
+	 * 
 	 * @param fileName Name of the file to be readed.
 	 * @return The content of the file in the form of a String.
 	 */
@@ -256,19 +270,21 @@ public abstract class Language {
 		}
 		return file;
 	}
-	
+
 	/**
 	 * Generates all the results from the execution.
-	 * @param in Reader used to get the results from standard output.
+	 * 
+	 * @param in    Reader used to get the results from standard output.
 	 * @param files List of all TestFiles where we will save the results.
-	 * @param test Type of test.
+	 * @param test  Type of test.
 	 * @return List of all TestFiles for this execution.
 	 */
 	protected abstract ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in,
 			ArrayList<ArrayList<TestFile>> files, Test test);
-	
+
 	/**
 	 * Method used to only read the lines wanted from execution.
+	 * 
 	 * @param in Reader used to read from standard output.
 	 * @return A line from stout in the form of a String.
 	 */

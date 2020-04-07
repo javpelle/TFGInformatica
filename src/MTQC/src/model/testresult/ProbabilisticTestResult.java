@@ -1,8 +1,31 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package model.testresult;
 
+/**
+ * Concrete TestResult which represents a type of test which checks the concrete
+ * values of the quantum system.
+ * 
+ * @author Javier & Luis
+ *
+ */
 public class ProbabilisticTestResult extends TestResult {
 	private String result;
 
+	/**
+	 * Constructor for the class.
+	 * 
+	 * @param mutantName Name of the mutant.
+	 * @param idTest     Identifier for test.
+	 */
 	public ProbabilisticTestResult(String mutantName, int idTest) {
 		super(mutantName, idTest);
 
@@ -22,6 +45,9 @@ public class ProbabilisticTestResult extends TestResult {
 	public void make() {
 	}
 
+	/**
+	 * Overrides Object toString method.
+	 */
 	public String toString() {
 		return result;
 	}

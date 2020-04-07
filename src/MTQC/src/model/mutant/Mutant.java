@@ -1,8 +1,19 @@
+/**
+ * This code is part of MTQC.
+ * 
+ * Copyright (c) 2020 Javier Pellejero, Luis Aguirre.
+ * 
+ * This code is licensed under the MIT License. You may obtain a copy 
+ * of this license in the LICENSE file in the root directory of this source tree 
+ * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
+ */
+
 package model.mutant;
 
 import java.io.File;
 
 /**
+ * Represents a mutated file.
  * 
  * @author Javier & Luis
  *
@@ -74,7 +85,7 @@ public class Mutant {
 	public String getOriginalCompletePath() {
 		return originalFilePath + File.separator + originalFileName;
 	}
-	
+
 	public String getOriginalName() {
 		return originalFileName;
 	}
@@ -87,7 +98,7 @@ public class Mutant {
 	public String getMutantCompletePath() {
 		return mutantFilePath + File.separator + mutantFileName;
 	}
-	
+
 	public String getMutantFileName() {
 		return mutantFileName;
 	}
