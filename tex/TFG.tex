@@ -1,7 +1,21 @@
-\input{chapters/configuracion.tex}
+\input{configuration/configuration.tex}
+
+\bibliography{bibliography/bibliography}
 
 \begin{document}
 
+% Portada, página en blanco, cita e índice
 \input{chapters/Portada.tex}
 
+% Resumen, abstract...
+
+\mainmatter % Empieza a numerar en números arábigos 
+
+% Introducción histórica
+\input{chapters/Capitulo1.tex}
+
+\newpage
+\addcontentsline{toc}{chapter}{Bibliografía}
+\nocite{*}
+\printbibliography
 \end{document}
