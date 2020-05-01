@@ -1,0 +1,32 @@
+\chapter{Gestión, planificación y desarrollo del proyecto de software}
+% Aquí falta una breve introducción al capítulo acorde al contenido de los anteriores capítulos
+
+\section{Gestión del proyecto}
+
+\subsection{Gestión de equipos}
+
+\subsection{Contribución al proyecto de Luis Aguirre}
+% Al menos dos páginas
+
+\subsection{Contribución al proyecto de Javier Pellejero}
+% Al menos dos páginas
+
+\subsection{Gestión de configuración}
+
+Hablemos ahora de todas las herramientas y elementos de \textit{software} utilizados para el proyecto. Empezando por esta memoria, al estar realizada en \LaTeX, hemos necesitado programas para su edición y compilación. Ambos componentes del grupo hemos utilizado como distribución \textit{MiKTeX}, mientras que como editor hemos usado \textit{Texmaker}.
+
+En cuanto al \textit{software}, el grueso del programa está realizado en \textit{Java} y se utilizó como gestor y editor del mismo la plataforma \textit{Eclipse} utilizando como herramienta de desarrollo la octava versión \textit{Java SE Development Kit} (JDK) de \textit{Oracle}.
+
+El programa principal debe realizar una serie de test sobre los lenguajes de computación cuántica \qsh\ y \textit{Qiskit}. En el caso del primero, permite ser llamado desde \csh\ y {Python}, siendo más común utilizar el primero. En el caso del segundo, más que un lenguaje en sí mismo, es un marco de trabajo que engloba varias librerías que se ejecutan sobre \textit{Python}. Se optó por dejar \csh\ de lado, puesto que \textit{Python} es el lenguaje en común de ambos, y nuestro programa principal, mediante una llamada a sistema, ejecute un programa en dicho lenguaje.
+
+Este programa cambia con cada ejecución y es el programa en \textit{Java} principal quien debe escribirlo. Sin embargo, hubo que escribir archivos en \textit{Python} que contenían funciones útiles y que eran siempre necesarias. Se escribieron en un programa de edición sencillo como \textit{Notepad++}, aunque se usó \textit{Jupyter Notebook} para verificar que nuestras funciones escritas tanto por nosotros como por el programa funcionaban correctamente.
+
+Para el correcto funcionamiento del programa en su conjunto, se necesitan una serie de requisitos.
+
+\begin{itemize}
+\item Una máquina virtual capaz de ejecutar \textit{Java} como \textit{Java Runtime Environment} (JRE).
+\item \textit{Python} 2 o 3. (Se recomienda \textit{Python} 3).
+\item La librería de \textit{Python} \textit{func-timeout} de Tim Savannah bajo licencia LGPLv3 accesible a través de \textbf{https://github.com/kata198/func\_timeout/blob/master/LICENSE}. Se adjunta en el repositorio del proyecto.
+\item \qsh\ (sólo si se realizarán test con este lenguaje cuántico).
+\item \textit{Qiskit} (sólo si se realizarán test con este lenguaje cuántico).
+\end{itemize}
