@@ -9,15 +9,30 @@ Sin embargo, todavía no era claro que este tipo de computador cuántico pudiese
 
 A pesar de ello, todavía no había un algoritmo cuántico que mejorase la solución a un problema real, pues el problema propuesto por David Deutsch y Richard Jozsa era un escenario muy particular. Fue en 1994 cuando Peter Shor [\cite{shor1994algorithms}] mostró un algoritmo cuántico capaz de factorizar enteros de manera eficiente, poniendo en jaque el sistema criptográfico de clave pública RSA.
 
-Por otro lado, la computación clásica no se vió frenada por los avances en el mundo cuántico, y con el continuo desarrollo de programas, apareció la necesidad de comprobar el correcto funcionamiento 
-de estos programas. Así surgió una nueva rama de la Ingeniería del Software, el \textbf{Testing}, que ha ido evolucionando con los años con nuevas técnicas: \textit{white-box testing}, \textit{metamorphic testing}, \textit{mutation testing}... Sin embargo, el testing se ha visto orientado más hacia el \textit{software} clásico, y apenas se encuentran herramientas de testing útiles para verificar el comportamiento de programas cuánticos. 
+Por otro lado, la computación clásica no se vió frenada por los avances en el mundo cuántico, y con el continuo desarrollo de programas, apareció la necesidad de comprobar el correcto funcionamiento de estos programas. Así surgió una nueva rama de la Ingeniería del Software, el \textbf{Testing}, que ha ido evolucionando con los años con nuevas técnicas: \textit{white-box testing}, \textit{metamorphic testing}, \textit{mutation testing}... Sin embargo, el testing se ha visto orientado más hacia el \textit{software} clásico, y apenas se encuentran herramientas de testing útiles para verificar el comportamiento de programas cuánticos. 
 
 \section{Historical background (English)}
+\begin{otherlanguage}{british}
+In the beginning of the XX century the physics field suffered a sudden change with the outbreak of quantum mechanics. Few decades after, the world witnesses the first computation articles. It was not until 1982 when Richard Feynman tried to unify the computation world with the physics one, raising how physics systems could be implemented via computers [\cite{feynman1982simulating}].
+
+A few years after, in 1985, David Deutsch came up with the idea of \textit{universal quantum computing}, a machine with some special properties that could not be replicated by classic Turing machines[\cite{deutsch1985quantum}].
+
+However, it was not obvious that a quantum computer could face performance-wise a classic machine. We would had to wait until 1992 when David Deutsch and Richard Jozsa suggest a very particular problem for which solution could exponentially benefit from applying a quantum algorithm [\cite{deutsch1992rapid}]. Even tho this solution was just proposed in a theoretical way, the potential of quantum programming started to be notable.
+
+Despite this progress, there was not a quantum algorithm which improved the solution for a real problem, because the Deutsch and  Jozsa problem was too concrete. It was in 1994 when Peter Shor [\cite{shor1994algorithms}] came up with a quantum algorithm capable of factorizing prime whole numbers, challenging the security of the RSA public-key cryptosystem.
+
+On another front, classic computation was not slowed by the outbreaks on the quantum field, and with the continuous software developement, the need of verifying these programs suffered a boost.
+That is how \textbf{Testing} appeared as a new area in Software Engineer. Testing has evolved over the years with new techniques: \textit{white-box testing}, \textit{metamorphic testing}, \textit{mutation testing}... However, testing has been oriented towards classic computing, and there are few little tools focused on verifying the behavior of quantum software.
+\end{otherlanguage}
 
 \section{En la actualidad}
 
-A raíz de este acontecimiento el interés en la computación cuántica se ha ido incrementando con el paso de los años, entrando en juego las grandes empresas tecnológicas como IBM, Microsoft o Google.
+A raíz del algoritmo propuesto por Peter Shor, el interés en la computación cuántica se ha ido incrementando con el paso de los años. Se realizan las primeras demostraciones experimentales de algoritmos cuánticos sobre una máquina física [\cite{jones1998implementation}], aparecen los primeros computadores potencialmente escalables formados por \textit{qubits} [\cite{haffner2005scalable}] ... 
+
+En los últimos años grandes empresas tecnológicas como IBM, Microsoft o Google han entrando en juego.
 Sería esta última la que en 2019 anuncia haber alcanzado la \textbf{supremacía cuántica} [\cite{arute2019quantum}], es decir, por primera vez un ordenador cuántico mejora sustancialmente el rendimiento frente a un computador clásico de manera empírica.
 
-Estos últimos años se ha visto un pequeño despunte en el interés sobre la aplicación de técnicas de testing a programas cuánticos [\cite{usaolaquantum}]. De esta forma, surge la idea desarrollar una herramienta que permita realizar una de estás técnicas, \textit{mutation testing}, sobre lenguajes de programación cuánticos.
+Por otro lado, a lo largo de la última década también se ha visto un pequeño despunte en el interés de la aplicación de testing a programas cuánticos [\cite{usaolaquantum}]. Se está estudiando como poder extrapolar las técnicas de testing ya desarrolladas para programación clásica al mundo de la programación cuántica, respetando las particularidades de este último.
+
+De esta forma, surge la idea desarrollar una herramienta que permita realizar una de estás técnicas, \textit{mutation testing}, sobre dos de los lenguajes de programación cuánticos más relevantes en el momento: el lenguaje de IBM \textit{Qiskit} y el lenguaje de Microsfot \textit{\qsh}.
 
