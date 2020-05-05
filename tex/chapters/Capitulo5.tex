@@ -108,3 +108,43 @@ En la figura \ref{fig:fig1} podemos observar un diagrama de las etapas estándar
 Se sigue así una planificación diseñada prácticamente para cada funcionalidad (planificación incremental) marcándose objetivos a muy corto plazo pero sin perder de vista el objetivo final: completar el programa y su correcto funcionamiento.
 
 Para concluir, hemos tratado de hacer nuestro código lo más adaptable posible, no sólo por el tipo de proceso de desarrollo elegido, sino también para facilitar futuras implementaciones de nuevas funciones para el programa. Esto, sumado a todo lo contado en los anteriores párrafos, justifica que nuestro proceso de desarrollo se ajuste a XP y su correcta elección.
+
+\section{\textit{Mutation Testing for Quantum Computing} (MTQC)}
+
+MTQC son las siglas que dan nombre a nuestro programa. Su principal funcionalidad es la de aplicar pruebas de mutación en distintos lenguajes cuánticos, en nuestro caso \qsh\ y \textit{Qiskit}.
+
+La secuencia de acciones de un usuario en poder de MTQC sería la de generar mutantes del programa deseado, verificar el resultado de los mutantes creados, ejecutar el programa original y los mutantes seleccionados dadas una serie de test y cotejar los resultados para encontrar test satisfactorios e indeseados.
+
+Sobre estas cuatro fases hemos establecido toda nuestra planificación, análisis y diseño del proyecto y es así como vamos a explicar todo el proyecto, tomando estas etapas como estructura de cara al desarrollo.
+
+\subsection{Principales casos de uso}
+
+Los principales casos de uso podemos identificarlos con las fases recientemente nombradas. Podríamos definir algún otro caso como el de elegir un lenguaje cuántico o el de reiniciar el programa, pero el grueso del contenido de MTQC lo recogen estos cuatro:
+
+\begin{itemize}
+\item \textbf{Generación de mutantes}. Se trata de la primera acción que el usuario debe realizar. Consta de dos entradas consistentes en dos listas: una del directorio de los archivos de código sobre los que se quiere realizar mutación y otra de los operadores de mutación a aplicar. Arroja como salida una lista de mutantes vinculados al archivo original, el operador aplicado y la línea que sufrió la mutación. En caso de que la fabricación de un mutante arroje un error, se muestra un error por pantalla y se trata de generar el siguiente.
+
+\item \textbf{Visualización de mutantes}. La precondición para que este caso de uso se pueda llevar a cabo es que previamente el usuario haya generado al menos un mutante. Toma como entrada una lista de mutantes con la que el usuario puede interactuar para así poder comparar el contenido de dicho mutante y el archivo original. El objetivo es que el usuario pueda tomar una decisión sobre si el mutante en cuestión es o no un candidato apto para ejecutar un test sobre él.
+
+\item \textbf{Testeo de mutantes}. Se trata del caso de uso principal del programa por importancia, cantidad y calidad del código asociado al mismo. Es necesario verificar la precondición de haber generado al menos un mutante para realizar cualquier acción sobre el mismo. Enumeraremos las entradas.
+	\begin{itemize}
+	\item Un archivo de código del lenguaje cuántico elegido en ese momento.
+	\item Una función contenida en el archivo anterior.
+	\item Una lista de todos los mutantes deseados para ejecución generados a partir de dicho archivo.
+	\item Un tipo de test a aplicar (determinista o probabilista).
+	\item Un conjunto de test.
+	\end{itemize}
+	
+La salida arrojará un conjunto de objetos que gestione los resultados arrojados tras la ejecución de los test y sobre la muerte o no de los mutantes.
+
+\item \textbf{Visualización de los resultados de los test}. Por último, tenemos la opción de que el usuario vea los resultados que los test han arrojado al ser ejecutados sobre la función original y los mutantes, determinar cuántos de ellos han sido matados y la eficacias de dichos test. La precondición indispensable para llevar a cabo esta visualización es haber llevado a cabo las acciones mencionadas en el anterior caso de uso. Toma como entrada un conjunto de objetos que gestionan los resultados de los test y muestra la información correspondiente, previo tratamiento, por pantalla. En el caso de que el test realizado haya sido de tipo probabilista, tomará también como entrada un porcentaje de confianza.
+\end{itemize}
+
+\subsection{Diseño}
+% Introducción, patrones introducidos (MVC,Observer, Factory)
+
+% Estructura de paquetes
+
+% Explicación de subsistemas + ¿Diagrama de clases? Si es así, ¿en apéndice?
+
+\section{Implementaciones futuras}
