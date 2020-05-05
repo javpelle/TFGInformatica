@@ -14,7 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.util.ArrayList;
 
-import files.TestFile;
+import model.files.TestFile;
 import model.test.Test;
 import model.testresult.TestResult;
 /**

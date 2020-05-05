@@ -8,7 +8,7 @@
  * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
  */
 
-package files;
+package model.files;
 
 import java.io.File;
 

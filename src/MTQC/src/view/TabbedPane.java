@@ -22,11 +22,11 @@ import view.mutantgeneratorview.MutantsGenerator;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
 import view.mutantsviewer.MutantsViewer;
-import view.testcaserunner.TestCaseRunner;
-import view.testcaserunner.TestCaseRunner.RunListener;
+import view.testcaserunnerview.TestCaseRunner;
+import view.testcaserunnerview.RunOptions.FileComboListener;
+import view.testcaserunnerview.TestCaseRunner.RunListener;
 import view.testresultsview.TestResultsView;
 import view.testresultsview.TestResultsView.ConfidenceListener;
-import view.testcaserunner.RunOptions.FileComboListener;
 
 /**
  * Multiple tab panel of the view.

@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import files.TestFile;
+import model.files.TestFile;
 import model.mutant.Mutant;
 import model.test.Test;
 import model.testresult.TestResult;

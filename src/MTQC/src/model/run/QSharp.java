@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import files.TestFile;
+import model.files.TestFile;
 import model.test.ProbabilityTest;
 import model.test.Test;
 import model.testresult.TestResult;

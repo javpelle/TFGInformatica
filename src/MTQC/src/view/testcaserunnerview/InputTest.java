@@ -8,7 +8,7 @@
  * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
  */
 
-package view.testcaserunner;
+package view.testcaserunnerview;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

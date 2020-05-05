@@ -31,8 +31,8 @@ import view.MenuBar.LanguageListener;
 import view.MenuBar.ResetListener;
 import view.mutantgeneratorview.Files.NewPathListener;
 import view.mutantgeneratorview.MutantsGenerator.NewGenerateListener;
-import view.testcaserunner.RunOptions.FileComboListener;
-import view.testcaserunner.TestCaseRunner.RunListener;
+import view.testcaserunnerview.RunOptions.FileComboListener;
+import view.testcaserunnerview.TestCaseRunner.RunListener;
 import view.testresultsview.TestResultsView.ConfidenceListener;
 
 /**

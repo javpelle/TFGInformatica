@@ -7,7 +7,7 @@
  * of this license in the LICENSE file in the root directory of this source tree 
  * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
  */
-package view.testcaserunner;
+package view.testcaserunnerview;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -22,7 +22,7 @@ import javax.swing.JScrollPane;
 
 import model.mutant.Mutant;
 import model.test.Test;
-import view.testcaserunner.RunOptions.FileComboListener;
+import view.testcaserunnerview.RunOptions.FileComboListener;
 import view.tools.LogArea;
 
 /**
