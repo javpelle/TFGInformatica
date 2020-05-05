@@ -1,0 +1,39 @@
+\chapter{Introducción al Testing}
+Uno de los pilares fundamentales de este trabajo es el testing, más concretamente una técnica muy usada en este área, el \textit{mutation testing}. Por ello, a lo largo del siguiente capítulo daremos 
+unas pinceladas muy básicas sobre en qué consiste el testing y hablaremos más en profundidad  de la técnica mencionada previamente.
+
+\section{¿Qué es el Testing?}
+
+El \emph{testing} es una disciplina de la \textit{Ingeniería del Software} orientada a aumentar la calidad y la fiabilidad de un programa. Su principal objetivo es encontrar errores en el software para de esta manera poder corregirlos.
+
+Hay que tener muy en cuenta que demostrar el correcto funcionamiento de un programa es un problema no decidible, y por tanto este no es el objetivo del testing. En palabras de Edsger Wybe Dijkstra [\cite{dijkstra1972chapter}], el testing permite encontrar errores pero, sin embargo, no permite demostrar la ausencia de ellos.
+
+A la hora de encontrar un fallo en el software, hay 3 términos que hay que tener muy claros para poder describir con precisión la naturaleza del fallo en cuestión. Se introducen los términos en inglés, pues su traducción puede inducir a confusiones no deseadas:
+\begin{itemize}
+\item \emph{Fault}: es el termino que se utiliza para indicar un defecto estático en el código del programa que está siendo testeado.
+\item \emph{Error}: se corresponde con un estado incorrecto del programa durante la ejecución del mismo.
+\item \emph{Failure}: se produce cuando el comportamiento externo del programa es incorrecto respecto a los requisitos establecidos para este.
+\end{itemize}
+
+La unidad u objeto fundamental del testing son los \emph{tests}. Un test se constituye principalmente de dos componentes:
+\begin{itemize}
+\item \emph{Inputs}: son los valores que se necesita aportar al programa para que se ejecute de la forma concreta que está siendo testeada.
+\item \emph{Outputs}: se corresponde con el resultado que producirá el programa en caso de que su comportamiento sea correcto.
+\end{itemize}
+
+Como el software puede constar de múltiples funcionalidades, va a ser necesario contar numerosos de tests para poder verificarlo correctamente. A un conjunto de test se lo conoce como \textit{test suite}. 
+
+Por otro lado, los programas suelen ser inmensamente extensos, y comprobarlos completamente no es viable. El número de inputs  que puede aceptar un programa puede ser ``infinito''. Pensemos por ejemplo en un compilador de Java. Potencialmente, los inputs que puede recibir el compilador no son sólo todos los programas Java, si no cualquier cadena de caracteres. La única limitación viene impuesta por el máximo tamaño de archivo que acepta el \textit{parser} del compilador. Por eso se dice que el número de inputs es ``infinito''. [\cite{ammann2016introduction}]
+
+Siguiendo la literatura que acabamos de mencionar, la manera de solucionar este problema es introduciendo unos criterios que permitan al testeador diseñar tests eficaces, es decir, tets que potencialmente sean más propensos a encontrar \textit{faults} en el código. Estos criterios son:
+\begin{itemize}
+\item \emph{Requisito de Test}: es un ``artefacto'' concreto del software que se debe cumplir durante el proceso de testing.
+\item \emph{Requisitos de Cobertura}: son un conjunto de reglas que debe cumplir un \textit{test suite} para que se verifiquen todos los requisitos de test. Existen diversos tipos de cobertura basados en: grafos, lógica proposicional, dominio de los inputs ...
+\end{itemize}
+
+Una vez que se tienen unas nociones básicas del testing, podemos mover el foco hacia la rama del testing que realmente concierne a este trabajo. Igual que un \textit{test suite} nos va a permitir
+encontrar fallos en un programa, es igual de interesante ver la eficiencia de dicho \textit{test suite}. Imaginemos que tenemos un programa con una serie de \emph{faults} en el código. Puede ocurrir que si se diseña un \textit{test suite} sobre unos requisitos de test pobres, dicho test suite no de lugar a ningún \emph{failure}, y esto no se debe a que el programa funcione correctamente,si no a que el conjunto de test no es bueno.
+
+Así nace el \textit{mutation testing}, un técnica desarrollada con el objetivo de poder comprobar la eficacia de los tests.
+
+\section{Mutation Testing}
