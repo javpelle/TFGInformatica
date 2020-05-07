@@ -15,17 +15,17 @@ A la hora de encontrar un fallo en el software, hay 3 términos que hay que tene
 \item \emph{Failure}: se produce cuando el comportamiento externo del programa es incorrecto respecto a los requisitos establecidos para este.
 \end{itemize}
 
-La unidad u objeto fundamental del testing son los \emph{tests}. Un test se constituye principalmente de dos componentes:
+La unidad u objeto fundamental del testing son los \emph{test}. Un test se constituye principalmente de dos componentes:
 \begin{itemize}
 \item \emph{Inputs}: son los valores que se necesita aportar al programa para que se ejecute de la forma concreta que está siendo testeada.
 \item \emph{Outputs}: se corresponde con el resultado que producirá el programa en caso de que su comportamiento sea correcto.
 \end{itemize}
 
-Como el software puede constar de múltiples funcionalidades, va a ser necesario contar numerosos de tests para poder verificarlo correctamente. A un conjunto de test se lo conoce como \textit{test suite}. 
+Como el software puede constar de múltiples funcionalidades, va a ser necesario contar numerosos de test para poder verificarlo correctamente. A un conjunto de test se lo conoce como \textit{test suite}. 
 
 Por otro lado, los programas suelen ser inmensamente extensos, y comprobarlos completamente no es viable. El número de inputs  que puede aceptar un programa puede ser ``infinito''. Pensemos por ejemplo en un compilador de Java. Potencialmente, los inputs que puede recibir el compilador no son sólo todos los programas Java, si no cualquier cadena de caracteres. La única limitación viene impuesta por el máximo tamaño de archivo que acepta el \textit{parser} del compilador. Por eso se dice que el número de inputs es ``infinito''. [\cite{ammann2016introduction}]
 
-Siguiendo la literatura que acabamos de mencionar, la manera de solucionar este problema es introduciendo unos criterios que permitan al testeador diseñar tests eficaces, es decir, tets que potencialmente sean más propensos a encontrar \textit{faults} en el código. Estos criterios son:
+Siguiendo la literatura que acabamos de mencionar, la manera de solucionar este problema es introduciendo unos criterios que permitan al testeador diseñar test eficaces, es decir, tets que potencialmente sean más propensos a encontrar \textit{faults} en el código. Estos criterios son:
 \begin{itemize}
 \item \emph{Requisito de Test}: es un ``artefacto'' concreto del software que se debe cumplir durante el proceso de testing.
 \item \emph{Requisitos de Cobertura}: son un conjunto de reglas que debe cumplir un \textit{test suite} para que se verifiquen todos los requisitos de test. Existen diversos tipos de cobertura basados en: grafos, lógica proposicional, dominio de los inputs ...
@@ -34,6 +34,81 @@ Siguiendo la literatura que acabamos de mencionar, la manera de solucionar este 
 Una vez que se tienen unas nociones básicas del testing, podemos mover el foco hacia la rama del testing que realmente concierne a este trabajo. Igual que un \textit{test suite} nos va a permitir
 encontrar fallos en un programa, es igual de interesante ver la eficiencia de dicho \textit{test suite}. Imaginemos que tenemos un programa con una serie de \emph{faults} en el código. Puede ocurrir que si se diseña un \textit{test suite} sobre unos requisitos de test pobres, dicho test suite no de lugar a ningún \emph{failure}, y esto no se debe a que el programa funcione correctamente,si no a que el conjunto de test no es bueno.
 
-Así nace el \textit{mutation testing}, un técnica desarrollada con el objetivo de poder comprobar la eficacia de los tests.
+Así nace el \textit{mutation testing}, un técnica desarrollada con el objetivo de poder comprobar la eficacia de los test.
 
 \section{Mutation Testing}
+
+Las pruebas de mutación o \textit{mutation testing} fueron propuestas por Richard Lipton en 1971 [\cite{lipton1971fault}]. Esta técnica entra dentro de lo que se conoce como \textit{testing basado en sintaxis}, y como su propio nombre indica, el principal elemento a tener en cuenta en este tipo de testing es la propia sintaxis del lenguaje.
+
+El objetivo primordial de las pruebas de mutación es comprobar la eficacia de un conjunto de test para un cierto programa. Para ello, se parte de un programa que funciona correctamente y se introducen pequeñas modificaciones en este para posteriormente correr los test sobre estos programas modificados y de esta forma comprobar si siguen ejecutando con éxito.
+
+Hay dos conceptos claves que nos permiten entender con mayor facilidad las pruebas de mutación:
+\begin{definition}
+Un \emph{operador de mutación} es una regla que especifica variaciones sintácticas para una cierta cadena en el lenguaje.
+\end{definition}
+
+\begin{definition}
+Un \emph{mutante} es un nuevo programa que se obtiene al aplicar un operador de mutación sobre el programa original.
+\end{definition}
+
+Los operadores de mutación simulan errores típicos que puede cometer un programador. El primer paso a la hora de aplicar pruebas de mutación a un programa es definir los operadores de mutación para el lenguaje en el que esté escrito dicho programa. Por ejemplo, supongamos que tenemos el siguiente algoritmo:
+\clearpage 
+
+\begin{algorithm}
+\caption{Ejemplo}
+\begin{algorithmic}[1]
+\Procedure{example}{$n, m$}\Comment{Devuelve $n$ si es estrictamente más grande que $m$.}
+\If {$n > m$}
+    \State  \textbf{return} $n$
+\Else
+    \State \textbf{return} $m$
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+Un posible error que pueda cometer un programador es confundir los operadores de comparación: $>,\; <$. Por tanto, esta modificación sintáctica es un buen candidato a ser considerada como operador de mutación. Si aplicamos este operador al código anterior en la linea 2 se obtiene el siguiente mutante:
+
+\begin{algorithm}
+\caption{Mutante Ejemplo}
+\begin{algorithmic}[1]
+\Procedure{example}{$n, m$}\Comment{Devuelve $n$ si es estrictamente más grande que $m$.}
+\If {$n < m$}
+    \State  \textbf{return} $n$
+\Else
+    \State \textbf{return} $m$
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Es claro que el comportamiento de los dos algoritmos anteriores no es similar, y un buen conjunto de test debe ser capaz de diferenciar entre ambos. Cuando esto ocurre, decimos que el conjunto de test \textit{mata} al mutante. Con más detalle:
+
+\begin{definition}
+Sea $m$ un mutante obtenido al aplicar un operador de mutación a cierto programa $p$.
+Decimos que un test $t$ \emph{mata} a $m$ si $p$ y $m$ producen un output distinto al aplicar los inputs dados por $t$.
+\end{definition}
+
+De la misma forma, dado un conjunto de test $\mathcal{T}$, diremos que $\mathcal{T}$ \textit{mata} a un mutante $m$ si $\exists t\in \mathcal{T},,\; t \; mata \;a\; m$. Ese caso, diremos que el mutante $m$ \emph{muere}, y por el contrario, si ningún test del conjunto de test mata al mutante, diremos que $m$ \emph{vive}.
+
+Por tanto, volviendo a los ejemplos, si ejecutamos el programa original con los valores $(6,5)$ la función devolverá el valor $6$. Sin embargo, aplicando el mismo par de valores al mutante, el programa mutado devuelve el valor $5$. Por lo tanto, el test formado por el par $(6,5)$ \emph{mata} a dicho mutante.
+
+Pero, ¿ qué ocurre si un conjunto de test no mata a un cierto mutante?. Esto puede ser debido principalmente a dos causas:
+\begin{itemize}
+\item Generalmente esto ocurre si el conjunto de test no contiene alguno de los test que potencialmente mata al mutante.
+\item Se puede dar que no exista test que nos permita distinguir entre el mutante y el programa original en función de sus outputs. En ese caso diremos que se tiene un  \emph{mutante equivalente.}
+\end{itemize}
+
+%Aquí habría que citar a Manolo, pero no sé si va a querer que le cite o no%
+Nos interesa tener una métrica que nos permita saber como de eficiente es cierto conjunto de test $\mathcal{T}$ a la hora de matar un conjunto de mutantes $\mathcal{M}$ obtenidos a raíz de un programa $p$. Denotemos al subconjunto de mutantes que es matado por $\mathcal{T}$ como $\mathcal{M}^*$. Por tanto, parece sensato definir una métrica de eficiencia en función de la fracción de mutantes que mata nuestro conjunto de test:
+\begin{center}
+$E(\mathcal{T},\mathcal{M},p) = \dfrac{|\mathcal{M}^*|}{|\mathcal{M} \,|}$, donde $|\cdot|$ denota el cardinal del conjunto
+\end{center}
+
+Sin embargo, tal y como se ha mencionado previamente, es imposible matar a un mutante equivalente, luego para mejor la precisión de la métrica, es necesario excluir el conjunto de mutantes equivalentes $\mathcal{M}_e$. Se obtiene así una nueva métrica más ajustada que la anterior:
+
+%Añado un espaciado horizontal para que quede con el mismo espacio que la metrica anterior%
+$\hspace{48pt}E^+(\mathcal{T},\mathcal{M},p) = \dfrac{|\mathcal{M}^*|}{|\mathcal{M} \,|\setminus|\mathcal{M}_e|}$
+
+Si bien esto sería lo ideal, identificar los mutantes equivalentes es un problema indecible, y por tanto nos tendremos que conformar con la métrica $E$.
