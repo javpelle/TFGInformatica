@@ -117,11 +117,11 @@ La secuencia de acciones de un usuario en poder de MTQC sería la de generar mut
 
 Sobre estas cuatro fases hemos establecido toda nuestra planificación, análisis y diseño del proyecto y es así como vamos a explicar todo el proyecto, tomando estas etapas como estructura de cara al desarrollo.
 
-\subsection{Principales casos de uso}
+\subsection{Principales funcionalidades}
 
-Los principales casos de uso podemos identificarlos con las fases recientemente nombradas. Podríamos definir algún otro caso como el de elegir un lenguaje cuántico o el de reiniciar el programa, pero el grueso del contenido de MTQC lo recogen estos cuatro:
+Aunque el desarrollo dirigido por casos de uso no es propio de XP, nos inspiramos en ellos para determinar las principales funcionalidades del sistema que podemos identificarlas con las fases recientemente nombradas. Podríamos definir alguna otra adicional como el de elegir un lenguaje cuántico o el de reiniciar el programa, pero el grueso del contenido de MTQC lo recogen estas cuatro:
 
-\begin{itemize}
+\begin{enumerate}
 \item \textbf{Generación de mutantes}. Se trata de la primera acción que el usuario debe realizar. Consta de dos entradas consistentes en dos listas: una del directorio de los archivos de código sobre los que se quiere realizar mutación y otra de los operadores de mutación a aplicar. Arroja como salida una lista de mutantes vinculados al archivo original, el operador aplicado y la línea que sufrió la mutación. En caso de que la fabricación de un mutante arroje un error, se muestra un error por pantalla y se trata de generar el siguiente.
 
 \item \textbf{Visualización de mutantes}. La precondición para que este caso de uso se pueda llevar a cabo es que previamente el usuario haya generado al menos un mutante. Toma como entrada una lista de mutantes con la que el usuario puede interactuar para así poder comparar el contenido de dicho mutante y el archivo original. El objetivo es que el usuario pueda tomar una decisión sobre si el mutante en cuestión es o no un candidato apto para ejecutar un test sobre él.
@@ -138,13 +138,96 @@ Los principales casos de uso podemos identificarlos con las fases recientemente 
 La salida arrojará un conjunto de objetos que gestione los resultados arrojados tras la ejecución de los test y sobre la muerte o no de los mutantes.
 
 \item \textbf{Visualización de los resultados de los test}. Por último, tenemos la opción de que el usuario vea los resultados que los test han arrojado al ser ejecutados sobre la función original y los mutantes, determinar cuántos de ellos han sido matados y la eficacias de dichos test. La precondición indispensable para llevar a cabo esta visualización es haber llevado a cabo las acciones mencionadas en el anterior caso de uso. Toma como entrada un conjunto de objetos que gestionan los resultados de los test y muestra la información correspondiente, previo tratamiento, por pantalla. En el caso de que el test realizado haya sido de tipo probabilista, tomará también como entrada un porcentaje de confianza.
-\end{itemize}
+\end{enumerate}
+
+Esto se ha traducido en cuatro subsistemas bastante independientes; Sin embargo, en un principio, las funcionalidades 3 y 4 se pensaron para estar en un único subsistema y bajo una única vista. Esto cambió, principalmente, para no sobrecargar de información dicha vista y facilitar al usuario la lectura de los resultados dividiendo las funcionalidades en subsistemas distintos.
 
 \subsection{Diseño}
-% Introducción, patrones introducidos (MVC,Observer, Factory)
 
-% Estructura de paquetes
+Retomamos de nuevo las cuatro funcionalidades anteriores para esquematizar el programa. A la hora del diseño y desarrollo de MTQC se plantearon 4 subsistemas identificados cada uno a dichas funcionalidades.
 
-% Explicación de subsistemas + ¿Diagrama de clases? Si es así, ¿en apéndice?
+Para implementar cada uno de los mismos se optó por por asignar a cada uno de ellos una pestaña visual independiente administradas bajo una misma vista conjunta. Esto se gestiona mediante el uso del patrón \textit{Modelo-Vista-Controlador} (MVC). Pese a no ser del todo necesario por poseer una única vista, se ha implementado el patrón \textit{Observador} en el que la vista actúa como observador y la lógica como sujeto. Este patrón se ha usado para facilitar la adición de futuras interfaces, gráficas o no, que se pudieran desarrollar sobre el proyecto.
+
+En algunas partes del código ha sido utilizado el patrón \textit{Factoría}, por ejemplo, según el tipo de test escogido, este crea una instancia de una subclase concreta que gestiona los resultados arrojados por el test. Por otra parte, somos conscientes de que este mismo patrón es útil en combinación de \textit{Observador} y MVC para facilitar, precisamente, implementar otras interfaces. Sin embargo, decidimos no aplicarlo como tal para facilitar el código. Pese a ello, de ser necesario, su ejecución no presentaría cambios significativos en el código, sino más bien algunas adiciones en el mismo.
+
+Detallaremos cada uno de estos subsistemas, pero antes vamos a exponer la jerarquía de paquetes que constituyen en programa y unas breves indicaciones sobre su contenido y funcionalidad.
+
+\subsubsection{Estructuración del código por paquetes}
+
+\begin{itemize}
+\item \textbf{model}. Contiene toda la lógica del programa. Además de todos los paquetes que aparecen a continuación, contiene las clases que conforman el patrón \textit{Observador} (Observer.java y Observable.java) y la clase Model.java que gestiona el grueso de la lógica.
+	\begin{itemize}
+	\item \textbf{mutantoperator}. Recoge la clase abstracta MutantOperator.java que gestiona un operador de mutación.
+		\begin{itemize}
+		\item \textbf{qiskit} Contiene todas las implementaciones de operadores de mutación creados para \textit{Qiskit}.
+		\item \textbf{qsharp} Contiene todas las implementaciones de operadores de mutación creados para \qsh.
+		\end{itemize}		 
+	\item \textbf{mutant}. Contiene la clase Mutant.java que gestiona un mutante tras su creación: ruta al archivo mutante, ruta al archivo original y línea de código que sufrió la mutación.
+	\item \textbf{test}. Contiene la clase abstracta Test.Java que gestiona las características del tipo de prueba a realizar, por ejemplo si es o no determinista. También contiene sus implementaciones.
+	\item \textbf{run}. Recoge clases que gestionan las pruebas de mutación. Crea archivos ejecutables a partir de un mutante y una entrada de datos y los ejecuta.
+	\item \textbf{files}. Contiene la clase TestFile.java que gestiona los archivos finales creados por las clases del paquete \textit{run}.
+	\item \textbf{testresult}. Contiene la clases abstracta TestResult.java que gestiona los resultados de la ejecución de los test y también sus implementaciones, una por cada implementación de Test.java.
+	\end{itemize}
+\item \textbf{view}. Encargado de toda la vista del sistema.
+	\begin{itemize}
+	\item \textbf{mutantgeneartorview}. Contiene la vista correspondiente al primer subsistema.
+	\item \textbf{mutantsviewer}. Contiene la vista correspondiente al segundo subsistema.
+	\item \textbf{testcaserunnerview}. Contiene la vista correspondiente al tercer subsistema.
+	\item \textbf{testresultview}. Contiene la vista correspondiente al cuarto subsistema.
+	\item \textbf{tools}. Contiene algunas clases auxiliares utilizadas en la vista.
+	\end{itemize}
+\item \textbf{control}. Contiene la clase Control.java que actúa como controlador del patrón MVC.
+\item \textbf{exception}. Recoge algunas excepciones del programa.
+\item \textbf{main}. Recoge la clase Main.java que contiene el método que inicia la ejecución del programa.
+\end{itemize}
+
+Estamos en disposición de hablar de cada subsistema con detenimiento. Mencionaremos los paquetes involucrados en cada uno de ellos, detalles de implementación o la aparición de problemas relevantes y la solución adoptada para ellos.
+
+\subsubsection{Subsistemas: Generador de mutantes}
+
+La generación de mutantes es el primer paso para realizar pruebas de mutación. En la figura \ref{fig:vista1} se contempla el aspecto de la vista asociada. La interfaz en su conjunto y cada una de las pestañas tiene un diseño simple, tratando de minimizar la cantidad de información para facilitar el uso y entendimiento del cliente.
+
+Los componentes de esta vista se encuentran en el paquete view.mutantgeneratorview, aunque además hace uso de clases del paquete view.tools. En concreto, JTableCheck.java, que gestiona una tabla de  objectos de una determinada instancia junto a casillas verificadoras asociadas a booleanos y LogArea.java que imprime información para el usuario.
+
+% Hablar de archivos (ejecución 1 a 1, etc)
+% Hablar de operadores
+% Hablar de los paquetes de la lógica
+% Tal vez contar lo de unico archivo como problema.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{images/vista1}
+\end{center}
+\caption{Vista del subsistema generador de mutantes.}
+\label{fig:vista1}
+\end{figure}
+
+\subsubsection{Subsistemas: Visualizador de mutantes}
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.5]{images/vista2}
+\end{center}
+\caption{Vista del subsistema visualizador de mutantes.}
+\label{fig:vista2}
+\end{figure}
+\subsubsection{Subsistemas: Pruebas de mutación y creación de test}
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.5]{images/vista3}
+\end{center}
+\caption{Vista del subsistema pruebas de mutación y creación de test.}
+\label{fig:vista3}
+\end{figure}
+\subsubsection{Subsistemas: Visualizador de reultados}
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[scale=0.5]{images/vista4}
+\end{center}
+\caption{Vista del subsistema visualizador de resultados.}
+\label{fig:vista4}
+\end{figure}
 
 \section{Implementaciones futuras}
