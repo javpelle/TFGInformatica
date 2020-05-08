@@ -40,7 +40,7 @@ Así nace el \textit{mutation testing}, un técnica desarrollada con el objetivo
 
 Las pruebas de mutación o \textit{mutation testing} fueron propuestas por Richard Lipton en 1971 [\cite{lipton1971fault}]. Esta técnica entra dentro de lo que se conoce como \textit{testing basado en sintaxis}, y como su propio nombre indica, el principal elemento a tener en cuenta en este tipo de testing es la propia sintaxis del lenguaje.
 
-El objetivo primordial de las pruebas de mutación es comprobar la eficacia de un conjunto de test para un cierto programa. Para ello, se parte de un programa que funciona correctamente y se introducen pequeñas modificaciones en este para posteriormente correr los test sobre estos programas modificados y de esta forma comprobar si siguen ejecutando con éxito.
+El objetivo primordial de las pruebas de mutación es comprobar la eficacia de un conjunto de test para un cierto programa. Para ello, se parte de un programa que funciona correctamente y se introducen pequeñas modificaciones en este para posteriormente correr los test sobre estos programas modificados y de esta forma comprobar si se siguen ejecutando con éxito.
 
 Hay dos conceptos claves que nos permiten entender con mayor facilidad las pruebas de mutación:
 \begin{definition}
@@ -92,9 +92,11 @@ Decimos que un test $t$ \emph{mata} a $m$ si $p$ y $m$ producen un output distin
 
 De la misma forma, dado un conjunto de test $\mathcal{T}$, diremos que $\mathcal{T}$ \textit{mata} a un mutante $m$ si $\exists t\in \mathcal{T},,\; t \; mata \;a\; m$. Ese caso, diremos que el mutante $m$ \emph{muere}, y por el contrario, si ningún test del conjunto de test mata al mutante, diremos que $m$ \emph{vive}.
 
-Por tanto, volviendo a los ejemplos, si ejecutamos el programa original con los valores $(6,5)$ la función devolverá el valor $6$. Sin embargo, aplicando el mismo par de valores al mutante, el programa mutado devuelve el valor $5$. Por lo tanto, el test formado por el par $(6,5)$ \emph{mata} a dicho mutante.
+Esta definición se corresponde con el criterio conocido como \textit{strong mutation testing}. Al final de la sección se verá la diferencia con otros criterios.
 
-Pero, ¿ qué ocurre si un conjunto de test no mata a un cierto mutante?. Esto puede ser debido principalmente a dos causas:
+Por tanto, volviendo a los ejemplos, si ejecutamos el programa original con los valores $(6,5)$ la función devolverá el valor $6$. Sin embargo, aplicando el mismo par de valores al mutante, el programa mutado devuelve el valor $5$. Por lo tanto, el test formado por el par de inputs $(6,5)$ \emph{mata} a dicho mutante.
+
+Pero, ¿qué ocurre si un conjunto de test no mata a un cierto mutante? Esto puede ser debido principalmente a dos causas:
 \begin{itemize}
 \item Generalmente esto ocurre si el conjunto de test no contiene alguno de los test que potencialmente mata al mutante.
 \item Se puede dar que no exista test que nos permita distinguir entre el mutante y el programa original en función de sus outputs. En ese caso diremos que se tiene un  \emph{mutante equivalente.}
@@ -111,4 +113,25 @@ Sin embargo, tal y como se ha mencionado previamente, es imposible matar a un mu
 %Añado un espaciado horizontal para que quede con el mismo espacio que la metrica anterior%
 $\hspace{48pt}E^+(\mathcal{T},\mathcal{M},p) = \dfrac{|\mathcal{M}^*|}{|\mathcal{M} \,|\setminus|\mathcal{M}_e|}$
 
-Si bien esto sería lo ideal, identificar los mutantes equivalentes es un problema indecible, y por tanto nos tendremos que conformar con la métrica $E$.
+Si bien esto sería lo ideal, identificar los mutantes equivalentes es un problema indecible, y por tanto nos tendremos que conformar con la métrica $E$. Evitar la generación de un número elevado de mutantes equivalentes sigue siendo uno de los problemas a abordar en mutation testing. 
+
+Otro problema importante es el elevado número de mutantes que se generan, ya que incluso en programas pequeños, en un lenguaje con pocos operadores de mutación definidos,el número de mutantes obtenidos puede ser inmensamente grande. Una solución que ayuda a mitigar este problema es trabajar sobre lo que se conoce como la \textit{hipótesis del programador competente} [\cite{demillo1978hints}]. Esta hipótesis tiene dos puntos clave:
+\begin{itemize}
+\item La mayor parte de los errores en el software cometidos por un programador senior son debidos a pequeños errores sintácticos.
+\item Un programador avanzado no suele más de una vez este tipo de error. Por lo tanto no se aplicará más de un operador de mutación a la hora de generar un mutante.
+\end{itemize}
+
+Otro de las hipótesis sobre las que se suele trabajar en mutation testing es el conocido \textit{efecto de acoplamiento}. Esta hipótesis propone que los errores más graves en un programa están \textit{acoplados} sobre errores sencillos,y por tanto si un test es capaz de desvelar estos errores sencillos, entonces también desvelará los graves [\cite{offutt1992investigations}].
+
+Por último, tal y como se ha mencionado previamente, la forma de matar un mutante es comparando los outsputs del programa. Esto se conoce como \textit{strong mutation testing}. Sin embargo, no es el único criterio que se puede considerar a la hora de decidir si un mutante muere o no. Veamos con precisión los dos métodos más utilizados:
+
+\begin{definition}
+Sea $p$ un programa,$t$ un test y $m$ un mutante obtenido a partir de la aplicación de un operador de mutación sobre $p$. Podemos decir que $t$ mata a $m$ en función de dos criterios:
+\begin{itemize}
+\item \emph{Strong Mutation Testing}: $t$ mata a $m$ si los outputs obtenidos por $p$ y $m$ al aplicar los inputs de $t$ son distintos.
+\item \emph{Strong Mutation Testing}: $t$ mata a $m$ si, usando los inputs dados por $t$,  tras ejecutar la sentencia mutada para $m$ y la sentencia original para $p$ el estado interno del programa es distinto. 
+\end{itemize}
+\end{definition}
+
+Véase que este ultimo criterio, al ser menos restrictivo, ayuda a matar más mutantes. Esto se debe a que un mutante $m$ y un programa $p$ pueden tener estados internos distintos durante la ejecución del programa, y sin embargo producir el mismo output. 
+
