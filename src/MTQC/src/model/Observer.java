@@ -49,7 +49,7 @@ public interface Observer {
 	 * @param file        Name of the file from where we get the name of the
 	 *                    methods.
 	 */
-	public void updateFileMethods(ArrayList<String> fileMethods, ArrayList<Mutant> mutants, String file);
+	public void updateFileMethods(ArrayList<String> fileMethods, ArrayList<Mutant> mutants);
 
 	/**
 	 * Sets the type of test available for the program.

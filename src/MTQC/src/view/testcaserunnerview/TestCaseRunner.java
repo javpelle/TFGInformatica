@@ -92,8 +92,8 @@ public class TestCaseRunner extends JPanel {
 	 * @param mutants List of available mutants.
 	 * @param fileName Name of the selected file.
 	 */
-	public void updateMutants(ArrayList<Mutant> mutants, String fileName) {
-		mutantsView.updateMutants(mutants, fileName);
+	public void updateMutants(ArrayList<Mutant> mutants) {
+		mutantsView.updateMutants(mutants);
 	}
 	/**
 	 * Updates the language selection.

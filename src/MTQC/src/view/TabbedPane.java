@@ -122,9 +122,9 @@ public class TabbedPane extends JTabbedPane {
 	 * @param mutants     Mutants obtained by applying operators on the file.
 	 * @param fileName    Name of the file
 	 */
-	public void updateFileMethods(ArrayList<String> fileMethods, ArrayList<Mutant> mutants, String fileName) {
+	public void updateFileMethods(ArrayList<String> fileMethods, ArrayList<Mutant> mutants) {
 		testCaseRunner.updateFileMethods(fileMethods);
-		testCaseRunner.updateMutants(mutants, fileName);
+		testCaseRunner.updateMutants(mutants);
 	}
 
 	/**

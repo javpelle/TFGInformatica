@@ -96,12 +96,10 @@ public class MutantsView extends JPanel {
 	 * @param mutants List of mutants needed to be show.
 	 * @param file    Name of the selected file.
 	 */
-	public void updateMutants(ArrayList<Mutant> mutants, String file) {
+	public void updateMutants(ArrayList<Mutant> mutants) {
 		table.clear();
-		for (int i = 0; i < mutants.size(); ++i) {
-			if (mutants.get(i).getOriginalName().equals(file)) {
-				table.addRow(new Object[] { false, mutants.get(i) });
-			}
+		for (Mutant m: mutants) {
+			table.addRow(new Object[] { false, m });
 		}
 	}
 

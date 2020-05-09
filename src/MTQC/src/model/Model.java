@@ -246,7 +246,7 @@ public class Model implements Observable<Observer> {
 		mutantList = new ArrayList<Mutant>();
 		start();
 		observer.updateMutants(mutantList);
-		observer.updateFileMethods(new ArrayList<String>(), mutantList, null);
+		observer.updateFileMethods(new ArrayList<String>(), mutantList);
 	}
 
 	/**
@@ -463,8 +463,13 @@ public class Model implements Observable<Observer> {
 				e.printStackTrace();
 			}
 		}
-
-		observer.updateFileMethods(fileMethods, mutantList, fileName);
+		ArrayList<Mutant> aux = new ArrayList<Mutant>();
+		for (Mutant m: mutantList) {
+			if (m.getOriginalName().equals(fileName)) {
+				aux.add(m);
+			}
+		}
+		observer.updateFileMethods(fileMethods, aux);
 
 	}
 
