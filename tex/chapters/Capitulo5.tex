@@ -23,7 +23,7 @@ Hablemos ahora de todas las herramientas y elementos de \textit{software} utiliz
 
 En cuanto al \textit{software}, el grueso del programa está realizado en \textit{Java} y es utilizado como gestor y editor del mismo la plataforma \textit{Eclipse} usando como herramienta de desarrollo la octava versión \textit{Java SE Development Kit} (JDK) de \textit{Oracle}.
 
-El programa principal debe realizar una serie de test sobre los lenguajes de computación cuántica \qsh\ y \textit{Qiskit}. En el caso del primero, permite ser llamado desde \csh\ y {Python}, siendo más común utilizar el primero. En el caso del segundo, más que un lenguaje en sí mismo, es un marco de trabajo que engloba varias librerías que se ejecutan sobre \textit{Python}. Se opta por dejar \csh\ de lado, puesto que \textit{Python} es el lenguaje en común de ambos, y nuestro programa principal, mediante una llamada a sistema, ejecute un programa en dicho lenguaje.
+El programa principal debe realizar una serie de test sobre los lenguajes de computación cuántica \qsh\ y \textit{Qiskit}. En el caso del primero, permite ser llamado desde \csh\ y {Python}, siendo más común utilizar el primero. En el caso del segundo, más que un lenguaje en sí mismo, es un marco de trabajo que engloba varias librerías que se ejecutan sobre \textit{Python}. Se opta por dejar \csh\ de lado, puesto que \textit{Python} es el lenguaje en común de ambos, y que nuestro programa principal, mediante una llamada a sistema, ejecute un programa en dicho lenguaje.
 
 Este programa cambia con cada ejecución y es el programa en \textit{Java} principal quien debe escribirlo. Sin embargo, se han de escribir archivos adicionales en \textit{Python} que contienen funciones útiles y siempre necesarias y para ello se emplea un programa de edición sencillo como \textit{Notepad++}, además de \textit{Jupyter Notebook}, usando la distribución \textit{Anaconda}, para verificar que nuestras funciones escritas tanto por nosotros como por el programa funcionan correctamente.
 
@@ -61,7 +61,7 @@ Dejamos constancia de que en el caso del TFG de matemáticas, dichos trabajos er
 Por tanto, se puede argumentar que este trabajo tiene sus cimientos en los dos realizados por cada miembro del grupo para el grado de matemáticas. Explicado esto, empezaremos por enumerar una serie de fases de planificación que incluye todos los trabajos.
 
 \begin{enumerate}
-\item \textbf{Proceso de investigación}. Puesto que se trata de una serie de conocimientos totalmente nuevos para nosotros y con una complejidad considerada, es importante dotar a esta fase de una duración prolongada. Decidimos establecer como límite para esta fase finales de enero coincidiendo con el fin de exámenes del primer cuatrimestre. En el segundo, ninguno de los integrantes del grupo tiene otras asignaturas, así que hay tiempo suficiente para el resto de fases.
+\item \textbf{Proceso de investigación}. Puesto que se trata de una serie de conocimientos totalmente nuevos para nosotros y con una complejidad considerable, es importante dotar a esta fase de una duración prolongada. Decidimos establecer como límite para esta fase finales de enero coincidiendo con el fin de exámenes del primer cuatrimestre. En el segundo, ninguno de los integrantes del grupo tiene otras asignaturas, así que hay tiempo suficiente para el resto de fases.
 \item \textbf{Desarrollo del \textit{software}}. Una vez familiarizados con la teoría de la computación cuántica y de pruebas de mutación, estamos en condiciones de comenzar nuestro programa. En las siguientes páginas se dará más detalle del mismo. En cuanto al tiempo, estimamos unos dos meses, febrero y marzo, para realizarlo.
 \item \textbf{Memorias individuales del TFG del grado de matemáticas}. Por lo comentado anteriormente, es consecuente realizar primero estas memorias pues su contenido sirve de base para desarrollar esta misma. Se estable que el tiempo marcado por el mes de abril es apropiado para realizarla.
 \item \textbf{Memoria del TFG del grado en ingeniería informática}. Siguiente tarea a efectuar. Prevista para el mes de mayo.
@@ -79,7 +79,7 @@ Otro factor a tener en cuenta es que, si bien los conceptos sobre los que trata 
 El uso de XP facilita este último hecho, pues intercala continuamente diseño y desarrollo de manera evolutiva e iterativa. En nuestro caso, es muy importante disponer de una versión ejecutable del programa desde el momento que esté desarrollada la primera funcionalidad, lo cual hemos logrado. Para ello, diseñamos una vista, le damos forma mediante código y la ensamblamos con la lógica. Antes de continuar una nueva vista, nos aseguramos que la funcionalidad implementada tiene una correcta actividad para evitar el encadenamiento de errores.
 
 %------- Figura iteración XP
-\begin{figure}[!h]
+\begin{figure}[!htb]
 \begin{center}
 \begin{tikzpicture}[x=1.5cm, y=1.5cm]
 	%\fill (-3.2,0) circle (0.1pt)node[anchor=east] {$20$};
@@ -155,18 +155,18 @@ Detallaremos cada uno de estos subsistemas, pero antes vamos a exponer la jerarq
 \subsubsection{Estructuración del código por paquetes}
 
 \begin{itemize}
-\item \textbf{model}. Contiene toda la lógica del programa. Además de todos los paquetes que aparecen a continuación, contiene las clases que conforman el patrón \textit{Observador} (Observer.java y Observable.java) y la clase Model.java que gestiona el grueso de la lógica.
+\item \textbf{model}. Contiene toda la lógica del programa. Además de todos los paquetes que aparecen a continuación, contiene las clases que conforman el patrón \textit{Observador} (Observer y Observable) y la clase Model que gestiona el grueso de la lógica.
 	\begin{itemize}
-	\item \textbf{mutantoperator}. Recoge la clase abstracta MutantOperator.java que gestiona un operador de mutación.
+	\item \textbf{mutantoperator}. Recoge la clase abstracta MutantOperator que gestiona un operador de mutación.
 		\begin{itemize}
 		\item \textbf{qiskit} Contiene todas las implementaciones de operadores de mutación creados para \textit{Qiskit}.
 		\item \textbf{qsharp} Contiene todas las implementaciones de operadores de mutación creados para \qsh.
 		\end{itemize}		 
-	\item \textbf{mutant}. Contiene la clase Mutant.java que gestiona un mutante tras su creación: ruta al archivo mutante, ruta al archivo original y línea de código que sufrió la mutación.
-	\item \textbf{test}. Contiene la clase abstracta Test.Java que gestiona las características del tipo de prueba a realizar, por ejemplo si es o no determinista. También contiene sus implementaciones.
+	\item \textbf{mutant}. Contiene la clase Mutant que gestiona un mutante tras su creación: ruta al archivo mutante, ruta al archivo original y línea de código que sufrió la mutación.
+	\item \textbf{test}. Contiene la clase abstracta Test que gestiona las características del tipo de prueba a realizar, por ejemplo si es o no determinista. También contiene sus implementaciones.
 	\item \textbf{run}. Recoge clases que gestionan las pruebas de mutación. Crea archivos ejecutables a partir de un mutante y una entrada de datos y los ejecuta.
-	\item \textbf{files}. Contiene la clase TestFile.java que gestiona los archivos finales creados por las clases del paquete \textit{run}.
-	\item \textbf{testresult}. Contiene la clases abstracta TestResult.java que gestiona los resultados de la ejecución de los test y también sus implementaciones, una por cada implementación de Test.java.
+	\item \textbf{files}. Contiene la clase TestFile que gestiona los archivos finales creados por las clases del paquete \textit{run}.
+	\item \textbf{testresult}. Contiene la clases abstracta TestResult que gestiona los resultados de la ejecución de los test y también sus implementaciones, una por cada implementación de Test.
 	\end{itemize}
 \item \textbf{view}. Encargado de toda la vista del sistema.
 	\begin{itemize}
@@ -176,55 +176,191 @@ Detallaremos cada uno de estos subsistemas, pero antes vamos a exponer la jerarq
 	\item \textbf{testresultview}. Contiene la vista correspondiente al cuarto subsistema.
 	\item \textbf{tools}. Contiene algunas clases auxiliares utilizadas en la vista.
 	\end{itemize}
-\item \textbf{control}. Contiene la clase Control.java que actúa como controlador del patrón MVC.
+\item \textbf{control}. Contiene la clase Control que actúa como controlador del patrón MVC.
 \item \textbf{exception}. Recoge algunas excepciones del programa.
-\item \textbf{main}. Recoge la clase Main.java que contiene el método que inicia la ejecución del programa.
+\item \textbf{main}. Recoge la clase Main que contiene el método que inicia la ejecución del programa.
 \end{itemize}
 
 Estamos en disposición de hablar de cada subsistema con detenimiento. Mencionaremos los paquetes involucrados en cada uno de ellos, detalles de implementación o la aparición de problemas relevantes y la solución adoptada para ellos.
 
 \subsubsection{Subsistemas: Generador de mutantes}
 
-La generación de mutantes es el primer paso para realizar pruebas de mutación. En la figura \ref{fig:vista1} se contempla el aspecto de la vista asociada. La interfaz en su conjunto y cada una de las pestañas tiene un diseño simple, tratando de minimizar la cantidad de información para facilitar el uso y entendimiento del cliente.
-
-Los componentes de esta vista se encuentran en el paquete view.mutantgeneratorview, aunque además hace uso de clases del paquete view.tools. En concreto, JTableCheck.java, que gestiona una tabla de  objectos de una determinada instancia junto a casillas verificadoras asociadas a booleanos y LogArea.java que imprime información para el usuario.
-
-% Hablar de archivos (ejecución 1 a 1, etc)
-% Hablar de operadores
-% Hablar de los paquetes de la lógica
-% Tal vez contar lo de unico archivo como problema.
-
-\begin{figure}
+\begin{figure}[htb]
 \begin{center}
-\includegraphics[scale=0.5]{images/vista1}
+\includegraphics[scale=0.45]{images/vista1}
 \end{center}
 \caption{Vista del subsistema generador de mutantes.}
 \label{fig:vista1}
 \end{figure}
 
+La generación de mutantes es el primer paso para realizar pruebas de mutación. En la figura \ref{fig:vista1} \ se contempla el aspecto de la vista asociada. La interfaz en su conjunto y cada una de las pestañas tiene un diseño simple, tratando de minimizar la cantidad de información para facilitar el uso y entendimiento del cliente.
+
+Los componentes de esta vista se encuentran en el paquete view.mutantgeneratorview, aunque además hace uso de clases del paquete view.tools. En concreto, JTableCheck, que gestiona una tabla de  objectos de una determinada instancia junto a casillas verificadoras asociadas a booleanos y LogArea que imprime información para el usuario.
+
+En cuanto a la lógica, los operadores se encuentran definidos todos ellos en el paquete model.mutantoperator, y los mutantes generados se gestionan para su uso en el resto del programa mediante la clase Mutant del paquete model.mutant.
+
+La vista ofrece al usuario una lista de archivos en un determinado directorio que puede ser cambiado por el usuario. También aparece una lista de operadores de mutación acorde con en lenguaje cuántico seleccionado en ese momento. Tras la selección de los archivos y operadores se procede a llamar al controlador para que ordene a la lógica la creación de los mutantes.
+
+Para la generación de mutantes se ha implementado la técnica del programador hábil, sólo se aplica una mutación a cada archivo generado. El proceso que sigue la lógica es sencillo, un operador contiene una secuencia de caracteres a ser buscada y otra con la que es reemplazada. Así, por cada archivo y operador, se generan tantos mutantes como veces se encontró dicha cadena. Todas estas acciones se realizan desde las clase Model.
+
+De haber algún reto en esta fase del desarrollo, se trataría del hecho de establecer cuando hemos encontrado una cadena de caracteres coincidente con la mutación que queremos incurrir. En el caso de \textit{Qiskit} es sencillo, pues todas las instrucciones cuánticas son métodos que son llamados mediante un objeto perteneciente a la clase QuantumCircuit. Así, todas las instrucciones son del siguiente estilo
+
+\begin{center}
+objeto.instrucción(...)
+\end{center}
+
+y por tanto podemos buscar la cadena \textbf{.instrucción(} y sustituirla por \textbf{.mutación(} donde las palabras instrucción y mutación representan la conversión requerida. En el caso de \qsh\ no es tan sencillo, ya que las instrucciones tienen el aspecto de
+
+\begin{center}
+instrucción(...)
+\end{center}
+
+así que no basta con sustituir \textbf{instrucción(} por \textbf{mutación(}. Supongamos que queremos realizar mutantes cambiando el operador de la puerta de \textit{Hadamard}, representado por la instrucción H(...), por la puerta X, si en el proceso encontrásemos un método (por raro que fuera) acabado en H, por ejemplo applyH(...), estaríamos generando un mutante en el que esa instrucción sería cambiada por applyX(..) que no es el efecto que deseamos. La solución a esto es comprobar el carácter anterior y verificar que se trata de un salto de línea, un espacio o una tabulación.
+
+Otro problema similar se aplica a los operadores de mutación aplicados a constantes en \qsh como \textbf{One} y \textbf{Zero}. La solución es, de nuevo, la comentada en el párrafo anterior pero aplicando dicha comprobación también al carácter posterior.
+
 \subsubsection{Subsistemas: Visualizador de mutantes}
 
-\begin{figure}[!h]
+El segundo subsistema es el más simple de los cuatro. Se trata de una vista sencilla (figura \ref{fig:vista2}) que muestra la lista de mutantes generados y dos áreas de de texto, que actúan como \textit{display} de los ficheros original y mutante. Si no se han generado mutantes previamente, la lista aparecerá vacía.
+
+\begin{figure}[htb]
 \begin{center}
-\includegraphics[scale=0.5]{images/vista2}
+\includegraphics[scale=0.45]{images/vista2}
 \end{center}
 \caption{Vista del subsistema visualizador de mutantes.}
 \label{fig:vista2}
 \end{figure}
+
+La lista de mutantes se gestiona mediante la clase JMutantList en el paquete view.tools. El resto de componentes se gestionan desde las clases FileArea y MutantsViewer del paquete view.mutantsviewer. Además, la lista antes mencionada contiene, no sólo el identificador del mutante, sino la instancia al completo.
+
+El funcionamiento es sencillo, el usuario debe pinchar sobre el mutante que quiera ser observado y la vista puede obtener de dicho mutante las rutas a los archivos original y mutado sin necesidad de hacer llamada al controlador y, por tanto, tampoco al modelo. Tal vez en este caso no se esté siguiendo las directrices del patrón MVC como es debido, pero por su simplicidad optamos por este camino.
+
 \subsubsection{Subsistemas: Pruebas de mutación y creación de test}
 
-\begin{figure}[!h]
+Es sin duda el componente más complejo del programa. En él intervienen gran parte de la lógica realizada para el proyecto. La funcionalidad se resume en ejecutar una elección de mutantes con unos casos de prueba determinados para decretar qué porcentaje de ellos ha sido matado y la eficacia de dichas pruebas.
+
+\begin{figure}[htb]
 \begin{center}
-\includegraphics[scale=0.5]{images/vista3}
+\includegraphics[scale=0.45]{images/vista3}
 \end{center}
 \caption{Vista del subsistema pruebas de mutación y creación de test.}
 \label{fig:vista3}
 \end{figure}
-\subsubsection{Subsistemas: Visualizador de reultados}
 
-\begin{figure}[!h]
+En la figura \ref{fig:vista3} tenemos la vista que constituye el subsistema cuyos componentes se engloban dentro del paquete view.testcaserunnerview y, además, hace uso de las clases del paquete view.tool TabbedTextArea, que gestiona las entradas para los casos de prueba que el usuario puede introducir mediante un sistema de pestañas; JTableCheck, tabla que gestiona la selección de mutantes; TextField, un simple campo de texto y LogArea, que imprime información de la ejecución del programa al usuario.
+
+Aunque el usuario podía en el primer subsistema seleccionar más de un archivo para aplicar mutaciones sobre él, para realizar las pruebas de mutación debemos hacerlo, en este caso, de manera individual. Además, los archivos que MTQC genera para ejecutar todas las pruebas se almacenan en una carpeta auxiliar; Por tanto, el programa a probar no podrá usar archivos o librerías que no estén en el directorio por defecto del lenguaje correspondiente. Para solucionar esto, el usuario puede incluir la ruta a los archivos necesarios en el propio programa. Por ejemplo en \textit{Python} puede hacerse con
+
+\begin{figure}[htb]
+\begin{lstlisting}[language=Python]
+import sys
+sys.path.insert(0, "path_to_your_package")
+\end{lstlisting}
+\caption{Código para añadir una nueva ruta donde \textit{Python} buscará módulos.}
+\label{fig:code1}
+\end{figure}
+
+aunque, en general, los programas cuánticos rara vez alcanzan una extensión suficiente para ser modulados en varios archivos y no debe ser un problema en la mayoría de casos.
+
+Así, la primera decisión que ha de tomar el usuario es la de elegir el archivo deseado. En la vista se muestran los correspondientes a la ruta seleccionada en el primer subsistema. Tras la elección, se llama al controlador para que la lógica realice dos tareas. La primera es obtener todos los mutantes generados a partir del archivo seleccionado; la segunda es devolver todas las funciones encontradas en el archivo.
+
+El usuario debe ahora realizar el resto de la configuración: Elegir los mutantes a ejecutar, la función de llamada, el tiempo límite para la ejecución de cada prueba (para evitar ejecuciones infinitas debido a que nos hayamos quedado en un bucle a causa de la mutación), el tipo de test, elegir el número de ejecuciones si este último es probabilista y , por último, las entradas o test.
+
+En cuanto al tipo de test, está implementado uno determinista que hemos denominado \textbf{\textit{QStateTest}} y otro probabilista, \textbf{\textit{ProbabilisticTest}}. El primero compara las probabilidades arrojadas por los estados finales del sistema cuántico. Supongamos que una función sobre un sistema cuántico de un qubit devuelve $\frac{1}{\sqrt{2}}\ket{0}+\frac{1}{\sqrt{2}}\ket{1}$ mientras que el mutante devuelve $\frac{1}{\sqrt{2}}\ket{0}-\frac{1}{\sqrt{2}}\ket{1}$, este test evalúa las probabilidades de cada estado, que en ambos casos son de $\frac{1}{2}$ para $\ket0$ y un $\frac{1}{2}$ para $\ket1$. Por tanto no se mataría al mutante pese a que los estados cuánticos no son idénticos.
+
+Sobra decir que este test solo es posible si se ejecuta sobre un simulador en un computador clásico. Para su implementación, en el caso de \qsh\ hemos hecho uso de la instrucción \textbf{DumpMachine()} que imprime en un fichero o pantalla el estado cuántico en ese momento, mientras que el simulador \textbf{StatevectorSimulator} de \textit{Qiskit} permite de igual modo acceder a dicha información.
+
+El segundo tipo de test, \textit{ProbabilisticTest}, compara la salida final de la función que, generalmente, será la medición de uno o más qubits. Por tanto, esta salida puede ser probabilista y su ejecución puede ser realizada en repetidas ocasiones con el fin de conseguir una certeza estadística sobre la muerte o no del mutante. Dicho test puede ser aplicado en computadoras cuánticas usando \textit{Qiskit}, basta con seleccionar una máquina de \textit{IBM} disponible para la ejecución escribiendo el código correspondiente en la entrada. Sin embargo, hay que tener en cuenta que la disponibilidad de estas computadoras es muy limitada y las ejecuciones mensuales también lo son, así que podría demorar bastante tiempo.
+
+Como vimos en el capítulo anterior, la inicialización del estado cuántico deseado supone un problema añadido respecto de la computación clásica. El usuario debe darnos una secuencia de puertas para conseguir el estado de entrada deseado. En el caso de \textit{Qiskit} existe una función del circuito cuántico (QuantumCircuit), \textbf{initialize()}, que permite inicializar el circuito en el estado deseado, siempre que el simulador utilizado sea StatevectorSimulator.
+
+\begin{figure}[htb]
+\begin{lstlisting}[language=Python]
+from qiskit import *
+import numpy as np
+
+qr = QuantumRegister(3)
+qc = QuantumCircuit(qr)
+init = [complex(0, 1/np.sqrt(2)), 0, 0, complex(1/np.sqrt(2), 0), 0, 0, 0, 0]
+qc.initialize(init, qr)
+\end{lstlisting}
+\caption{Inicialización de un circuito cuántico mediante un vector complejo en \textit{Qiskit}.}
+\label{fig:code2}
+\end{figure}
+
+El código anterior inicializa el circuito cuántico de 3 qubits en el estado $\frac{i}{\sqrt{2}}\ket{000}+\frac{1}{\sqrt{2}}\ket{011}$. Nótese que el vector dado como ejemplo tiene norma uno; en otro caso la ejecución nos arrojaría un error.
+
+En cualquier caso, la preparación de la entrada requiere un tratamiento previo. Para tratar esta entrada hemos facilitado dos métodos. El primero es mediante la carga de un archivo de texto en el que cada caso es separado por una línea con la secuencia de caracteres \textbf{***} y cada caso tiene que tener la estructura del segundo método que mencionamos a continuación. El segundo es un sistema de pestaña. Por defecto aparece una pestaña con un ejemplo estructural a seguir y en el caso de de añadir una nueva, aparece con una copia del contenido de la seleccionada previamente. El código dado por defecto para \textit{Qiskit} está reflejado en la figura \ref{fig:code3}.
+
+\begin{figure}[htb]
+\begin{lstlisting}[language=Python]
+def init ():
+	cr = ClassicalRegister(1)
+	qr = QuantumRegister(1)
+	qc = QuantumCircuit(qr, cr)
+
+	# Initialize with desired quantum gates or QuantumCircuit.initialize() method
+
+	# Call your method
+
+	ex = execute(qc, backend = Aer.get_backend('statevector_simulator'))
+
+	# Add any operations if needed
+	
+	return next(iter(ex.result().get_counts())) # Change desired return
+	#return pow(abs(ex.result().get_statevector()), 2) # If probabilistic test chosen
+\end{lstlisting}
+\caption{Código dado por defecto en MTQC para inicializar un caso de prueba en \textit{Qiskit}.}
+\label{fig:code3}
+\end{figure}
+
+Según lo deseado, podemos modificar el número de registro clásicos (\textbf{ClassicalRegister}) y cuánticos (\textbf{QuantumRegister}), añadir la inicialización deseada en cada caso y debemos llamar al método elegido. Por último, habrá que habrá que comentar uno de los dos \textit{return} en función al tipo de test elegido según se indica o incluso puede ser cambiado para devolver otro tipo de datos si se desea. Es importante recalcar que \textit{Qiskit} construye un circuito con el uso de métodos de aplicación de puertas, pero realmente ese circuito no se ejecuta hasta que no se llama a la instrución \textbf{execute(...)}. Si esta función es llamada durante el método que será probado, basta con comentar o borrar la línea de código correspondiente de la figura \ref{fig:code3}.
+
+En cualquier caso, debemos mantener la tabulación establecida y no cambiar el nombre del método definido en la primera línea, pues es llamado para poder ser inicializada la entrada. Si es opta por la introducción vía archivo, este método tiene que estar definido para cada caso de igual modo.
+
+\begin{figure}[htb]
+\begin{lstlisting}[language=c++]
+//Select desired Qubit number to be used
+using (register = Qubit[2]) {
+
+	//Inicialize variables and Qubits
+	let count = 1;
+	let initial = Zero;
+
+	//Call method and save output
+	let(output) =  method(...);
+
+	//If probabilistic test chosen.
+	//DumpMachine("temp.txt");
+
+	//Reset all qubits to Zero state
+	ResetAll(register);
+
+	//Return output
+	return output;
+}
+\end{lstlisting}
+\caption{Código dado por defecto en MTQC para inicializar un caso de prueba en \qsh.}
+\label{fig:code4}
+\end{figure}
+
+Las mismas indicaciones tenemos para \qsh\ (figura \ref{fig:code4}), debemos mantener la estructura general y modificar lo necesario siguiendo las indicaciones, ya haya sido elegido el método de entrada mediante el uso de la vista de pestañas o mediante la carga de archivo.
+
+Tenemos así todo listo para proceder: archivo, método, mutantes, tipo de test y casos de prueba, entre otros. Todos estos datos se gestionan con las clases mencionadas anteriormente para cada uno de ellos. El usuario está listo para ejecutar los test, así, la vista llama al controlador que preprocesa los datos antes de mandárselos a la lógica. El primer objetivo es preparar nuevos archivos que añadan las entradas establecidas a los archivos a ejecutar: mutantes y original. Dichos archivos son creados por las clases del paquete model.run y gestionadas por la clase TestFile del paquete model.files.
+
+El siguiente paso es generar un archivo principal en \textit{Python} que será ejecutado mediante una llamada al sistema (por tanto el usuario debe tener agregado \textit{Python} en su \textit{path}) y que llamará a todos los archivos generados en el paso anterior para obtener las salidas arrojadas por los test.
+
+Tras ser ejecutados, MTQC recoge las salidas resultantes de la ejecución asignándolas al archivo original o mutante y a uno de los test según corresponda. Esta gestión de datos se realiza mediante una de las clases del paquete model.testresult según el tipo de test elegido.
+
+Para acabar se manda una actualización de los resultados obtenidos al último subsistema que veremos a continuación.
+
+\subsubsection{Subsistemas: Visualizador de resultados}
+
+Pues muestra los resultados y a correr macho
+
+\begin{figure}[htb]
 \begin{center}
-\includegraphics[scale=0.5]{images/vista4}
+\includegraphics[scale=0.45]{images/vista4}
 \end{center}
 \caption{Vista del subsistema visualizador de resultados.}
 \label{fig:vista4}
