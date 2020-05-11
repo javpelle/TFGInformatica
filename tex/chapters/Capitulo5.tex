@@ -352,11 +352,13 @@ El siguiente paso es generar un archivo principal en \textit{Python} que será e
 
 Tras ser ejecutados, MTQC recoge las salidas resultantes de la ejecución asignándolas al archivo original o mutante y a uno de los test según corresponda. Esta gestión de datos se realiza mediante una de las clases del paquete model.testresult según el tipo de test elegido.
 
-Para acabar se manda una actualización de los resultados obtenidos al último subsistema que veremos a continuación.
+Para acabar, todos los archivos generados durante esta fase son borrados y se manda una actualización de los resultados obtenidos al último subsistema que veremos a continuación.
 
 \subsubsection{Subsistemas: Visualizador de resultados}
 
-Pues muestra los resultados y a correr macho
+En último lugar tenemos el subsistema dedicado a visualizar los resultados. La vista (figura \ref{fig:vista4}) es un sencillo sistema de pestañas, una para cada test, que contiene una tabla donde se comparan los resultados y se indica qué mutantes han muerto y cuáles no.
+
+Los componentes de la vista se encuentran íntegramente en el paquete view.testresultview a excepción de la clase ResultTable, que gestiona cada tabla, del paquete view.tools. Como hemos mencionado, los resultados que se muestran en esta vista se actualizan automáticamente al final de la ejecución del subsistema anterior.
 
 \begin{figure}[htb]
 \begin{center}
@@ -366,4 +368,38 @@ Pues muestra los resultados y a correr macho
 \label{fig:vista4}
 \end{figure}
 
+Además, el usuario puede modificar la confianza utilizada para matar a un mutante en un test probabilístico, veamos como funciona. Supongamos que tenemos un total de $n$ estados posibles ($\ket0,...,\ket{n-1}$) en cierto sistema cuántico y hemos ejecutado $k$ veces tanto el archivo original como el mutante. Definimos las probabilidades de medición del estado cuántico $\ket i$ para el archivo original como
+
+\begin{equation}
+p_{\ket i,o}=\dfrac{f_{\ket i,o}}{k}
+\end{equation}
+
+donde $f_{\ket i,o}$ denota el número de veces que la salida del programa original fue el estado $\ket i$. Análogamente, para cierto archivo mutante $m$ definimos las probabilidades de medición del estado cuántico $\ket i$ como
+
+\begin{equation}
+p_{\ket i,m}=\dfrac{f_{\ket i,m}}{k}
+\end{equation}
+
+donde $f_{\ket i,m}$ denota el número de veces que la salida del mutante $m$ fue el estado $\ket i$. Así un mutante $m$ muere si se verifica
+
+\begin{equation}
+\max \{|p_{\ket i,o}-p_{\ket i,m}|:0\leq i\leq n - 1\}> c
+\end{equation}
+
+donde $c$ denota el parámetro de confianza que puede ser manipulado por el cliente. Obviamente el máximo del conjunto anterior está comprendido entre 0 y 1 por estarlo las probabilidades definidas anteriormente. El parámetro de confianza en MTQC por defecto es del 1\%, pero puede modificarse al porcentaje deseado. Tras esto, se contactará con la clase Model de la lógica que solicitará a cada instancia de la clase TestResult que recalcule la muerte o no del mutante en función del nuevo valor indicado y comunicará a la vista los resultados.
+
 \section{Implementaciones futuras}
+
+Para finalizar este capítulo queremos aportar algunas ideas con las que se puede dar continuidad a este proyecto. Algunas de estas funcionalidades fueron planificadas al principio del proyecto para ser descartadas más adelante y otras surgen durante la implementación de MTQC.
+
+\begin{itemize}
+\item Implementación de \textit{weak mutation testing}. Se trataría de un test determinista a realizar sobre simulador que verificara las condiciones de la definición \ref{def:def24}.
+
+\item Facilitar el uso de otros archivos y librerías externas. Como mencionamos antes, el usuario debe realizar una adición de código para encontrar la ruta a estos archivos y seria conveniente que esto no fuera necesario.
+
+\item Añadir algún lenguaje adicional como \textbf{OpenQASM}.
+
+\item Permitir que el usuario pueda añadir nuevos operadores de mutación desde la ejecución del programa y que estos puedan ser guardados para futuras pruebas de mutación.
+
+\item Permitir guardar el proceso de una ejecución, como mutantes y otras configuraciones, para que la tarea pueda ser retomada en otra ejecución.
+\end{itemize}
