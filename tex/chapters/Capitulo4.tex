@@ -2,7 +2,7 @@
 	% Ambos lenguajes tienen métodos cuánticos y clásicos. Sólo consideramos los cuánticos.
 	% Lista de operadores mutantes considerados para cada lenguaje.
 	
-\chapter{Mutation Testing aplicado a la computación cuántica}
+\chapter[Mutation Testing en computación cuántica]{Mutation Testing aplicado a la computación cuántica}
 
 Teniendo ya los principales conceptos e ideas que engloban a las pruebas de mutación, podemos tratar de abordar el problema de aplicar estas técnicas a software cuántico. Se va a proceder a aportar una noción general de cómo se podrían extrapolar las nociones de mutation testing del mundo de la programación clásica al mundo cuántico, para, posteriormente, centrar el desarrollo del capítulo en torno a los dos lenguajes de programación cuánticos que incumben a este trabajo: \textit{Qiskit} y \qsh
 
@@ -51,7 +51,7 @@ using (register = Qubit[2]) {
 }
 \end{lstlisting}
 \caption{Llamada a method.}
-\label{fig:code4}
+\label{fig:code41}
 \end{figure}
 
 Y supogamos que se quiere realizar un test donde los 2 qubits del registro estén inicializados a los valores $\ket{1}$ y $\tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1})$ respectivamente. Entonces se 
@@ -74,7 +74,7 @@ using (register = Qubit[2]) {
 }
 \end{lstlisting}
 \caption{Llamada a method con inicialización de qubits al estado deseado.}
-\label{fig:code4}
+\label{fig:code42}
 \end{figure}
 
 Por tanto, el testeador debe ser capaz de crear la secuencia de puertas que transforme cada qubit que se vaya a utilizar como input del test al estado cuántico deseado.
@@ -109,7 +109,7 @@ using (register = Qubit[1]) {
 }
 \end{lstlisting}
 \caption{Ejemplo de superposición de estados.}
-\label{fig:code4}
+\label{fig:code43}
 \end{figure}
 
 En el ejemplo simplemente transformamos un qubit que se encuentra en el estado $\ket{0}$ al estado $\tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1})$ mediante una puerta Hadamard. En dicho estado, el qubit tiene las mismas probabilidades de arrojar como resultado $\ket{0}$ o $\ket{1}$ al realizar una medición sobre él. La variable de salida \textit{output} depende del resultado de esta medición.
