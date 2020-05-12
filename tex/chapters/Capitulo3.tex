@@ -21,9 +21,9 @@ La unidad u objeto fundamental del testing son los \emph{test}. Un test se const
 \item \emph{Outputs}: se corresponde con el resultado que producirá el programa en caso de que su comportamiento sea correcto.
 \end{itemize}
 
-Como el software puede constar de múltiples funcionalidades, va a ser necesario contar numerosos de test para poder verificarlo correctamente. A un conjunto de test se lo conoce como \textit{test suite}. 
+Como el software puede constar de múltiples funcionalidades, va a ser necesario contar de numerosos test para poder verificarlo correctamente. A un conjunto de test se lo conoce como \textit{test suite}. 
 
-Por otro lado, los programas suelen ser inmensamente extensos, y comprobarlos completamente no es viable. El número de inputs  que puede aceptar un programa puede ser ``infinito''. Pensemos por ejemplo en un compilador de Java. Potencialmente, los inputs que puede recibir el compilador no son sólo todos los programas Java, si no cualquier cadena de caracteres. La única limitación viene impuesta por el máximo tamaño de archivo que acepta el \textit{parser} del compilador. Por eso se dice que el número de inputs es ``infinito''. [\cite{ammann2016introduction}]
+Por otro lado, los programas suelen ser inmensamente extensos, y comprobarlos completamente no es viable. El número de inputs  que puede aceptar un programa puede ser ``infinito''. Pensemos por ejemplo en un compilador de Java. Potencialmente, los inputs que puede recibir el compilador no son sólo todos los programas Java, sino cualquier cadena de caracteres. La única limitación viene impuesta por el máximo tamaño de archivo que acepta el \textit{parser} del compilador. Por eso se dice que el número de inputs es ``infinito''. [\cite{ammann2016introduction}]
 
 Siguiendo la literatura que acabamos de mencionar, la manera de solucionar este problema es introduciendo unos criterios que permitan al testeador diseñar test eficaces, es decir, tets que potencialmente sean más propensos a encontrar \textit{faults} en el código. Estos criterios son:
 \begin{itemize}
@@ -108,12 +108,12 @@ Nos interesa tener una métrica que nos permita saber como de eficiente es ciert
 $E(\mathcal{T},\mathcal{M},p) = \dfrac{|\mathcal{M}^*|}{|\mathcal{M} \,|}$, donde $|\cdot|$ denota el cardinal del conjunto
 \end{center}
 
-Sin embargo, tal y como se ha mencionado previamente, es imposible matar a un mutante equivalente, luego para mejor la precisión de la métrica, es necesario excluir el conjunto de mutantes equivalentes $\mathcal{M}_e$. Se obtiene así una nueva métrica más ajustada que la anterior:
+Sin embargo, tal y como se ha mencionado previamente, es imposible matar a un mutante equivalente, luego para mejorar la precisión de la métrica, es necesario excluir el conjunto de mutantes equivalentes $\mathcal{M}_e$. Se obtiene así una nueva métrica más ajustada que la anterior:
 
 %Añado un espaciado horizontal para que quede con el mismo espacio que la metrica anterior%
 $\hspace{48pt}E^+(\mathcal{T},\mathcal{M},p) = \dfrac{|\mathcal{M}^*|}{|\mathcal{M} \,|\setminus|\mathcal{M}_e|}$
 
-Si bien esto sería lo ideal, identificar los mutantes equivalentes es un problema indecible, y por tanto nos tendremos que conformar con la métrica $E$. Evitar la generación de un número elevado de mutantes equivalentes sigue siendo uno de los problemas a abordar en mutation testing. 
+Si bien esto sería lo ideal, identificar los mutantes equivalentes es un problema indecidible, y por tanto nos tendremos que conformar con la métrica $E$. Evitar la generación de un número elevado de mutantes equivalentes sigue siendo uno de los problemas a abordar en mutation testing. 
 
 Otro problema importante es el elevado número de mutantes que se generan, ya que incluso en programas pequeños, en un lenguaje con pocos operadores de mutación definidos,el número de mutantes obtenidos puede ser inmensamente grande. Una solución que ayuda a mitigar este problema es trabajar sobre lo que se conoce como la \textit{hipótesis del programador competente} [\cite{demillo1978hints}]. Esta hipótesis tiene dos puntos clave:
 \begin{itemize}
@@ -130,7 +130,7 @@ Por último, tal y como se ha mencionado previamente, la forma de matar un mutan
 Sea $p$ un programa,$t$ un test y $m$ un mutante obtenido a partir de la aplicación de un operador de mutación sobre $p$. Podemos decir que $t$ mata a $m$ en función de dos criterios:
 \begin{itemize}
 \item \emph{Strong Mutation Testing}: $t$ mata a $m$ si los outputs obtenidos por $p$ y $m$ al aplicar los inputs de $t$ son distintos.
-\item \emph{Strong Mutation Testing}: $t$ mata a $m$ si, usando los inputs dados por $t$,  tras ejecutar la sentencia mutada para $m$ y la sentencia original para $p$ el estado interno del programa es distinto. 
+\item \emph{Weak Mutation Testing}: $t$ mata a $m$ si, usando los inputs dados por $t$,  tras ejecutar la sentencia mutada para $m$ y la sentencia original para $p$ el estado interno del programa es distinto. 
 \end{itemize}
 \end{definition}
 
