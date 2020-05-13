@@ -17,3 +17,30 @@ Denotamos $\ket\psi\bra\psi$ como el \textbf{producto exterior}. Por la definici
 \section{Qubit}
 
 El \textbf{qubit} o \textbf{cúbit} es el sistema de información más básico de la computación cuántica. Se trata de un vector unitario de del espacio vectorial $\C^2$ con una base ortonormal prefijada que denotamos por $\{\ket0,\ket1\}$. A menudo, a estos vectores ortonormales se les identifica con dos vectores de $\C^2$, habitualmente $\twovector{1}{0}$ y $\twovector{0}{1}$.
+
+Esta elección de la base no se realiza de manera arbitraria, si no que los estados $\{\ket0,\ket1\}$ nos ayudarán a representar los valores de los bits clasicos 0 y 1. Pero, a diferencia de los bits, un qubit puede encontrarse en una \textit{superposición} de los estados de la base, es decir, un qubit $\ket\psi$ se expresa como:
+\begin{center}
+$\ket{\psi}=\alpha\ket0+\beta\ket1,\; donde\; \alpha,\;\beta\in\C$ 
+\end{center}
+
+A los valores $\alpha$ y $\beta$ se les conoce como \textit{amplitudes} del estado $\ket0$ y $\ket1$, respectivamente. Como un qubit es un vector unitario, los valores $\alpha$ y $\beta$ deben cumplir:
+\begin{center}
+$|\alpha|^2 + |\beta|^2 = 1$
+\end{center}
+
+Esto se conoce como la \textit{restricción de normalización}.
+
+Un concepto muy importante es el proceso de obtención de información que nos proporciona un qubit. Dicho proceso se conoce como \textit{medir}.
+
+\subsection{Medición de un qubit}
+
+Pese a que un qubit se pueda encontrar en una superposición de estados de la base, la información que podemos extraer de este no es más que un valor de bit clásico. Esto se debe a que para obtener esta información hay que realizar los que se conoce como \textit{medida} sobre el qubit. Cuando se mide un qubit, este colapsa a uno de los dos estado de la base $\{\ket0,\ket1\}$, y por lo tanto, al igual que con los bits clásicos, solo hay dos posibles resultados.
+
+Dado un qubit en el estado $\ket{\psi}=\alpha\ket0+\beta\ket1$, la probabilidad de obtener el estado $\ket0$ o $\ket1$ viene determinada por el cuadrado de las amplitudes de ambos. De esta forma, se tiene que $|\alpha|^2$ representa la probabilidad de obtener el estado $\ket0$, mientras que $|\beta|^2$ simboliza la probabilidad de obtener el estado $\ket1$ al realizar una medición.
+
+Este proceso es irreversible, luego una vez realizada la medición, no se puede recuperar el estado original del qubit.
+
+Llegados a este punto, uno puede preguntarse cuales son las ventajas de utilizar qubits frene a bits clásicos si la información que podemos obtener de ellos sique siendo binaria. Por ello, vamos a mostrar un ejemplo muy relevante en el mundo de la física cuántica que muestra el potencial de los qubits:
+
+\subsection{Experimento: Distribución de Clave Cuántica}
+
