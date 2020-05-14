@@ -1,6 +1,6 @@
 \chapter{Introducción a la computación cuántica}
 
-En este capítulo vamos a introducirnos en el mundo de la computación cuántica. No nos adentraremos en la teoría de la mecánica cuántica y usaremos nociones básicas de matemáticas. Existen multitud de fuentes que ahondan en el conocimiento aportado por las matemáticas, la física y las ciencias de la computación para cimentar la teoría que vamos a desarrollar a continuación. Nos remitimos a ellas si existe el deseo de conocer más sobre esta rama de la ciencia o incluso a cualquiera de los TFG de los miembros de este grupo presentados para el grado de matemáticas.
+En este capítulo vamos a introducirnos en el mundo de la computación cuántica. No nos adentraremos en la teoría de la mecánica cuántica y usaremos nociones básicas de matemáticas, concretamente del álgebra lineal. Existen multitud de fuentes que ahondan en el conocimiento aportado por las matemáticas, la física y las ciencias de la computación para cimentar la teoría que vamos a desarrollar a continuación. Nos remitimos a ellas si existe el deseo de conocer más sobre esta rama de la ciencia o incluso a cualquiera de los TFG de los miembros de este grupo presentados para el grado de matemáticas.
 
 Antes de empezar, vamos a hablar sobre una notación muy usada en mecánica cuántica y que emplearemos a menudo en este y los siguientes capítulos.
 
@@ -12,35 +12,60 @@ La notación $\ket{\psi}$ denominada \textit{ket} pertenece a la notación de Di
 \dotproduct\psi{\psi'}=\sum_{i=1}^{n}\psi_i\overline{\psi'_i}
 \end{equation}
 
-Denotamos $\ket\psi\bra\psi$ como el \textbf{producto exterior}. Por la definición anterior dadas para \textit{bra} y \textit{ket} se trata de una matriz de dimensiones $n\times n$ donde $n$ es la dimensión del espacio complejo donde habita $\psi$. Al tratarse de una matriz cuadrada, podemos identificarla como la matriz asociada de un isomorfismo $\C^n\to\C^n$.
+Denotamos $\ket\psi\bra\psi$ como el \textbf{producto exterior}. Por la definición anterior dadas para \textit{bra} y \textit{ket} se trata de una matriz de dimensiones $n\times n$ donde $n$ es la dimensión del espacio complejo donde habita $\psi$. Al tratarse de una matriz cuadrada, podemos identificarla como la matriz asociada de un isomorfismo lineal $\C^n\to\C^n$.
 
 \section{Qubit}
 
 El \textbf{qubit} o \textbf{cúbit} es el sistema de información más básico de la computación cuántica. Se trata de un vector unitario de del espacio vectorial $\C^2$ con una base ortonormal prefijada que denotamos por $\{\ket0,\ket1\}$. A menudo, a estos vectores ortonormales se les identifica con dos vectores de $\C^2$, habitualmente $\twovector{1}{0}$ y $\twovector{0}{1}$.
 
-Esta elección de la base no se realiza de manera arbitraria, si no que los estados $\{\ket0,\ket1\}$ nos ayudarán a representar los valores de los bits clasicos 0 y 1. Pero, a diferencia de los bits, un qubit puede encontrarse en una \textit{superposición} de los estados de la base, es decir, un qubit $\ket\psi$ se expresa como:
-\begin{center}
-$\ket{\psi}=\alpha\ket0+\beta\ket1,\; donde\; \alpha,\;\beta\in\C$ 
-\end{center}
+Esta elección de la base no se realiza de manera arbitraria, si no que los estados $\{\ket0,\ket1\}$ nos ayudarán a representar los valores de los bits clasicos 0 y 1. Pero, a diferencia de los bits, un qubit puede encontrarse en una \textbf{superposición} de los estados de la base, es decir, un qubit $\ket\psi$ se expresa como:
+\begin{equation}
+\ket{\psi}=\alpha\ket0+\beta\ket1,\mathrm{\ donde\ }\alpha,\beta\in\C.
+\end{equation}
 
-A los valores $\alpha$ y $\beta$ se les conoce como \textit{amplitudes} del estado $\ket0$ y $\ket1$, respectivamente. Como un qubit es un vector unitario, los valores $\alpha$ y $\beta$ deben cumplir:
-\begin{center}
-$|\alpha|^2 + |\beta|^2 = 1$
-\end{center}
+A los valores $\alpha$ y $\beta$ se les conoce como \textbf{amplitudes} del estado $\ket0$ y $\ket1$, respectivamente. Como un qubit es un vector unitario, los valores $\alpha$ y $\beta$ deben cumplir:
+\begin{equation}
+|\alpha|^2 + |\beta|^2 = 1
+\end{equation}
 
-Esto se conoce como la \textit{restricción de normalización}.
+Esto se conoce como la \textbf{restricción de normalización}.
 
-Un concepto muy importante es el proceso de obtención de información que nos proporciona un qubit. Dicho proceso se conoce como \textit{medir}.
+Un concepto muy importante es el proceso de obtención de información que nos proporciona un qubit. Dicho proceso se conoce como \textbf{medir}.
 
 \subsection{Medición de un qubit}
 
-Pese a que un qubit se pueda encontrar en una superposición de estados de la base, la información que podemos extraer de este no es más que un valor de bit clásico. Esto se debe a que para obtener esta información hay que realizar los que se conoce como \textit{medida} sobre el qubit. Cuando se mide un qubit, este colapsa a uno de los dos estado de la base $\{\ket0,\ket1\}$, y por lo tanto, al igual que con los bits clásicos, solo hay dos posibles resultados.
+Pese a que un qubit se pueda encontrar en una superposición de estados de la base mencionada, la información que podemos extraer de este no es más que un valor de bit clásico. Esto se debe a que para obtener esta información hay que realizar los que se conoce como \textit{medida} sobre el qubit. Cuando se mide un qubit, este colapsa a uno de los dos estados de la base $\{\ket0,\ket1\}$, y por lo tanto, al igual que con los bits clásicos, solo hay dos posibles resultados.
 
-Dado un qubit en el estado $\ket{\psi}=\alpha\ket0+\beta\ket1$, la probabilidad de obtener el estado $\ket0$ o $\ket1$ viene determinada por el cuadrado de las amplitudes de ambos. De esta forma, se tiene que $|\alpha|^2$ representa la probabilidad de obtener el estado $\ket0$, mientras que $|\beta|^2$ simboliza la probabilidad de obtener el estado $\ket1$ al realizar una medición.
+Dado un qubit en el estado $\ket{\psi}=\alpha\ket0+\beta\ket1$, la probabilidad de obtener el estado $\ket0$ o $\ket1$ viene determinada por el cuadrado de las amplitudes de ambos. De esta forma, se tiene que $|\alpha|^2$ representa la probabilidad de obtener el estado $\ket0$, mientras que $|\beta|^2$ es la probabilidad de obtener el estado $\ket1$ al realizar una medición. Tras la medición, el estado actual es el obtenido por la medición.
 
-Este proceso es irreversible, luego una vez realizada la medición, no se puede recuperar el estado original del qubit.
+Este proceso es irreversible, una vez realizada la medición, no se puede recuperar el estado original del qubit.
 
-Llegados a este punto, uno puede preguntarse cuales son las ventajas de utilizar qubits frene a bits clásicos si la información que podemos obtener de ellos sique siendo binaria. Por ello, vamos a mostrar un ejemplo muy relevante en el mundo de la física cuántica que muestra el potencial de los qubits:
+Llegados a este punto, uno puede preguntarse cuales son las ventajas de utilizar qubits frene a bits clásicos si la información que podemos obtener de ellos sique siendo binaria. Por ello, vamos a mostrar algunos ejemplos muy relevantes a lo largo de este capítulo que muestran el potencial de los qubits.
 
 \subsection{Experimento: Distribución de Clave Cuántica}
 
+Hemos hablado en el capítulo anterior del logro que supone el algoritmo de factorización de enteros de Shor. Esto podría poner en entredicho la seguridad de la computación clásica actual basada principalmente en el algoritmo de \textbf{RSA} que sustenta su confianza en la complejidad del problema de factorizar grandes números.
+
+% Diagrama Alice, Bob, Eve de distribución de clave cuántica
+\begin{figure}[!htb]
+\begin{center}
+\begin{tikzpicture}[x=1.5cm, y=1.5cm]
+	%\fill (-3.2,0) circle (0.1pt)node[anchor=east] {$20$};
+	%\fill (3.2,0) circle (0.1pt)node[anchor=west] {$-20$};
+    \node[circle,draw=red] (v1) at (-3,0) {\ Alice\ };
+    \node[circle,draw=red] (v2) at (3,0) {\ \ Bob\ \ };
+    %\node[fill=black] (a1) at (-3.75,-1.1) {};
+    %\node[fill=black] (a2) at (3.75,-1.1) {};
+    \draw[line width=0.6mm, color=black]  (-2.6,0.2) -- (2.6,0.2);
+    %\draw[<->]  (-2.6,-0.2) -- (2.6,-0.2);
+    %\draw[-{Stealth[red]}] (0,0) -- (1,0);
+    %\draw[color=black]  (v4) edge (a2);
+    %\draw[color=black]  (a2) edge (a1);
+    %\draw[color=black, -latex]  (a1) edge (v1);
+    %\draw (v4) -- (a2) -- (a1);
+\end{tikzpicture}
+\end{center}
+\caption{Iteración de etapas en XP.}
+\label{fig:fig21}
+
+\end{figure}
