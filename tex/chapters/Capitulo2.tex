@@ -38,7 +38,9 @@ Pese a que un qubit se pueda encontrar en una superposición de estados de la ba
 
 Dado un qubit en el estado $\ket{\psi}=\alpha\ket0+\beta\ket1$, la probabilidad de obtener el estado $\ket0$ o $\ket1$ viene determinada por el cuadrado de las amplitudes de ambos. De esta forma, se tiene que $|\alpha|^2$ representa la probabilidad de obtener el estado $\ket0$, mientras que $|\beta|^2$ es la probabilidad de obtener el estado $\ket1$ al realizar una medición. Tras la medición, el estado actual es el obtenido por la medición.
 
-Este proceso es irreversible, una vez realizada la medición, no se puede recuperar el estado original del qubit.
+Este proceso es irreversible, una vez realizada la medición, no se puede recuperar el estado original del qubit. Además, la elección de la base en la que medimos no es única. Una base alternativa relevante es $\{\ket+,\ket-\}$, donde $\ket+=\dfrac{1}{\sqrt{2}}(\ket0+\ket1)$ y $\ket-=\dfrac{1}{\sqrt{2}}(\ket0-\ket1)$. Se verifica que $\ket+$ y $\ket-$ son ortonormales entre sí.
+
+Ejemplifiquemos todo esto suponiendo que tenemos el estado $\ket\psi=\ket+$ al que vamos a aplicar una medición. Si lo hacemos respecto de la base $\{\ket0,\ket1\}$ obtendremos con una probabilidad idéntica del 50\% $\ket0$ o $\ket1$. Sin embargo, si medimos respecto de la base $\{\ket+,\ket-\}$ obtendremos un 100\% de las veces el resultado $\ket+$. 
 
 Llegados a este punto, uno puede preguntarse cuales son las ventajas de utilizar qubits frene a bits clásicos si la información que podemos obtener de ellos sique siendo binaria. Por ello, vamos a mostrar algunos ejemplos muy relevantes a lo largo de este capítulo que muestran el potencial de los qubits.
 
@@ -46,29 +48,75 @@ Llegados a este punto, uno puede preguntarse cuales son las ventajas de utilizar
 
 Hemos hablado en el capítulo anterior del logro que supone el algoritmo de factorización de enteros de Shor. Esto podría poner en entredicho la seguridad de la computación clásica actual basada principalmente en el algoritmo de \textbf{RSA} que sustenta su confianza en la complejidad del problema de factorizar grandes números.
 
+Surge así el interés por descubrir nuevos algoritmos criptográficos que, mediante el uso de la computación cuántica, resuelvan este problema. Vamos a hablar sobre el primer algoritmo de clave cuántica, \textbf{BB84}, cuyo esquema fue planteado por primera vez en 1984 por \textit{Bennett y Brassard} [\cite{bennett1987quantum}].
+
+Supongamos que Alice y Bob quieren comunicarse de manera privada empleando para ello una clave secreta. Disponen para ello de un canal clásico bidireccional y de otro cuántico unidireccional que parte de Alice hacia Bob. El problema es que una tercera persona, Eve tiene acceso a ambos canales sin que ellos lo sepan (ver figura \ref{fig:fig21}). Además, Eve puede no sólo observar el canal cuántico, sino que también puede tomar las partículas que pasen por él, medirlas y reenviarlas a Bob.
+
 % Diagrama Alice, Bob, Eve de distribución de clave cuántica
 \begin{figure}[!htb]
 \begin{center}
 \begin{tikzpicture}[x=1.5cm, y=1.5cm]
-	%\fill (-3.2,0) circle (0.1pt)node[anchor=east] {$20$};
-	%\fill (3.2,0) circle (0.1pt)node[anchor=west] {$-20$};
-    \node[circle,draw=red] (v1) at (-3,0) {\ Alice\ };
-    \node[circle,draw=red] (v2) at (3,0) {\ \ Bob\ \ };
-    %\node[fill=black] (a1) at (-3.75,-1.1) {};
-    %\node[fill=black] (a2) at (3.75,-1.1) {};
-    \draw[line width=0.6mm, color=black]  (-2.6,0.2) -- (2.6,0.2);
-    %\draw[<->]  (-2.6,-0.2) -- (2.6,-0.2);
-    %\draw[-{Stealth[red]}] (0,0) -- (1,0);
-    %\draw[color=black]  (v4) edge (a2);
-    %\draw[color=black]  (a2) edge (a1);
-    %\draw[color=black, -latex]  (a1) edge (v1);
-    %\draw (v4) -- (a2) -- (a1);
+    \node[circle,draw=blue] (v1) at (-3,0) {\ \ Alice\ \ };
+    \node[circle,draw=blue] (v2) at (3,0) {\ \ \ Bob\ \ \ };
+    \node[circle,draw=red] (v3) at (0,-1.5) {\ \ \ Eve\ \ \ };
+    
+    \draw[line width=0.8mm, {stealth}-{stealth}]  (-2.5,0.2) -- (2.5,0.2);
+    \draw[line width=0.8mm, -{stealth}]  (0.2,0.2) -- (0.2,-1);
+    
+    \draw[-{stealth}]  (-2.5,-0.2) -- (2.5,-0.2);
+    \draw[{stealth}-{stealth}]  (-0.2,-0.2) -- (-0.2,-1);
+    
+    \node at (0,0.2) [anchor=south] {Canal clásico};
+    \node at (-0.9,-0.2) [anchor=south] {Canal cuántico};
 \end{tikzpicture}
 \end{center}
-\caption{Iteración de etapas en XP.}
+\caption{Esquema de distribución de clave cuántica.}
 \label{fig:fig21}
-
 \end{figure}
+
+El primer paso del algoritmo es la elección de dos bases, como $\{\ket0,\ket1\}$ y $\{\ket+,\ket-\}$ y Alice procede a preparar una secuencia de bits. Para cada bit se elige aleatoriamente una de las bases para codificarlos, de manera que dicha codificación queda
+\[\mathrm{bien\ }\begin{matrix}0\to\ket0\\1\to\ket1\end{matrix}\mathrm{,\ o\ bien\ }\begin{matrix}0\to\ket+\\1\to\ket-\end{matrix}\] 
+
+en función de la base elegida. Tras la codificación, Alice envía a Bob la secuencia de qubits generada. Bob procede ahora a medir eligiendo, para cada qubit, una de las dos bases anteriormente citadas. Tras esta medición, tanto Alice como Bob hacen públicas las bases en las que la primera codificó y el segundo midió. Alrededor del 50\% de cada elección de estas bases coincidirá y los resultados asignados a estas elecciones se validan, mientras que el resto se desechan.
+
+\begin{table}[htb]
+\begin{tabular}{lll}
+\rowcolor[HTML]{FFFFC7} 
+Número del qubit & Base en la que codificó Alice & Base en la que midió Bob \\ 
+\rowcolor[HTML]{FD6864} 
+1                                & $\ket0,\ket1$                 & $\ket+,\ket-$            \\ 
+\rowcolor[HTML]{9AFF99} 
+2                                & $\ket0,\ket1$                 & $\ket0,\ket1$            \\ 
+\rowcolor[HTML]{9AFF99} 
+3                                & $\ket+,\ket-$                 & $\ket+,\ket-$            \\ 
+\rowcolor[HTML]{FD6864} 
+4                                & $\ket0,\ket1$                 & $\ket+,\ket-$            \\ 
+\rowcolor[HTML]{9AFF99} 
+5                                & $\ket+,\ket-$                 & $\ket+,\ket-$            \\ 
+\rowcolor[HTML]{FD6864} 
+6                                & $\ket+,\ket-$                 & $\ket0,\ket1$            \\ 
+\rowcolor[HTML]{FD6864} 
+7                                & $\ket+,\ket-$                 & $\ket0,\ket1$            \\ 
+\rowcolor[HTML]{9AFF99} 
+8                                & $\ket0,\ket1$                 & $\ket0,\ket1$            \\ 
+\rowcolor[HTML]{9AFF99} 
+9                                & $\ket0,\ket1$                 & $\ket0,\ket1$            \\ 
+\rowcolor[HTML]{FD6864} 
+10                               & $\ket0,\ket1$                 & $\ket+,\ket-$            \\ 
+\rowcolor[HTML]{FFFFC7} 
+...                              & ...                           & ...                      \\ 
+\end{tabular}
+\caption{Ejemplo de bases tomadas por Alice y Bob.}
+\label{tab:tab21}
+\end{table}
+
+En el cuadro \ref{tab:tab21} se muestra un ejemplo de esta validación para los 10 primeros qubits de una secuencia. En verde aparecen los qubits para los que la base elegida por ambos coincidió y por tanto la medición de Bob arrojó el mismo resultado que la codificación de Alice. En rojo, por el contrario, aparecen aquellos cuyas bases no coincidieron y se descartan por no aportar información.
+
+Ahora Alice y Bob pueden revelar una pequeña cantidad los valores obtenidos por cada uno, por ejemplo los $n$ primeros. Si todos esos valores coinciden, el canal es seguro y pueden utilizar el resto de los valores medidos no desvelados como clave. ¿Qué hubiera pasado si Eve hubiera intervenido el canal y hubiera tratado de medir los qubits antes de que lo hiciera Bob?
+
+Al igual que Bob, Eve desconoce la base elegida por Alice para cada qubit, luego tendría que elegir una aleatoriamente  y realizar una medición. En el caso de escoger la misma que Alice (aunque Eve no podía tener la certeza hasta más tarde de haber acertado), no sólo podrá conocer el valor que codificó sino que además no está cambiando el estado del qubit y podrá reenviarlo a Bob inalterado. Esto ocurrirá en el 50\% de los casos; Sin embargo, en la otra mitad habrá elegido la base incorrecta modificando el estado del qubit y si Bob sí acierta con la base de Alice sólo tendrá un 50\% de posibilidades de medir el mismo valor que Alice codificó cuando debería serlo del 100\%.
+
+Es así que Eve está introduciendo una variación en los estados en el 50\% de los qubits lo que supone que los valores de Alice y Bob diferirán en un 25\%. Si la cantidad de mediciones reveladas por ambos es de $n=20$ tras el intento de Eve de interceptar la comunicación, las probabilidades de no darse cuenta de la interferencia (no detectando ningún error) es de $0,75^{20}\approx0,32\%$. Tomando $n=30$ la probabilidad de pillar a Eve asciende a aproximadamente un 99,98\%, con lo que la certeza de garantizar la seguridad del canal es prácticamente absoluta con un tamaño de $n$ no necesariamente grande.
 
 \section{Múltiples Qubits}
 
