@@ -69,3 +69,57 @@ Hemos hablado en el capítulo anterior del logro que supone el algoritmo de fact
 \label{fig:fig21}
 
 \end{figure}
+
+\section{Múltiples Qubits}
+
+A lo largo de esta sección veremos cual es el comportamiento de un sistema cuántico cuando tenemos más de un qubit. Es aquí donde realmente podremos atisbar la capacidad de cómputo que tienen este tipo de máquinas.
+
+En el física tradicional, si tenemos un sistema con $n$ partículas, cada una de ellas representada por un vector de dimensión 2, es el espacio vectorial que se genera es de dimensión $2n$. Esto se debe a que cada partícula se comporta de manera independiente y por tanto con ser capaces de modelizar el comportamiento individual de cada partícula tendremos representado todo el sistema. Es por ello que las dimensiones aumentan de manera lineal.
+
+Sin embargo, esto no ocurre en mecánica cuántica. Las partículas ya no se comportan de manera independiente, si no que hay una dependencia entre ellos. Este efecto se llama \textit{entrelazamiento}, y entraremos en detalle posteriormente. 
+
+Es por este motivo por el que no podemos modelizar los sistemas cuánticos con el comportamiento individual de cada partícula, si no que necesitaremos de una herramienta más potente, el \textbf{productor tensorial}.
+
+\subsection{Producto Tensorial}
+
+Supongamos que tenemos dos espacios vectoriales $\mathcal{V},\mathcal{W}$ de dimensiones $n$ y $m$ respectivamente. Entonces $\mathcal{V}\otimes\mathcal{W}$ es un espacio vectorial de dimension $n\times m$ y representa el producto tensorial de ambos espacios.
+
+Además, supongamos que tenemos bases ortogonales para $\mathcal{V}$ y $\mathcal{W}$ dadas por:
+\begin{equation}
+\begin{split}
+\mathcal{B}_v =\{\ket{v_i} |\ 1 \leq i \leq n \} \\
+\mathcal{B}_w =\{\ket{w_j} |\ 1 \leq j \leq m \}
+\end{split}
+\end{equation}
+
+Entonces una base $\mathcal{B}$ del espacio vectorial $\mathcal{V}\otimes\mathcal{W}$ se obtiene mediante el producto tensorial de los vectores de $\mathcal{B}_v$  y $\mathcal{B}_v$, es decir:
+\begin{equation}
+\mathcal{B} = \{\ket{v_i}\otimes\ket{w_j}|\ 1 \leq i \leq n,\ 1 \leq j \leq m \}
+\end{equation}
+
+Normalmente se aligera la notación y denotaremos $\ket{\phi}\otimes\ket{\psi}$ simplemente por $\ket{\phi}\ket{\psi}$ o incluso por $\ket{\phi\psi}$.
+
+Por definición, el producto tensorial cumple las siguientes tres propiedades [\cite{nielsen2001quantum}]:
+\begin{enumerate}
+\item Dado un escalar z y un vector $\ket{v}$ de $\mathcal{V}$ y $\ket{w}$ de $\mathcal{W}$,\\
+\begin{equation}
+z(\ket{v}\otimes\ket{w})= (z\ket{v})\otimes\ket{w} = \ket{v}\otimes (z\ket{w})
+\end{equation}
+
+\item Para los vectores $\ket{v_1}$  y $\ket{v_2}$ de $\mathcal{V}$ y $\ket{w}$ de $\mathcal{W}$,\\
+\begin{equation}
+(\ket{v_1}+\ket{v_2})\otimes\ket{w}=\ket{v_1}\otimes\ket{w}+\ket{v_2}\otimes\ket{w}
+\end{equation}
+
+\item Para los vectores $\ket{v}$ de $\mathcal{V}$ y $\ket{w_1}$, $\ket{w_2}$ de $\mathcal{W}$,\\
+\begin{equation}
+\ket{v}\otimes (\ket{w_1}+\ket{w_2}) = \ket{v}\otimes\ket{w_1} +\ket{v}\otimes\ket{w_2} 
+\end{equation}
+\end{enumerate}
+
+Por tanto, supongamos que tenemos dos qubits, cuyos espacios vectoriales están representados respectivamente por la base ortonormal estándar $\{\ket0,\ket1\}$. Entonces, el nuevo espacio vectorial 
+generado por ambos qubits tiene como base los vectores $\{\ket{00},\ket{01},\ket{10},\ket{11}\}$, es decir, un espacio de dimensión 4. Sin embargo, este ejemplo no es demasiado ilustrativo(pues $2^n = 2n$ si $n=4$).
+
+Así que supongamos que añadimos un tercer qubit a nuestro sistema de dos qubits. Entonces el nuevo espacio vectorial tendrá dimensión 8 ($2^3$) y su base viene dada por los vectores $\{\ket{000},\ket{001},\ket{010},\ket{011},\ket{100},\ket{101},\ket{110},\ket{111}\}$
+
+Si repetimos estos cálculos pero utilizando la representación de la base como matri
