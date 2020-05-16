@@ -50,7 +50,7 @@ Hemos hablado en el capítulo anterior del logro que supone el algoritmo de fact
 
 Surge así el interés por descubrir nuevos algoritmos criptográficos que, mediante el uso de la computación cuántica, resuelvan este problema. Vamos a hablar sobre el primer algoritmo de clave cuántica, \textbf{BB84}, cuyo esquema fue planteado por primera vez en 1984 por \textit{Bennett y Brassard} [\cite{bennett1987quantum}].
 
-Supongamos que Alice y Bob quieren comunicarse de manera privada empleando para ello una clave secreta. Disponen para ello de un canal clásico bidireccional y de otro cuántico unidireccional que parte de Alice hacia Bob. El problema es que una tercera persona, Eve tiene acceso a ambos canales sin que ellos lo sepan (ver figura \ref{fig:fig21}). Además, Eve puede no sólo observar el canal cuántico, sino que también puede tomar las partículas que pasen por él, medirlas y reenviarlas a Bob.
+Supongamos que Alice y Bob quieren comunicarse de manera privada empleando para ello una clave secreta. Disponen de un canal clásico bidireccional y de otro cuántico unidireccional que parte de Alice hacia Bob. El problema es que una tercera persona, Eve tiene acceso a ambos canales sin que ellos lo sepan (ver figura \ref{fig:fig21}). Además, Eve puede no sólo observar el canal cuántico, sino que también puede tomar las partículas que pasen por él, medirlas y reenviarlas a Bob.
 
 % Diagrama Alice, Bob, Eve de distribución de clave cuántica
 \begin{figure}[!htb]
@@ -124,7 +124,7 @@ A lo largo de esta sección veremos cual es el comportamiento de un sistema cuá
 
 En el física tradicional, si tenemos un sistema con $n$ partículas, cada una de ellas representada por un vector de dimensión 2, es el espacio vectorial que se genera es de dimensión $2n$. Esto se debe a que cada partícula se comporta de manera independiente y por tanto con ser capaces de modelizar el comportamiento individual de cada partícula tendremos representado todo el sistema. Es por ello que las dimensiones aumentan de manera lineal.
 
-Sin embargo, esto no ocurre en mecánica cuántica. Las partículas ya no se comportan de manera independiente, si no que hay una dependencia entre ellos. Este efecto se llama \textit{entrelazamiento}, y entraremos en detalle posteriormente. 
+Sin embargo, esto no ocurre en mecánica cuántica. Las partículas ya no se comportan de manera independiente, si no que hay una dependencia entre ellas. Este efecto se llama \textbf{entrelazamiento} y entraremos en detalle posteriormente. 
 
 Es por este motivo por el que no podemos modelizar los sistemas cuánticos con el comportamiento individual de cada partícula, si no que necesitaremos de una herramienta más potente, el \textbf{productor tensorial}.
 
@@ -142,7 +142,7 @@ Además, supongamos que tenemos bases ortogonales para $\mathcal{V}$ y $\mathcal
 
 Entonces una base $\mathcal{B}$ del espacio vectorial $\mathcal{V}\otimes\mathcal{W}$ se obtiene mediante el producto tensorial de los vectores de $\mathcal{B}_v$  y $\mathcal{B}_v$, es decir:
 \begin{equation}
-\mathcal{B} = \{\ket{v_i}\otimes\ket{w_j}|\ 1 \leq i \leq n,\ 1 \leq j \leq m \}
+\mathcal{B} = \{\ket v\otimes\ket w|\ket v\in\B_v,\ket w\in\B_w\}
 \end{equation}
 
 Normalmente se aligera la notación y denotaremos $\ket{\phi}\otimes\ket{\psi}$ simplemente por $\ket{\phi}\ket{\psi}$ o incluso por $\ket{\phi\psi}$.
@@ -165,9 +165,144 @@ z(\ket{v}\otimes\ket{w})= (z\ket{v})\otimes\ket{w} = \ket{v}\otimes (z\ket{w})
 \end{equation}
 \end{enumerate}
 
-Por tanto, supongamos que tenemos dos qubits, cuyos espacios vectoriales están representados respectivamente por la base ortonormal estándar $\{\ket0,\ket1\}$. Entonces, el nuevo espacio vectorial 
-generado por ambos qubits tiene como base los vectores $\{\ket{00},\ket{01},\ket{10},\ket{11}\}$, es decir, un espacio de dimensión 4. Sin embargo, este ejemplo no es demasiado ilustrativo(pues $2^n = 2n$ si $n=4$).
+Hemos visto el producto tensorial aplicado a espacios vectoriales y hemos definido las propiedades que debe verificar un operador para ser considerado tensorial. Veamos cómo aplicaremos este operador en el caso de vectores, aunque lo haremos de una manera más general, definiendo el producto tensorial entre matrices. No olvidemos que un vector tiene una representación matricial como columna.
 
-Así que supongamos que añadimos un tercer qubit a nuestro sistema de dos qubits. Entonces el nuevo espacio vectorial tendrá dimensión 8 ($2^3$) y su base viene dada por los vectores $\{\ket{000},\ket{001},\ket{010},\ket{011},\ket{100},\ket{101},\ket{110},\ket{111}\}$
+Sean $A$ y $B$ matrices con coeficientes complejos de dimensiones $m\times n$ y $p\times q$ respectivamente. Se verifica
+
+\begin{equation}
+A\otimes B=\left(\begin{matrix}
+a_{11}B & \hdots & a_{1n}B \\
+\vdots & \ddots & \vdots \\
+a_{m1}B & \hdots & a_{mn}B
+\end{matrix}\right)
+\end{equation}
+
+lo que supone que la matriz resultante $A\otimes B$ tiene dimensiones $mp\times nq$. Así, sean dos qubits, cuyos espacios vectoriales están representados respectivamente por la base ortonormal estándar $\{\ket0,\ket1\}$. Entonces, el nuevo espacio vectorial 
+generado por ambos qubits tiene como base los vectores $\{\ket{00},\ket{01},\ket{10},\ket{11}\}$, es decir, un espacio de dimensión 4. Sin embargo, este ejemplo no es demasiado ilustrativo (pues $2^n = 2n$ si $n=4$).
+
+Así que supongamos que añadimos un tercer qubit a nuestro sistema de dos qubits. Entonces el nuevo espacio vectorial tendrá dimensión 8 ($2^3$) y su base viene dada por los vectores $\{\ket{000},\ket{001},\ket{010},\ket{011},\ket{100},\ket{101},\ket{110},\ket{111}\}$.
 
 Si repetimos estos cálculos pero utilizando la representación de la base como matri
+
+% QUE NO SE TE OLVIDE INCLUIR QUE HAY ESTADOS CUANTICOS QUE NO SE PUEDEN EXPRESEAR COMO PRODUCTO TENSORIAL DE ESTADOS MÁS SIMPLES (COMO |00> + |11>) Y QUE SE DENOMINAN ENTRELAZADOS. DECIDE SI METER LAS CUENTAS DE SUPONGO QUE SI SE PUEDE Y JAJA NO SE PUEDE O DARLO POR SABIDO.
+
+\section{Puertas cuánticas}
+
+En computación clásica los bits son operados mediante una serie de puertas que son representadas como un circuito cableado. De igual modo tenemos puertas en el mundo cuántico. Dichas puertas tienen que verificar ser isomorfismos lineales unitarios; es decir, Si $U$ es la matriz asociada de dicho isomorfismo, se debe verificar que
+
+\begin{equation}
+UU^*=I
+\end{equation}
+
+donde $U^*$ es la matriz conjugada traspuesta de $U$. Una consecuencia inmediata de esta igualdad es que cualquier puerta cuántica es reversible, cosa que no ocurría con las clásicas. Además, por ser isomorfismo, el número de qubits de entrada coincidirá con el de salida.
+
+\subsection{Puerta cuánticas de un qubit}
+
+Vamos a proceder a hablar de algunas de las puertas cuánticas que cuentan con un solo qubit de entrada y salida más relevantes. Mostraremos la transformación realizada por cada una de ellas sobre los elementos de la base $\{\ket0,\ket1\}$, su expresión matricial y cómo se representan gráficamente sobre un circuito.
+
+\[\begin{matrix}
+\gatetwo{I}{\ket0}{\ket1} & \left(\begin{matrix}1&0\\0&1\end{matrix}\right) & \Qcircuit @C=1em @R=.7em {& \gate{I} & \qw}\\
+\gatetwo{X}{\ket1}{\ket0} & \left(\begin{matrix}0&1\\1&0\end{matrix}\right) & \Qcircuit @C=1em @R=.7em {& \gate{X} & \qw}\\
+\gatetwo{Y}{-\ket1}{\ket0} & \left(\begin{matrix}0&1\\-1&0\end{matrix}\right) & \Qcircuit @C=1em @R=.7em {& \gate{Y} & \qw}\\
+\gatetwo{Z}{\ket0}{-\ket1} & \left(\begin{matrix}1&0\\0&-1\end{matrix}\right) & \Qcircuit @C=1em @R=.7em {& \gate{Z} & \qw}\\
+\end{matrix}\]
+
+Estas cuatro puertas son denominadas \textbf{puertas de \textit{Pauli}}. La primera de ellas se trata de la identidad que deja un estado cuántico invariable. $X$ es la puerta negación, dado un qubit $\ket\psi=\alpha\ket0+\beta\ket1$, tenemos que $X(\ket\psi)=\beta\ket0+\alpha\ket1$. $Z$ aplica un cambio de fase sobre $\ket1$ pero no varía las amplitudes (y por tanto tampoco las probabilidades de obtener $\ket0$ o $\ket1$ aplicando una medición). Por último, $Y$ es combinación de $X$ y $Z$ ($Y=ZX$).
+
+Existen otras puertas de cambio de fase como $Z$ que denotamos de manera general por:
+
+\[\begin{matrix}
+\gatetwo{R_\theta}{\ket0}{e^{i\theta}\ket1} & \left(\begin{matrix}1&0\\0&e^{i\theta}\end{matrix}\right) & \Qcircuit @C=1em @R=.7em {& \gate{R_\theta}& \qw}
+\end{matrix}\]
+
+Nótese que $R_\pi=Z$. La puerta más relevante que veremos en esta sección es la \textbf{Puerta de \textit{Hadamard}}. Esta puerta es importante puesto que nos permite conseguir un estado en superposición de manera que las amplitudes de $\ket0$ y $\ket1$ produzcan equiprobabilidad en la medición. La describimos como:
+
+\[\begin{matrix}
+\gatetwo{H}{\dfrac{1}{\sqrt{2}}(\ket0+\ket1)}{\dfrac{1}{\sqrt{2}}(\ket0-\ket1)} & \left(\begin{matrix}\dfrac{1}{\sqrt{2}}&\dfrac{1}{\sqrt{2}}\\\dfrac{1}{\sqrt{2}}&-\dfrac{1}{\sqrt{2}}\end{matrix}\right) & \Qcircuit @C=1em @R=.7em {& \gate{H}& \qw}
+\end{matrix}\]
+
+Si esta puerta se aplica individualmente a cada uno de los $n$ qubits de un sistema con estado inicial $\ket{0\hdots0}$ obtenemos:
+
+\begin{equation}
+\dfrac{1}{\sqrt{2}}(\ket0+\ket1)\otimes\hdots\otimes\dfrac{1}{\sqrt{2}}(\ket0+\ket1)=\dfrac{1}{\sqrt{2^n}}\sum_{i=1}^{2^n-1}\ket i
+\end{equation}
+
+Esta última igualdad nos da una idea del poder que puede alcanzar el cómputo cuántico, pues hemos obtenido $2^n$ estados distintos en superposición. Cuando aplicamos la puerta de \textit{Hadamard} sobre $n$ qubits la denominamos \textbf{puerta de \textit{Walsh-Hadamard}} definida recursivamente como:
+
+\[\begin{matrix}W_1=H,&W_{n+1}=H\otimes W_n\end{matrix}\]
+
+En la figura \ref{fig:fig22} podemos ver un ejemplo sencillo de la aplicación de la puerta de \textit{Hadamard} sobre los 4 qubits de un sistema cuántico (o equivalentemente la aplicación de la puerta $W_4$). El estado del sistema tras la aplicación de dichas puertas es de 
+
+\[\ket\psi=\dfrac{1}{4}\sum_{i=0}^{15}\ket i.\]
+
+\begin{figure}[!htb]
+\[\Qcircuit @C=1em @R=.7em {
+\lstick{\ket{0}} & \qw & \qw & \gate{H} & \qw & \qw & \qw \\
+\lstick{\ket{0}} & \qw & \qw & \gate{H} & \qw & \qw & \qw \\
+\lstick{\ket{0}} & \qw & \qw & \gate{H} & \qw & \qw & \qw \\
+\lstick{\ket{0}} & \qw & \qw & \gate{H} & \qw & \qw & \qw
+}\]
+\caption{Puertas de \textit{Hadamard} aplicadas a un sistema de 4 qubits.}
+\label{fig:fig22}
+\end{figure}
+
+\subsection{Puertas cuánticas de más de un qubit}
+
+La puerta de \textit{Walsh-Hadamard} está definida para más de un qubit; Sin embargo, puede ser expresada con producto tensorial de varias puertas de un solo qubit. No es el caso de las puertas que veremos en esta sección. En primer lugar presentamos la puerta \textbf{\textit{SWAP}} cuya función es intercambiar los estados de dos qubits. Su representación matricial es
+
+\[\left(\begin{matrix}1&0&0&0\\0&0&1&0\\0&1&0&0\\0&0&0&1\end{matrix}\right)\mathrm{\ y\ en\ circuitos\ se\ representa\ como\ }
+\Qcircuit @C=1em @R=1em {
+& \qswap & \qw \\
+& \qswap \qwx & \qw
+}.\]
+
+Un grupo de puertas de dos qubits muy relevante es el de las \textbf{puertas controladas}. Su funcionamiento consiste en tomar un primer qubit como control que permanecerá inalterado y un segundo al que se le aplicará una puerta $U$ o no en función del estado del primero. Su representación matricial por bloques viene dada por
+
+\[C(U)=\left(\begin{array}{c|c}I&0\\\hline0&U\end{array}\right).\]
+
+La más importante de ellas es $C(X)$, más conocida como \textbf{\textit{CNOT}} descrita por:
+
+\[\begin{matrix}
+\gatefour{\mathrm{CNOT}}{\ket{00}}{\ket{01}}{\ket{11}}{\ket{10}} & \left(\begin{matrix}1&0&0&0\\0&1&0&0\\0&0&0&1\\0&0&1&0\end{matrix}\right) & \Qcircuit @C=1em @R=1em {& \ctrl{1} & \qw \\
+& \targ & \qw}
+\end{matrix}\]
+
+donde $\bullet$ denota el qubit de control y $\oplus$ el qubit negado (si procede). Como vemos, la puerta $X$ se aplica sobre el segundo qubit si el estado del primero es $\ket1$.
+
+Existen puertas controladas en las que intervienen más de dos qubits como la \textbf{\textit{CCNOT}} o \textbf{puerta de \textit{Toffoli}}. Se trata de una puerta de 3 qubits, los dos primeros de control que permanecen inalterados y el último al que se le aplica una puerta $X$ siempre y cuando los dos primeros sean $\ket1$. Para simplificar, mostramos su matriz por bloques y su representación en circuito:
+
+\[\begin{matrix}
+T=\left(\begin{array}{c|c|c}I&0&0\\\hline0&I&0\\\hline0&0&X\end{array}\right) & \Qcircuit @C=1em @R=1em {& \ctrl{1} & \qw \\
+& \ctrl{1} & \qw \\
+& \targ & \qw}
+\end{matrix}\]
+
+Esta puerta tiene una importancia adicional porque con ella podemos emular las puertas clásicas \textbf{NOT} y \textbf{AND} que constituyen un conjunto universal que permiten construir cualquier circuito clásico.
+
+\begin{equation}
+\begin{split}
+T\ket{1,1,x}=\ket{1,1,\neg x} \\
+T\ket{x,y,0}=\ket{x,y,x\wedge y}
+\end{split}
+\end{equation}
+
+En la ecuación anterior se muestran las construcciones de dichas puertas respectivamente. Nótese que $T$ permite generar cualquier circuito clásico pero no afirmamos tal cosa de los circuitos cuánticos (de hecho no se verifica esta segunda proposición). La generación de estas puertas ayudó a probar a Deutsch que cualquier función clásica puede ser fabricada a partir de una puerta cuántica reversible [\cite{deutsch1985quantum}]. Incluso Bernstein y Vazirani concretaron una \textbf{máquina cuántica universal de Turing} [\cite{bernstein1997quantum}].
+
+Según lo que acabamos de ver, dada una función clásica $\function{f}{\{0,1\}^m}{\{0,1\}^k}$ existe un \textbf{\textit{array} de puertas} $U_f$ que implementa $f$ en un circuito cuántico. Se verifica que $U_f\ket{x,y}=\ket{x,y\oplus f(x)}$ donde $x$ denota un elemento de $m$ bits, $y$ de $k$ bits y $\oplus$ es el operador lógico XOR.
+
+\begin{figure}[!htb]
+\[\Qcircuit @C=1em @R=.7em {
+\lstick{\ket{x}}& \multigate{1}{U_f} & \qw & \qw & \qw & \qw & & \lstick{\ket{x}} \\
+\lstick{\ket{y}}& \ghost{U_f}        & \qw &     &     &     & & \lstick{\ket{y\oplus f(x)}}
+}\]
+\caption{Representación en un circuito cuántico de un \textit{array} de puertas cuántico.}
+\label{fig:fig23}
+\end{figure}
+
+Véase que $U_fU_f\ket{x,y}=U_f\ket{x,y\oplus f(x)}=\ket{x,y\oplus f(x)\oplus f(x)}=\ket{x,y}$. Luego $U_fU_f=I$ y por lo tanto verifica que es unitaria. Para calcular $f(x)$ basta con aplicar $U_f\ket{x,0\hdots0}$ cuyo resultado será $\ket{x,f(x)}$.
+
+
+\subsection{Teorema de no clonación}
+
+\begin{thm} \textbf{Teorema de no clonación}
+\end{thm}
