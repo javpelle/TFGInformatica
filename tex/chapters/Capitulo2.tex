@@ -182,9 +182,69 @@ generado por ambos qubits tiene como base los vectores $\{\ket{00},\ket{01},\ket
 
 Así que supongamos que añadimos un tercer qubit a nuestro sistema de dos qubits. Entonces el nuevo espacio vectorial tendrá dimensión 8 ($2^3$) y su base viene dada por los vectores $\{\ket{000},\ket{001},\ket{010},\ket{011},\ket{100},\ket{101},\ket{110},\ket{111}\}$.
 
-Si repetimos estos cálculos pero utilizando la representación de la base como matri
+Pero recordemos que un qubit tiene también una representación como vector columna, y por lo tanto podemos aprovecharnos de dicha representación para calcular  productos tensoriales entre qubits.
 
-% QUE NO SE TE OLVIDE INCLUIR QUE HAY ESTADOS CUANTICOS QUE NO SE PUEDEN EXPRESEAR COMO PRODUCTO TENSORIAL DE ESTADOS MÁS SIMPLES (COMO |00> + |11>) Y QUE SE DENOMINAN ENTRELAZADOS. DECIDE SI METER LAS CUENTAS DE SUPONGO QUE SI SE PUEDE Y JAJA NO SE PUEDE O DARLO POR SABIDO.
+Supongamos que tenemos dos qubits $\ket{\psi}$ y $\ket{\phi}$ que cumplen:\\
+\begin{equation}
+\begin{split}
+\ket{\psi}=a\ket0+b\ket1,\ |a|^2 + |b|^2 = 1\\
+\ket{\phi}=c\ket0+d\ket1,\ |c|^2 + |d|^2 = 1
+\end{split}
+\end{equation}
+
+Estos qubits se pueden ver en forma de matriz como:
+\begin{equation}
+\begin{split}
+\ket{\psi} = \twovector{a}{b}\\
+\ket{\phi} = \twovector{c}{d}
+\end{split}
+\end{equation}
+
+Y por tanto, esta representación nos permite calcular el producto tensorial $\ket{\psi}\otimes\ket{\phi}$ como:
+\begin{equation}
+\ket{\psi}\otimes\ket{\phi} = \twovector{a}{b}\otimes\twovector{c}{d} = \begin{pmatrix} ac \\ ad \\ bc \\ bd  \end{pmatrix}
+\end{equation}
+
+Recuperando la notación de Dirac, este vector sería $\ket{\psi}\otimes\ket{\phi} = ac\ket{00} + ad\ket{01} + bc\ket{10} + bd\ket{11}$. De esta forma, se ha obtenido un vector de dimensión 4 que, además, sigue cumpliendo la restricción de normalización ya que:
+\begin{equation}
+\begin{split}
+ |ac|^2 + |ad|^2 + |bc|^2 + |bd|^2 =\\ |a|^2|c|^2 + |a|^2|d|^2 + |b|^2|c|^2 + |b|^2|d|^2 =\\ |a|^2(|c|^2 + |d|^2) + |b|^2(|c|^2 + |d|^2) =\\ |a|^2 + |b|^2 = 1
+\end{split}
+\end{equation}
+
+Una vez que hemos visto como operar qubits mediante el producto tensorial es imprescindible mostrar que existen ciertos estados cuánticos que no se pueden expresar mediante el producto tensorial. Este tipo de estados son conocidos como \textbf{estados entrelazados}. Un ejemplo de este tipo de estados es el dado por $\ket{00} + \ket{11}$. Veamos que efectivamente no se puede obtener dicho estado mediante el producto tensorial de dos qubits.
+
+Supongamos que dichos qubits si que existen. Entonces tenemos:
+\begin{equation}
+(a\ket0 + b\ket1)\otimes (c\ket0 + d\ket1) = \ket{00} + \ket{11}
+\end{equation}
+Además, por lo visto anteriormente se tiene también que:
+\begin{equation}
+(a\ket0 + b\ket1)\otimes (c\ket0 + d\ket1) = ac\ket{00} + ad\ket{01} + bc\ket{10} + bd\ket{11}
+\end{equation}
+Y por tanto, los miembros de la derecha de ambas ecuaciones deben ser igual. Para ello se debe cumplir que $ ad = 0$ y $bc=0$. Sin embargo, si alguno de los coeficientes $a,\ b,\ c,\ d$ es cero, anularía  también la amplitud correspondiente al estado $\ket{00}$ o $\ket{11}$ según corresponda, y esto es absurdo.
+
+Este tipo de estados no guardan similitud alguna con el mundo clásico, y son los causantes de aportar el crecimiento exponencial respecto del número de partículas en el sistema.
+
+Por último, queda ver qué ocurre con las mediciones en un sistema con múltiples qubits. Supongamos que tenemos un estado general en un sistema de 2 qubits dado por:
+\begin{equation}
+a\ket{00} + b\ket{01} + c\ket{10} + d\ket{11}, 
+\end{equation}
+
+donde $a,\ b,\ c,\ d$ son números complejos que cumplen la restricción de normalización: $|a|^2 + |b|^2 + |c|^2 + |d|^2 = 1$.
+
+Si medimos el primer qubit respecto de la base estándar $\{\ket0,\ket1\}$, se obtendrá $\ket0$ con una probabilidad $|a|^2 + |b|^2$ y $\ket1$ con probabilidad $|c|^2 + |d|^2$. Además si se obtiene $\ket0$ al medir el primer qubit, el estado colapsa al subespacio compatible con la medida, es decir, al generado por los vectores $\ket{00}$ y $\ket{01}$. De esta forma se proyectaría el sistema al estado  $a\ket{00} + b\ket{01}$ tras realizar una primera medición. Sin embargo, este estado no está normalizado, luego realmente se obtendría el estado: 
+\begin{equation}
+\dfrac{1}{\sqrt{|a|^2 + |b|^2}}(a\ket{00} + b\ket{01})
+\end{equation}
+
+En este nuevo estado tendríamos por lo tanto que al realizar una medida sobre el segundo qubit, obtenemos con probabilidad $|a|^2$ el estado $\ket0$, mientras que  $\ket1$ se obtiene con probabilidad $|b|^2$.
+
+Es muy particular las mediciones en estados entrelazados, ya que, como se muestra a continuación, realizar una medición sobre uno de los qubits influye en el estado de los otros.
+
+Dado el estado entrelazado $\tfrac{1}{\sqrt{2}}(\ket{00} + \ket{11})$ es claro que es equiprobable obtener el estado $\ket0$ o $\ket1$ al realizar una medida sobre el primer qubit. Sin embargo, si el segundo qubit ya ha sido medido previamente, y por ejemplo se ha obtenido el estado $\ket0$, entonces el sistema colpasará al estado $\ket{00}$, y en este nuevo estado se obtiene con probabilidad 1 el estado $\ket0$ al medir el primer qubit. Esta propiedad de los estados entrelazados es en la que se basan algunos de los experimentos más relevantes de la computación cuántica, como puede ser el experimento de \textit{teleportación} o \textit{codificación densa}. 
+
+Una vez visto como actúan múltiples qubits dentro de un sistema, a lo largo de la siguiente sección se desarrollará con detalle como aplicar la principal herramienta que permite modificar el estado de los qubits: las puertas cuánticas.
 
 \section{Puertas cuánticas}
 
