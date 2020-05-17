@@ -301,6 +301,27 @@ Según lo que acabamos de ver, dada una función clásica $\function{f}{\{0,1\}^
 
 Véase que $U_fU_f\ket{x,y}=U_f\ket{x,y\oplus f(x)}=\ket{x,y\oplus f(x)\oplus f(x)}=\ket{x,y}$. Luego $U_fU_f=I$ y por lo tanto verifica que es unitaria. Para calcular $f(x)$ basta con aplicar $U_f\ket{x,0\hdots0}$ cuyo resultado será $\ket{x,f(x)}$.
 
+Sin embargo esto no parece suponer una gran ventaja respecto la computación clásica. Pero, ¿y si pudiéramos obtener todos los valores $f(x)$ para cada $x\in\{0,1\}^m$ con una sola aplicación de $U_f$? Esto constituye una mejora de complejidad exponencial a constante y lo conseguimos aplicando una puerta de \textit{Hadamard} a cada uno de un total de $m$ qubits (es decir, aplicar $W_m$), además de preparar otros $k$ qubits en estado $\ket0$ tal y como muestra la figura \ref{fig:fig24}.
+
+\begin{figure}[!htb]
+\[\Qcircuit @C=1em @R=.7em {
+\lstick{\ket{0\overset{m}\hdots0}}& \gate{W_m} & \multigate{1}{U_f} & \qw \\
+\lstick{\ket{0\overset{k}\hdots0}}& \qw        & \ghost{U_f}        & \qw
+}\]
+\caption{Ejemplo del poder del paralelismo cuántico aplicado a un \textit{array} de puertas.}
+\label{fig:fig24}
+\end{figure}
+
+Analíticamente, por la linealidad de $U_f$, tenemos:
+
+\begin{equation}
+\begin{split}
+U_f(W_m(\ket{0\overset{m}\hdots0})\otimes\ket{0\overset{k}\hdots0})&=U_f\left(\dfrac{1}{\sqrt{2^m}}\sum^{2^m-1}_{i=0}\ket{i,0\overset{k}\hdots0}\right)=\\
+&=\dfrac{1}{\sqrt{2^m}}\sum^{2^m-1}_{i=0}U_f\ket{i,0\overset{k}\hdots0}=\dfrac{1}{\sqrt{2^m}}\sum^{2^m-1}_{i=0}\ket{i,f(i)}
+\end{split}
+\end{equation}
+
+No obstante, todo esto no es tan maravilloso como parece. Recordemos que sólo podemos obtener información de un estado cuántico mediante la medición y, que tras esta, el estado que obtengamos será el mismo al que colapsará el sistema y será único, con lo que perdemos este poder de \textbf{paralelismo cuántico} que acabábamos de obtener. Antes de medir, debemos aplicar algunas técnicas adicionales, alejadas de la computación clásica como por ejemplo amplificar las amplitudes (y con ellas las probabilidades de medir ese estado) de los valores de mayor interés.
 
 \subsection{Teorema de no clonación}
 
