@@ -386,4 +386,27 @@ No obstante, todo esto no es tan maravilloso como parece. Recordemos que sólo p
 \subsection{Teorema de no clonación}
 
 \begin{thm} \textbf{Teorema de no clonación}
+Dado un estado cuántico desconocido $\ket{\phi}$ es imposible realizar una copia de dicho estado mediante transformaciones unitarias.
 \end{thm}
+
+Supongamos que pudiéramos construir una maquina cuántica capaz de clonar estados cuánticos mediante transformaciones unitarias. Es decir, que existe un operador unitario $U$  tal que :
+\begin{equation}
+U(\ket{\phi 0}) = \ket{\phi\phi} \textrm{, para cualquier estado } \ket\phi 
+\end{equation}
+
+Supongamos ahora que tenemos un estado ortogonal a $\phi$ que denotaremos por $\psi$. Esto nos permite definir un tercer estado como superposición de los dos anteriores. Dicho estado viene dado por:
+\begin{equation}
+\ket\Psi = \dfrac{1}{\sqrt{2}}(\ket\phi + \ket\psi)
+\end{equation}
+
+Si aplicamos el operador lineal $U$ al estado $\Psi$ se obtiene:
+\begin{equation}
+U(\ket{\Psi 0})= \dfrac{1}{\sqrt{2}}(U\ket{\phi 0} + U\ket{\psi 0}) = \dfrac{1}{\sqrt{2}}(\ket{\phi\phi} + \ket{\psi\psi})
+\end{equation}
+
+Sin embargo, como este operador es el operador de clonación, también se tiene:
+\begin{equation}
+U(\ket{\Psi 0})= \ket{\Psi\Psi} = \dfrac{1}{2}(\ket{\phi\phi} + \ket{\phi\psi} + \ket{\psi\phi} + \ket{\psi\psi})
+\end{equation}
+
+Como los lados derechos de las dos ecuaciones anteriores no son iguales, se sigue el resultado. No existe una operación unitaria que pueda clonar un estado cuántico desconocido.
