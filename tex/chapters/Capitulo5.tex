@@ -383,23 +383,3 @@ donde $f_{\ket i,m}$ denota el número de veces que la salida del mutante $m$ fu
 \end{equation}
 
 donde $c$ denota el parámetro de confianza que puede ser manipulado por el cliente. Obviamente el máximo del conjunto anterior está comprendido entre 0 y 1 por estarlo las probabilidades definidas anteriormente. El parámetro de confianza en MTQC por defecto es del 1\%, pero puede modificarse al porcentaje deseado. Tras esto, se contactará con la clase Model de la lógica que solicitará a cada instancia de la clase TestResult que recalcule la muerte o no del mutante en función del nuevo valor indicado y comunicará a la vista los resultados.
-
-\section{Implementaciones futuras}
-
-Para finalizar este capítulo queremos aportar algunas ideas con las que se puede dar continuidad a este proyecto. Algunas de estas funcionalidades fueron planificadas al principio del proyecto para ser descartadas más adelante y otras surgen durante la implementación de MTQC.
-
-\begin{itemize}
-\item Implementación de \textit{weak mutation testing}. Se trataría de un test determinista a realizar sobre simulador que verificara las condiciones de la definición \ref{def:def24}.
-
-\item Facilitar el uso de otros archivos y librerías externas. Como mencionamos antes, el usuario debe realizar una adición de código para encontrar la ruta a estos archivos y seria conveniente que esto no fuera necesario.
-
-\item Añadir algún lenguaje adicional como \textbf{OpenQASM}.
-
-\item Permitir que el usuario pueda añadir nuevos operadores de mutación desde la ejecución del programa y que estos puedan ser guardados para futuras pruebas de mutación.
-
-\item Permitir guardar el proceso de una ejecución, como mutantes y otras configuraciones, para que la tarea pueda ser retomada en otra ejecución.
-
-\item Habilitar una opción para que un mutante pueda tener 2 o más mutaciones.
-
-\item Paralización de cada una de las ejecuciones realizadas al aplicar los casos de prueba.
-\end{itemize}
