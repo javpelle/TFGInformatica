@@ -43,6 +43,32 @@ Así, si bien ciertas tareas se han realizado de manera individual a lo largo de
 \subsection{Contribución al proyecto de Javier Pellejero}
 % Al menos dos páginas
 
+En primer lugar, y como detallaremos en las secciones venideras, cabe destacar la dedicación empleada a adquirir los conocimientos necesarios para poder realizar este TFG. A la hora de hablar de temas como planificación o el estudio de los temas tratados, es difícil separar el trabajo realizado para los TFG de las facultades de matemáticas e informática.
+
+Así, nuestra base sobre pruebas de mutación y computación cuántica eran mínimas, pero además, hay que destacar que en este texto se omiten muchas cuestiones más profundas, relevantes al mundo de la mecánica cuántica y sus pilares matemáticos y que sí he creído convenientes relatar en el TFG del grado de matemáticas. De este modo, quiero destacar que la preparación para poder realizar ambos trabajos ha sido laboriosa, ha ocupado una parte muy significativa del tiempo total empleado y que no siempre se manifiesta fácilmente este esfuerzo en las memorias realizadas.
+
+La primera toma de contacto con el mundo de la computación cuántica fue mediante \textit{An Introduction to Quantum Computing for Non-Physicists} [\cite{rieffel2000introduction}] recomendado por nuestro tutor. Desde mi punto de vista es un contenido muy completo, con multitud de referencias y ejemplos y útil para adentrarse en los sistemas de información cuánticos. Sin embargo, su título refleja la ausencia de contenido referente a las bases en las que se sustenta todo este marco teórico y si se quiere profundizar sobre ellas se debe acudir a otras fuentes más completos.
+
+La solución a este problema tiene por nombre \textit{Quantum Computation and Quantum Information} [\cite{nielsen2001quantum}]. Ha sido mi principal referencia a la hora de ahondar en la experiencia cuántica. Dedica muchas páginas a construir desde cero todo el marco matemático que sustenta la este tipo de computación desde nociones tan básicas como espacios vectoriales, a otras algo más elaboradas como ciertas propiedades de los espacios de \textit{Hilbert}. Aún así, aunque también dedica numerosas páginas a entender los entresijos de los postulados cuánticos, no es todo lo completo que debiera ser.
+
+En cuanto al \textit{mutation testing}, el artículo de nuestro tutor con otros colaboradores [\cite{hierons2010mutation}] fue nuestra iniciación en esta modalidad de test con respecto a la computación clásica. La adaptación cuántica fue un proceso que se desarrolló principalmente bajo las indicaciones de nuestro tutor y las contribuciones de otro referentes [\cite{usaolaquantum}] con la intervención de nuestras propias ideas.
+
+Mientras adquiría estos conocimientos me iba familiarizando con el lenguaje en el que profundizo en el TFG de matemáticas, \textit{Qiskit} de IBM. Aunque su documentación es extensa, existen herramientas importantes que carecen de ella. En cuanto a la sintaxis, es fácil de aprender y legible. Además, pese a que el hecho de pensar en puertas cuánticas podría convertirlo en un lenguaje de nivel inferior a uno ensamblador clásico, el estar combinado con un lenguaje de alto nivel multiparadigma como \textit{Python} hacen un mundo de posibilidades, muchas de ellas aún por explotar.
+
+El número de ejemplos de código en \textit{Qiskit} presente en Internet no es abundante, pero permite hacerse a la idea de qué instrucciones son las más usadas y por tanto las más propensas a sufrir equivocaciones por parte del programador.
+
+En cuanto al proyecto de \textit{software}, la involucración de ambos miembros del grupo trató de ser lo más pareja posible. Sin embargo, debido a mi conocimiento sobre \textit{Qiskit}, me encargué de elaborar todos sus operadores de mutación, la estructura de entrada de datos a modo de ejemplo que será comentada más adelante en este capítulo y todo el proceso referente a las llamadas a \textit{Python} que ejecutan las pruebas de mutación sobre \textit{Qiskit}.
+
+Además, tuve cierto peso adicional a la hora de establecer la estructura del código \textit{Java}  constituida por todas las clases, paquetes o patrones de diseño que acaban marcando las funcionalidades del programa. También estuve centrado en la estructura de la mayoría de las vistas y las herramientas visuales creadas para ellas o el desarrollo de ciertos paquetes de la lógica, pero siempre con la supervisión de mi compañero Luis.
+
+Podemos asegurar que no hay parte del código en la que no hayamos estado involucrados y por tanto, que desconozcamos su funcionamiento por mucho que dichas líneas estuvieran escritas por el otro miembro del grupo.
+
+En cuanto a esta memoria, si se ha planificado de forma más especializada. A nivel de documento no solamente es complicado, sino que carece de sentido estar trabajando sobre las mismas líneas del archivo. Pese a ello, el capítulo 2 referente a la introducción a la computación cuántica y el último, de ejemplos y conclusiones, han sido elaborados de manera conjunta, dividiendo el trabajo por secciones y subsecciones.
+
+En mi caso, pero siempre de manera planificada y supervisada por mi compañero, me he encargado del capítulo en el que nos encontramos debido a mi ligero mayor peso y toma de decisiones en la estructura del \textit{software}. Como veremos a continuación, explico nuestra planificación, modelo de proceso, pero sobre todo, todo lo referente a las funcionalidades del programa, la estructura del código, que partes del mismo influyen en cada uso del programa, etcétera.
+
+En conclusión, quiero destacar el esfuerzo de ambos componentes del equipo para desarrollar este proyecto del cual espero que tenga continuidad. Creo que las herramientas que hemos proporcionado pueden ser útiles para algunos investigadores que están tratando de dar cada vez más importancia al \textit{testing} en la computación cuántica y pueden ser mejoradas y desarrolladas por otros colaboradores y estudiantes en futuros proyectos.
+
 \subsection{Gestión de configuración}
 
 Hablemos ahora de todas las herramientas y elementos de \textit{software} utilizados para el proyecto. Empezando por esta memoria, al estar realizada en \LaTeX, hemos necesitado programas para su edición y compilación. Ambos componentes del grupo hemos utilizado como distribución \textit{MiKTeX}, mientras que como editor hemos usado \textit{Texmaker}.
