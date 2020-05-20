@@ -1,5 +1,55 @@
 \chapter{Ejemplos y conclusiones}
 
+\section{Pruebas de mutación sobre Deutsch-Jozsa}
+
+Vamos a dar uso a MTQC. Implementaremos el algoritmo de \textit{Deutsch-Jozsa} [\cite{deutsch1992rapid}] en los lenguajes \textit{Qiskit} y \qsh\ y aplicaremos pruebas de mutación sombre ambos códigos. Antes veremos que problema plantea dicho algoritmo.
+
+Sea $\function{f}{\{0,1\}^n}{\{0,1\}}$ una función binaria que bien puede ser constante ($f(x) = 0$ o $1$ para todo $x\in\{0,1\}^n$) o bien es balanceada (la salida es 0 para la mitad de entradas y 1 para la otra mitad). Desde el punto de vista clásico, en caso peor hay que verificar $2^{n-1}+1$ entradas para resolver el problema. El algoritmo cuántico de \textit{Deutsch-Jozsa} lo resuelve en una sola iteración.
+
+Veamos como funciona... % continuar, en wikipedia está explicado y demostrado
+
+Adelantamos que nosotros usaremos una función balanceada $\function{f}{\{0,1\}^4}{\{0,1\}}$ de modo que $f(x_1,x_2,x_3,x_4)=\left\{\begin{matrix}1 \mathrm{\ si\ } x_1=1\\0 \mathrm{\ si\ } x_1=0\end{matrix}\right.$
+
+\begin{figure}[htb]
+\begin{lstlisting}[language=Python]
+def deutschjozsa (qc, qr, cr):
+    if len(qr) != 5:
+        print("El numero de qubits debe ser 5.")
+        return
+    
+    # Negacion del ultimo qubit (salida)
+    qc.x(qr[-1])
+    
+    # Aplicacion de una puerta de Hadamard a cada qubit
+    for r in qr:
+        qc.h(r)
+        
+    # f(x_1,x_2,x_3,x_4) = 1 si x_1 vale 1, 0 en otro caso. Balanceada
+    # U_f es una cnot, con control el primer cubit y X el qubit de salida
+    qc.cx(qr[0], qr[-1])
+    
+    # Aplicacion de una puerta de Hadamard a cada qubit de entrada
+    for r in qr[:-1]:
+        qc.h(r)
+    
+    qc.measure(qr[:-1], cr)
+\end{lstlisting}
+\caption{Código en \textit{Qiskit} de una implementación de Deutsch-Jozsa.}
+\label{fig:code61}
+\end{figure}
+
+\begin{figure}[!htb]
+\[\Qcircuit @C=1em @R=.7em {
+\lstick{\ket{0}} & \qw & \gate{H} & \qw & \ctrl{4} & \qw & \gate{H} & \qw & \meter & \qw \\
+\lstick{\ket{0}} & \qw & \gate{H} & \qw & \qw      & \qw & \gate{H} & \qw & \meter & \qw \\
+\lstick{\ket{0}} & \qw & \gate{H} & \qw & \qw      & \qw & \gate{H} & \qw & \meter & \qw \\
+\lstick{\ket{0}} & \qw & \gate{H} & \qw & \qw      & \qw & \gate{H} & \qw & \meter & \qw \\
+\lstick{\ket{1}} & \qw & \gate{H} & \qw & \targ    & \qw & \qw      & \qw & \qw & \qw
+}\]
+\caption{Circuito de una implementación de Deutsch-Jozsa.}
+\label{fig:fig62}
+\end{figure}
+
 \section{Implementaciones futuras}
 
 Queremos aportar algunas ideas con las que se puede dar continuidad a este proyecto. Algunas de estas funcionalidades fueron planificadas al principio del proyecto para ser descartadas más adelante y otras surgen durante la implementación de MTQC.
