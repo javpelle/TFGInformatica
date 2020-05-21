@@ -6,10 +6,6 @@ Vamos a dar uso a MTQC. Implementaremos el algoritmo de \textit{Deutsch-Jozsa} [
 
 Sea $\function{f}{\{0,1\}^n}{\{0,1\}}$ una función binaria que bien puede ser constante ($f(x) = 0$ o $f(x) = 1$ para todo $x\in\{0,1\}^n$) o bien es balanceada (la salida es 0 para la mitad de entradas y 1 para la otra mitad). Desde el punto de vista clásico, en el caso peor hay que verificar $2^{n-1}+1$ entradas para resolver el problema. El algoritmo cuántico de \textit{Deutsch-Jozsa} lo resuelve en una sola iteración.
 
-Veamos como funciona... % continuar, en wikipedia está explicado y demostrado
-
-Adelantamos que nosotros usaremos, como ejemplo, una función balanceada $\function{f}{\{0,1\}^4}{\{0,1\}}$ de modo que $f(x_1,x_2,x_3,x_4)=\left\{\begin{matrix}1 \mathrm{\ si\ } x_1=1\\0 \mathrm{\ si\ } x_1=0\end{matrix}\right.$
-
 Previamente a mostrar el código de nuestro ejemplo particular, analicemos en detalle cada paso del que consta el algoritmo de Jozsa.
 
 En primer lugar, si nuestra función $f$ toma valores en $\{0,1\}^n$, debemos crear un circuito con $n + 1$ qubits. Todos los qubits deberan tomar el estado $\ket{0}$ menos el último de ellos, que utilizaremos como auxiliar e inicializamos al estado $\ket{1}$. De esta forma nuestro sistema se encuentra en un primer estado dado por:
@@ -46,12 +42,12 @@ A partir de este punto, el estado del último qubit $\dfrac{1}{\sqrt{2}}(\ket0-\
 A continuación, debemos aplicar una puerta Hadamard a cada uno de los $n$ qubits restantes. Previamente a realizar dicha operación, vamos a ver cómo una representación matemática de la aplicación simultanea de puertas Hadamard que facilita la comprensión de la parte final del algoritmo.
 
 Cuando contamos con un sólo qubit, una puerta Hadamard sabemos que viene dada por: \begin{center}
-$\gatetwo{H}{\tfrac{1}{\sqrt{2}}(\ket0+\ket1)}{\dfrac{1}{\sqrt{2}}(\ket0-\ket1)}$
+$\gatetwo{H}{\dfrac{1}{\sqrt{2}}(\ket0+\ket1)}{\dfrac{1}{\sqrt{2}}(\ket0-\ket1)}$
 \end{center}
 
 Por tanto, podemos escribir el caso general, donde $x=0$ o $x=1$ como:
 \begin{equation}
-H\ket{x} = \tfrac{1}{\sqrt{2}}\sum\limits_{z\in\{0,1\}} (-1)^{x\cdot i}\ket{z} \textrm{, donde $x\cdot z$ denota el producto escalar bit a bit, módulo 2}
+H\ket{x} = \tfrac{1}{\sqrt{2}}\sum\limits_{z\in\{0,1\}} (-1)^{x\cdot z}\ket{z} \textrm{, donde $x\cdot z$ denota el producto escalar bit a bit, módulo 2}
 \end{equation}
 
 Veamos ahora el caso con 2 qubits a los que aplicamos una puerta Hadamard a cada uno:
@@ -59,7 +55,7 @@ Veamos ahora el caso con 2 qubits a los que aplicamos una puerta Hadamard a cada
 \begin{split}
 H^{\otimes 2}\ket{x_1,x_2} & = H\ket{x_1} \otimes H\ket{x_2} \\
 & = \tfrac{1}{\sqrt{2}}\sum\limits_{z_1\in\{0,1\}} (-1)^{x_1\cdot z_1}\ket{z_1} \otimes \tfrac{1}{\sqrt{2}}\sum\limits_{z_2\in\{0,1\}} (-1)^{x_2\cdot z_2}\ket{z_1} \\
-& = \tfrac{1}{\sqrt{2^2}}\sum\limits_{z_1,z_2\in\{0,1\}} (-1)^{x_1\cdot z_1+x_2\cdot z_1}\ket{z_1,z_2}
+& = \tfrac{1}{\sqrt{2^2}}\sum\limits_{z_1,z_2\in\{0,1\}} (-1)^{x_1\cdot z_1+x_2\cdot z_2}\ket{z_1,z_2}
 \end{split}
 \end{equation}
 
@@ -90,7 +86,7 @@ se obtiene un nuevo estado $\phi_3$ dado por:
 
 Una vez que hayamos obtenido este estado, vamos a estudiar cual es la probabilidad de obtener el estado $\ket{0\overset{n}{\cdots}0}$ al medir los $n$ primeros qubits.
 
-En virtud de $\ref{phi3}$, el cuadrado de la amplitud del estado $\ket{0\overset{n}{\cdots}0}$ viene dada por:
+En virtud de (\ref{phi3}), el cuadrado de la amplitud del estado $\ket{0\overset{n}{\cdots}0}$ viene dada por:
 
 \begin{equation}
 \begin{split}
@@ -106,49 +102,73 @@ Si por el contrario la \emph{función $f$ es constante}, entonces todos los tér
 
 De esta forma, se puede discernir de manera completamente determinista si la función $f$ es constante o balanceada.
 
-Una vez que hemos visto cuales son los pasos a aplicar para ejecutar el algoritmo de Deutsch-Jozsa, se procede a exponer el código de dicho algoritmo para los lenguajes $\qsh$ y \textit{Qiskit}.
+\begin{figure}[!htb]
+\[\Qcircuit @C=1em @R=.7em {
+\lstick{\ket{0}} & \qw & \gate{H} & \qw &\multigate{4}{U_f}&\qw& \gate{H} & \qw & \meter & \qw \\
+\lstick{\ket{0}} & \qw & \gate{H} & \qw & \ghost{U_f}      &\qw& \gate{H} & \qw & \meter & \qw \\
+\lstick{\ket{0}} & \qw & \gate{H} & \qw & \ghost{U_f}      &\qw& \gate{H} & \qw & \meter & \qw \\
+\lstick{\ket{0}} & \qw & \gate{H} & \qw & \ghost{U_f}      &\qw& \gate{H} & \qw & \meter & \qw \\
+\lstick{\ket{1}} & \qw & \gate{H} & \qw & \ghost{U_f}      &\qw& \qw      & \qw & \qw    & \qw}\]
+\caption{Circuito de una implementación de Deutsch-Jozsa.}
+\label{fig:fig61}
+\end{figure}
 
+En la figura \ref{fig:fig61} podemos ver el circuito que resume todo lo contado anteriormente. Una vez que hemos visto cuales son los pasos a aplicar para ejecutar el algoritmo de Deutsch-Jozsa, se procede a exponer el código de dicho algoritmo para los lenguajes $\qsh$ y \textit{Qiskit} además de las funciones $f$ utilizadas. Empecemos por estas últimas.
 
+Emplearemos 3 funciones $\{0,1\}^4\longrightarrow\{0,1\}$ que vienen definidas por:
+\begin{itemize}
+\item $f_1(x_1,x_2,x_3,x_4)=\left\{\begin{matrix}1 \mathrm{\ si\ } x_1=1\\0 \mathrm{\ si\ } x_1=0\end{matrix}\right.$ por lo que se trata de una función balanceada.
 
-\begin{figure}[htb]
+\item $f_2(x_1,x_2,x_3,x_4)=0$ por lo que se trata de una función constante.
+
+\item $f_3(x_1,x_2,x_3,x_4)=1$ por lo que se trata de una función constante.
+\end{itemize}
+
+Las $U_f$ respectivas son fáciles de implementar. En el primer caso basta con aplicar una puerta CNOT empleando como controlador el qubit correspondiente al bit $x_1$ y como qubit receptor el de salida. En el caso de $U_{f_2}$ no hay que realizar ninguna operación, aunque pondremos simbólicamente la puerta identidad aplicada al qubit de salida. Por último, $U_{f_3}$ viene determinada por una puerta $X$ aplicada al qubit de salida.
+
+\begin{figure}[!htb]
 \begin{lstlisting}[language=Python]
-def deutschjozsa (qc, qr, cr):
+def deutschjozsa (qc, qr, cr, uf):
     if len(qr) != 5:
         print("El numero de qubits debe ser 5.")
         return
     
-    # Negacion del ultimo qubit (salida)
+    # Negacion  del ultimo qubit
     qc.x(qr[-1])
     
     # Aplicacion de una puerta de Hadamard a cada qubit
     for r in qr:
         qc.h(r)
         
-    # f(x_1,x_2,x_3,x_4) = 1 si x_1 vale 1, 0 en otro caso. Balanceada
-    # U_f es una cnot, con control el primer cubit y X el qubit de salida
-    qc.cx(qr[0], qr[-1])
-    
+    # Aplicamos U_f
+    uf(qc, qr)
+        
     # Aplicacion de una puerta de Hadamard a cada qubit de entrada
     for r in qr[:-1]:
         qc.h(r)
-    
+            
     qc.measure(qr[:-1], cr)
+
+def uf_1 (qc, qr):
+    # f(x_1,x_2,x_3,x_4) = 1 si x_1 vale 1, 0 en otro caso. Balanceada
+    # U_f cnot, como control el primer cubit, X aplicada a qubit de salida
+    qc.cx(qr[0], qr[-1])
+    
+def uf_2 (qc, qr):
+    # f(x_1,x_2,x_3,x_4) = 0. Constante
+    # U_f Identidad qubit de salida
+    qc.iden(qr[-1])
+    
+def uf_3 (qc, qr):
+    # f(x_1,x_2,x_3,x_4) = 1. Constante
+    # U_f not en qubit de salida
+    qc.x(qr[-1])
 \end{lstlisting}
 \caption{Código en \textit{Qiskit} de una implementación de Deutsch-Jozsa.}
-\label{fig:code61}
+\label{fig:code62}
 \end{figure}
 
-\begin{figure}[!htb]
-\[\Qcircuit @C=1em @R=.7em {
-\lstick{\ket{0}} & \qw & \gate{H} & \qw & \ctrl{4} & \qw & \gate{H} & \qw & \meter & \qw \\
-\lstick{\ket{0}} & \qw & \gate{H} & \qw & \qw      & \qw & \gate{H} & \qw & \meter & \qw \\
-\lstick{\ket{0}} & \qw & \gate{H} & \qw & \qw      & \qw & \gate{H} & \qw & \meter & \qw \\
-\lstick{\ket{0}} & \qw & \gate{H} & \qw & \qw      & \qw & \gate{H} & \qw & \meter & \qw \\
-\lstick{\ket{1}} & \qw & \gate{H} & \qw & \targ    & \qw & \qw      & \qw & \qw & \qw
-}\]
-\caption{Circuito de una implementación de Deutsch-Jozsa.}
-\label{fig:fig62}
-\end{figure}
+En la figura \ref{fig:code62} podemos ver el código en \textit{Qiskit} de la implementación del algoritmo de \textit{Deutsch-Jozsa} para un sistema de 5 qubits y cada una de las funciones $U_f$ expresadas anteriormente.
 
 \section{Implementaciones futuras}
 
