@@ -348,7 +348,7 @@ T\ket{x,y,0}=\ket{x,y,x\wedge y}
 
 En la ecuación anterior se muestran las construcciones de dichas puertas respectivamente. Nótese que $T$ permite generar cualquier circuito clásico pero no afirmamos tal cosa de los circuitos cuánticos (de hecho no se verifica esta segunda proposición). La generación de estas puertas ayudó a probar a Deutsch que cualquier función clásica puede ser fabricada a partir de una puerta cuántica reversible [\cite{deutsch1985quantum}]. Incluso Bernstein y Vazirani concretaron una \textbf{máquina cuántica universal de Turing} [\cite{bernstein1997quantum}].
 
-Según lo que acabamos de ver, dada una función clásica $\function{f}{\{0,1\}^m}{\{0,1\}^k}$ existe un \textbf{\textit{array} de puertas} $U_f$ que implementa $f$ en un circuito cuántico. Se verifica que $U_f\ket{x,y}=\ket{x,y\oplus f(x)}$ donde $x$ denota un elemento de $m$ bits, $y$ de $k$ bits y $\oplus$ es el operador lógico XOR.
+\paragraph{Según lo que acabamos de ver, dada una función clásica $\function{f}{\{0,1\}^m}{\{0,1\}^k}$ existe un \textbf{\textit{array} de puertas} $U_f$ que implementa $f$ en un circuito cuántico. Se verifica que $U_f\ket{x,y}=\ket{x,y\oplus f(x)}$ donde $x$ denota un elemento de $m$ bits, $y$ de $k$ bits y $\oplus$ es el operador lógico XOR.}\label{uf}
 
 \begin{figure}[!htb]
 \[\Qcircuit @C=1em @R=.7em {

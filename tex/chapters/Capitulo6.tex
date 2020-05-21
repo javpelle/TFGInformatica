@@ -4,11 +4,111 @@
 
 Vamos a dar uso a MTQC. Implementaremos el algoritmo de \textit{Deutsch-Jozsa} [\cite{deutsch1992rapid}] en los lenguajes \textit{Qiskit} y \qsh\ y aplicaremos pruebas de mutación sombre ambos códigos. Antes veremos que problema plantea dicho algoritmo.
 
-Sea $\function{f}{\{0,1\}^n}{\{0,1\}}$ una función binaria que bien puede ser constante ($f(x) = 0$ o $1$ para todo $x\in\{0,1\}^n$) o bien es balanceada (la salida es 0 para la mitad de entradas y 1 para la otra mitad). Desde el punto de vista clásico, en caso peor hay que verificar $2^{n-1}+1$ entradas para resolver el problema. El algoritmo cuántico de \textit{Deutsch-Jozsa} lo resuelve en una sola iteración.
+Sea $\function{f}{\{0,1\}^n}{\{0,1\}}$ una función binaria que bien puede ser constante ($f(x) = 0$ o $f(x) = 1$ para todo $x\in\{0,1\}^n$) o bien es balanceada (la salida es 0 para la mitad de entradas y 1 para la otra mitad). Desde el punto de vista clásico, en el caso peor hay que verificar $2^{n-1}+1$ entradas para resolver el problema. El algoritmo cuántico de \textit{Deutsch-Jozsa} lo resuelve en una sola iteración.
 
 Veamos como funciona... % continuar, en wikipedia está explicado y demostrado
 
-Adelantamos que nosotros usaremos una función balanceada $\function{f}{\{0,1\}^4}{\{0,1\}}$ de modo que $f(x_1,x_2,x_3,x_4)=\left\{\begin{matrix}1 \mathrm{\ si\ } x_1=1\\0 \mathrm{\ si\ } x_1=0\end{matrix}\right.$
+Adelantamos que nosotros usaremos, como ejemplo, una función balanceada $\function{f}{\{0,1\}^4}{\{0,1\}}$ de modo que $f(x_1,x_2,x_3,x_4)=\left\{\begin{matrix}1 \mathrm{\ si\ } x_1=1\\0 \mathrm{\ si\ } x_1=0\end{matrix}\right.$
+
+Previamente a mostrar el código de nuestro ejemplo particular, analicemos en detalle cada paso del que consta el algoritmo de Jozsa.
+
+En primer lugar, si nuestra función $f$ toma valores en $\{0,1\}^n$, debemos crear un circuito con $n + 1$ qubits. Todos los qubits deberan tomar el estado $\ket{0}$ menos el último de ellos, que utilizaremos como auxiliar e inicializamos al estado $\ket{1}$. De esta forma nuestro sistema se encuentra en un primer estado dado por:
+\begin{equation}
+\ket{\phi_0} = \ket{0\overset{n}{\cdots}01}
+\end{equation}
+
+A continuación, aplicamos una puerta Hadamard a cada qubit, obteniendo de esta forma el siguiente estado:
+\begin{equation}
+\ket{\phi_1} = \dfrac{1}{\sqrt{2^{n+1}}} \sum\limits_{i=0}^{2^n - 1} \ket{i}(\ket0-\ket1) \textrm{, donde $i$ se corresponde con su representación binaria.}
+\end{equation}
+
+Posteriormente, hay que aplicar el operador $U_f$ tal y como fue definido en \ref{uf}. Si denotamos por $x$ a los $n$ qubits de entrada y por $y$ al qubit auxiliar se tiene:
+\begin{equation}
+U_f\colon \begin{matrix}x&\longrightarrow& x\\ \y&\longrightarrow& y\oplus f(x)\end{matrix}
+\end{equation}
+
+El diseño de esta $U_f$ puede ser muy complejo, dependiendo de cómo sea la función $f$. En nuestro ejemplo hemos escogido una función que facilita la creación del operador $U_f$.
+
+Tras aplicar el operador $U_f$, se obtiene un tercer estado dado por:
+\begin{equation}
+\ket{\phi_2} = \dfrac{1}{\sqrt{2^{n+1}}} \sum\limits_{i=0}^{2^n - 1} \ket{i}(\ket{f(i)}-\ket{1\oplus f(i)}) 
+\end{equation}
+
+Ahora, como $f(i)$ sólo puede tomar valores binarios, podemos simplificar la expresión anterior:
+\begin{equation}
+\ket{\phi_2} = \dfrac{1}{\sqrt{2^{n+1}}} \sum\limits_{i=0}^{2^n - 1} (-1)^{f(i)}\ket{i}(\ket0-\ket1) 
+\label{phi2}
+\end{equation}
+
+
+A partir de este punto, el estado del último qubit $\dfrac{1}{\sqrt{2}}(\ket0-\ket1)$ puede ser ignorado, pues no será relevante para el resto de cálculos.
+
+A continuación, debemos aplicar una puerta Hadamard a cada uno de los $n$ qubits restantes. Previamente a realizar dicha operación, vamos a ver cómo una representación matemática de la aplicación simultanea de puertas Hadamard que facilita la comprensión de la parte final del algoritmo.
+
+Cuando contamos con un sólo qubit, una puerta Hadamard sabemos que viene dada por: \begin{center}
+$\gatetwo{H}{\tfrac{1}{\sqrt{2}}(\ket0+\ket1)}{\dfrac{1}{\sqrt{2}}(\ket0-\ket1)}$
+\end{center}
+
+Por tanto, podemos escribir el caso general, donde $x=0$ o $x=1$ como:
+\begin{equation}
+H\ket{x} = \tfrac{1}{\sqrt{2}}\sum\limits_{z\in\{0,1\}} (-1)^{x\cdot i}\ket{z} \textrm{, donde $x\cdot z$ denota el producto escalar bit a bit, módulo 2}
+\end{equation}
+
+Veamos ahora el caso con 2 qubits a los que aplicamos una puerta Hadamard a cada uno:
+\begin{equation}
+\begin{split}
+H^{\otimes 2}\ket{x_1,x_2} & = H\ket{x_1} \otimes H\ket{x_2} \\
+& = \tfrac{1}{\sqrt{2}}\sum\limits_{z_1\in\{0,1\}} (-1)^{x_1\cdot z_1}\ket{z_1} \otimes \tfrac{1}{\sqrt{2}}\sum\limits_{z_2\in\{0,1\}} (-1)^{x_2\cdot z_2}\ket{z_1} \\
+& = \tfrac{1}{\sqrt{2^2}}\sum\limits_{z_1,z_2\in\{0,1\}} (-1)^{x_1\cdot z_1+x_2\cdot z_1}\ket{z_1,z_2}
+\end{split}
+\end{equation}
+
+De esta misma forma, podemos representar la aplicación de puertas Hadamard a $n$ qubits como:
+\begin{equation}
+\begin{split}
+H^{\otimes n}\ket{x_1,\cdots,x_n} & = \tfrac{1}{\sqrt{2^n}}\sum\limits_{z_1,\cdots,z_n\in\{0,1\}} (-1)^{x_1\cdot z_1+\cdots+x_n\cdot z_n}\ket{z_1,\cdots,z_n}
+\end{split}
+\end{equation}
+
+Si retomamos ahora la notación para el sumatorio utilizada a lo largo de la demostración, podemos expresar el resultado anterior como:
+\begin{equation}
+\begin{split}
+H^{\otimes n}\ket{x_1,\cdots,x_n} & = \tfrac{1}{\sqrt{2^n}}\sum\limits_{z=0}^{2^n-1} (-1)^{x\cdot z}\ket{z}
+\end{split}
+\end{equation}
+
+Por tanto, partiendo de la expresión \ref{phi2}, si aplicamos una puerta Hadamard a los $n$ primeros qubits (recordemos que el estado del último qubit ya no era relevante),
+se obtiene un nuevo estado $\phi_3$ dado por:
+
+\begin{equation}
+\begin{split}
+\ket{\phi_3} & = \dfrac{1}{\sqrt{2^{n}}} \sum\limits_{i=0}^{2^n - 1} (-1)^{f(i)}\left[\dfrac{1}{\sqrt{2^{n}}}\sum\limits_{j=0}^{2^n - 1}(-1)^{i\cdot j}\ket{j}\right] \\
+& = \dfrac{1}{2^n}\sum\limits_{j=0}^{2^n - 1}\left[\sum\limits_{i=0}^{2^n - 1}(-1)^{f(i)}(-1)^{i\cdot j}\right]\ket{j}
+\end{split}
+\label{phi3}
+\end{equation}
+
+Una vez que hayamos obtenido este estado, vamos a estudiar cual es la probabilidad de obtener el estado $\ket{0\overset{n}{\cdots}0}$ al medir los $n$ primeros qubits.
+
+En virtud de $\ref{phi3}$, el cuadrado de la amplitud del estado $\ket{0\overset{n}{\cdots}0}$ viene dada por:
+
+\begin{equation}
+\begin{split}
+& \left|\dfrac{1}{2^n}\sum\limits_{i=0}^{2^n - 1}(-1)^{f(i)}(-1)^{i\cdot j}\right|^2 \\ 
+= &\left|\dfrac{1}{2^n}\sum\limits_{i=0}^{2^n - 1}(-1)^{f(i)}\right|^2 \textrm{, ya que j = $0\overset{n}{\cdots}0$}
+\end{split}
+\end{equation}
+
+Por tanto, si la \emph{función $f$ es balanceada}, la mitad de los términos $(-1)^{f(i)}$ evaluaran a $1$, mientras que la otra mitad a $-1$, otorgando por tanto \emph{probabilidad 0} de obtener el estado 
+$\ket{0\overset{n}{\cdots}0}$.
+
+Si por el contrario la \emph{función $f$ es constante}, entonces todos los términos $(-1)^{f(i)}$ tendrán el mismo signo, no cancelándose entre ellos, y por tanto obteniendo \emph{probabilidad 1} de medir el estado $\ket{0\overset{n}{\cdots}0}$.
+
+De esta forma, se puede discernir de manera completamente determinista si la función $f$ es constante o balanceada.
+
+Una vez que hemos visto cuales son los pasos a aplicar para ejecutar el algoritmo de Deutsch-Jozsa, se procede a exponer el código de dicho algoritmo para los lenguajes $\qsh$ y \textit{Qiskit}.
+
+
 
 \begin{figure}[htb]
 \begin{lstlisting}[language=Python]
