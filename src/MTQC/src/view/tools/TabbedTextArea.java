@@ -46,17 +46,18 @@ public class TabbedTextArea extends JTabbedPane {
 	/**
 	 * Example test for QSharp.
 	 */
-	private static final String qSharpText = "//Select desired Qubit number to be used" + System.lineSeparator()
-			+ "using (register = Qubit[2]) {" + System.lineSeparator() + "" + System.lineSeparator()
-			+ "\t//Inicialize variables and Qubits" + System.lineSeparator() + "\tlet count = 1;"
-			+ System.lineSeparator() + "\tlet initial = Zero;" + System.lineSeparator() + "" + System.lineSeparator()
-			+ "\t//Call method and save output" + System.lineSeparator()
-			+ "\tlet(r1,r2,r3) =  TestBellState(register, count, initial);" + System.lineSeparator() + ""
-			+ System.lineSeparator() + "\t//If probabilistic test chosen." + System.lineSeparator()
-			+ "\t//DumpMachine(\"temp.txt\");" + System.lineSeparator() + System.lineSeparator()
-			+ "\t//Reset all qubits to Zero state" + System.lineSeparator() + "\tResetAll(register);"
-			+ System.lineSeparator() + "" + System.lineSeparator() + "\t//Return output" + System.lineSeparator()
-			+ "\treturn (r1,r2,r3);" + System.lineSeparator() + "}";
+	private static final String qSharpText = 
+			 "operation MainQuantum() : //Define main function output type {" + System.lineSeparator() + System.lineSeparator()
+			+ "\t//Select desired Qubit number to be used" + System.lineSeparator()
+			+ "\tusing (register = Qubit[2]) {" + System.lineSeparator() + "" + System.lineSeparator()
+			+ "\t\t//Inicialize variables and Qubits" + System.lineSeparator() + System.lineSeparator()
+			+ "\t\t//Call method and save output" + System.lineSeparator()
+			+ System.lineSeparator() + "\t\t//If probabilistic test chosen." + System.lineSeparator()
+			+ "\t\t//DumpMachine(\"temp.txt\");" + System.lineSeparator() + System.lineSeparator()
+			+ "\t\t//Reset all qubits to Zero state" + System.lineSeparator() + "\t\tResetAll(register);"
+			+ System.lineSeparator() + "" + System.lineSeparator() + "\t\t//Return output" + System.lineSeparator()
+			+ "\t}" + System.lineSeparator() + "}" + System.lineSeparator()
+			+ "//Define any other operation if needed as input";
 
 	/**
 	 * Constructor for the class.

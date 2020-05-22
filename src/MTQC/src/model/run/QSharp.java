@@ -50,10 +50,11 @@ public class QSharp extends Language {
 		String file = readFile(completePath);
 		String namespaceName = fileName.substring(0, fileName.length() - 3) + Integer.toString(id_test);
 		file = changeNamespace(file, namespaceName);
-		String mainMethod = getMainMethod(methodName, test);
-		mainMethod = tabString(mainMethod);
+		//String mainMethod = getMainMethod(methodName, test);
+		//mainMethod = tabString(mainMethod);
+		String mainMethod = tabString(test);
 		fileBuilder = new StringBuilder(file);
-		int mainPos = fileBuilder.lastIndexOf("}");
+		int mainPos = fileBuilder.lastIndexOf("}") - 1;
 		fileBuilder.insert(mainPos, System.lineSeparator() + System.lineSeparator() + mainMethod);
 		writeFile(path + File.separator + namespaceName + ".qs", fileBuilder.toString());
 
