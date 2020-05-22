@@ -190,21 +190,27 @@ public class Model implements Observable<Observer> {
 	 * @param operators Mutant operators wanted to be aplied.
 	 */
 	public void generate(ArrayList<String> files, ArrayList<MutantOperator> operators) {
-		if (files.isEmpty()) {
-			observer.notifyMutantsGenerator("No files selected!\n");
-		} else if (operators.isEmpty()) {
-			observer.notifyMutantsGenerator("No operators selected!\n");
-		} else {
-			File file = new File(mutantPath);
-			file.mkdir();
-			for (int i = 0; i < files.size(); i++) {
-				for (int j = 0; j < operators.size(); j++) {
-					mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
+		try {
+			if (files.isEmpty()) {
+				observer.notifyMutantsGenerator("No files selected!\n");
+				throw new EmptyListException("File list");
+			} else if (operators.isEmpty()) {
+				observer.notifyMutantsGenerator("No operators selected!\n");
+				throw new EmptyListException("Operator list");
+			} else {
+				File file = new File(mutantPath);
+				file.mkdir();
+				for (int i = 0; i < files.size(); i++) {
+					for (int j = 0; j < operators.size(); j++) {
+						mutantList.addAll(applyOperatorToFile(files.get(i), operators.get(j)));
+					}
 				}
+				observer.notifyMutantsGenerator(
+						"Completed. " + String.valueOf(mutantList.size()) + " mutants generated!\n");
+				observer.updateMutants(mutantList);
 			}
-			observer.notifyMutantsGenerator(
-					"Completed. " + String.valueOf(mutantList.size()) + " mutants generated!\n");
-			observer.updateMutants(mutantList);
+		} catch (EmptyListException e) {
+			notifyError(e);
 		}
 	}
 
