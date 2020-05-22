@@ -54,7 +54,7 @@ public class Qiskit extends Language {
 
 	@Override
 	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
-			Test test) {
+			Test test, Process p) {
 		ArrayList<ArrayList<TestResult>> results = new ArrayList<ArrayList<TestResult>>();
 		for (ArrayList<TestFile> list : files) {
 			ArrayList<TestResult> aux = new ArrayList<TestResult>();

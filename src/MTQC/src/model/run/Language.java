@@ -120,7 +120,7 @@ public abstract class Language {
 		try {
 			Process p = Runtime.getRuntime().exec(pythonCall(path, main));
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			return generateResults(in, files, test);
+			return generateResults(in, files, test, p);
 		} catch (IOException e) {
 
 		}
@@ -286,10 +286,11 @@ public abstract class Language {
 	 * @param in    Reader used to get the results from standard output.
 	 * @param files List of all TestFiles where we will save the results.
 	 * @param test  Type of test.
+	 * @param p 
 	 * @return List of all TestFiles for this execution.
 	 */
 	protected abstract ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in,
-			ArrayList<ArrayList<TestFile>> files, Test test);
+			ArrayList<ArrayList<TestFile>> files, Test test, Process p);
 
 	/**
 	 * Method used to only read the lines wanted from execution.

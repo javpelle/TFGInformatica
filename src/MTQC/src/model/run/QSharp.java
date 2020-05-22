@@ -114,10 +114,14 @@ public class QSharp extends Language {
 
 	@Override
 	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
-			Test test) {
+			Test test, Process p) {
 		boolean isQStateTest = test instanceof QStateTest;
 		BufferedReader reader = null;
 		if (isQStateTest) {
+			try {
+				p.waitFor();
+			} catch (InterruptedException e1) {
+			}
 			File resultFile = new File(path + File.separator + probabilisticQsharpResultFile);
 			try {
 				reader = new BufferedReader(new InputStreamReader(new FileInputStream(resultFile), "UTF8"));
