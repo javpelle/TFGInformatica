@@ -61,25 +61,27 @@ public class MenuBar extends JMenuBar {
 		JMenu menu2 = new JMenu("Language");
 		ButtonGroup language = new ButtonGroup();
 		JRadioButtonMenuItem qsharp = new JRadioButtonMenuItem("Q#");
-		qsharp.setSelected(true);
+		qsharp.setSelected(false);
 
 		JRadioButtonMenuItem qiskit = new JRadioButtonMenuItem("Qiskit");
-		qiskit.setSelected(false);
+		qiskit.setSelected(true);
 
 		menu2.add(qsharp);
 		menu2.add(qiskit);
 		language.add(qsharp);
 		language.add(qiskit);
-
-		qsharp.addItemListener((e) -> {
+		
+		
+		// If new Language is added, it is necessary replicate structure code.
+		qiskit.addItemListener((e) -> {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
-				listener.languageChosen(false);
+				listener.languageChosen(0);
 			}
 		});
 
-		qiskit.addItemListener((e) -> {
+		qsharp.addItemListener((e) -> {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
-				listener.languageChosen(true);
+				listener.languageChosen(1);
 			}
 		});
 
@@ -113,7 +115,7 @@ public class MenuBar extends JMenuBar {
 	 *
 	 */
 	public interface LanguageListener {
-		public void languageChosen(boolean qiskit);
+		public void languageChosen(int language);
 	}
 
 	/**

@@ -101,9 +101,9 @@ public class TabbedPane extends JTabbedPane {
 	 * @param mutantOperatorList List of new operators.
 	 * @param qiskit             To check if qiskit language is selected.
 	 */
-	public void updateOperators(MutantOperator[] mutantOperatorList, boolean qiskit) {
+	public void updateOperators(MutantOperator[] mutantOperatorList, String example) {
 		mutantsgenerator.updateOperators(mutantOperatorList);
-		testCaseRunner.updateLanguage(qiskit);
+		testCaseRunner.updateLanguage(example);
 	}
 
 	/**

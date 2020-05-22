@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import model.files.TestFile;
 import model.mutant.Mutant;
+import model.mutantoperator.MutantOperator;
 import model.test.Test;
 import model.testresult.TestResult;
 
@@ -317,9 +318,27 @@ public abstract class Language {
 	}
 	
 	/**
+	 * 
+	 * @return List of Mutant Operators for a specific language
+	 */
+	public abstract MutantOperator[] getMutantOperators();
+	
+	/**
 	 * Interface Notify Listener.
 	 */
 	public interface NotifyListener {
 		public void notify(String msg);
 	}
+
+	public abstract String getInputExample();
+	
+	public abstract String toString();
+
+	public abstract String getExtension();
+
+	public abstract boolean verifyMatch(MutantOperator mutantOperator, String line, int offset, String searchWord);
+
+	public abstract String getStartMethodToken();
+
+	public abstract String getEndMethodToken();
 }

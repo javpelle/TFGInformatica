@@ -20,6 +20,36 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import model.files.TestFile;
+import model.mutantoperator.MutantOperator;
+import model.mutantoperator.qsharp.GateHX;
+import model.mutantoperator.qsharp.GateHY;
+import model.mutantoperator.qsharp.GateHZ;
+import model.mutantoperator.qsharp.GateST;
+import model.mutantoperator.qsharp.GateTS;
+import model.mutantoperator.qsharp.GateXH;
+import model.mutantoperator.qsharp.GateXY;
+import model.mutantoperator.qsharp.GateXZ;
+import model.mutantoperator.qsharp.GateYH;
+import model.mutantoperator.qsharp.GateYX;
+import model.mutantoperator.qsharp.GateYZ;
+import model.mutantoperator.qsharp.GateZH;
+import model.mutantoperator.qsharp.GateZX;
+import model.mutantoperator.qsharp.GateZY;
+import model.mutantoperator.qsharp.MissAdjoint;
+import model.mutantoperator.qsharp.OneZero;
+import model.mutantoperator.qsharp.PauliXY;
+import model.mutantoperator.qsharp.PauliXZ;
+import model.mutantoperator.qsharp.PauliYX;
+import model.mutantoperator.qsharp.PauliYZ;
+import model.mutantoperator.qsharp.PauliZX;
+import model.mutantoperator.qsharp.PauliZY;
+import model.mutantoperator.qsharp.RotXY;
+import model.mutantoperator.qsharp.RotXZ;
+import model.mutantoperator.qsharp.RotYX;
+import model.mutantoperator.qsharp.RotYZ;
+import model.mutantoperator.qsharp.RotZX;
+import model.mutantoperator.qsharp.RotZY;
+import model.mutantoperator.qsharp.ZeroOne;
 import model.test.QStateTest;
 import model.test.Test;
 import model.testresult.TestResult;
@@ -42,6 +72,30 @@ public class QSharp extends Language {
 	 */
 	private static final String probabilsiticKey = "∣";
 
+	/**
+	 * Initializes all possible mutant operators for QSharp language.
+	 */
+	private MutantOperator[] qsharpOperators = { new GateHX(), new GateHY(), new GateHZ(), new GateST(), new GateTS(),
+			new GateXH(), new GateXY(), new GateXZ(), new GateYH(), new GateYX(), new GateYZ(), new GateZH(),
+			new GateZX(), new GateZY(), new MissAdjoint(), new OneZero(), new PauliXY(), new PauliXZ(), new PauliYX(),
+			new PauliYZ(), new PauliZX(), new PauliZY(), new RotXY(), new RotXZ(), new RotYX(), new RotYZ(),
+			new RotZX(), new RotZY(), new ZeroOne() };
+
+	/**
+	 * Example test for QSharp.
+	 */
+	private static final String qSharpText = "operation MainQuantum() : //Define main function output type {"
+			+ System.lineSeparator() + System.lineSeparator() + "\t//Select desired Qubit number to be used"
+			+ System.lineSeparator() + "\tusing (register = Qubit[2]) {" + System.lineSeparator() + ""
+			+ System.lineSeparator() + "\t\t//Inicialize variables and Qubits" + System.lineSeparator()
+			+ System.lineSeparator() + "\t\t//Call method and save output" + System.lineSeparator()
+			+ System.lineSeparator() + "\t\t//If probabilistic test chosen." + System.lineSeparator()
+			+ "\t\t//DumpMachine(\"temp.txt\");" + System.lineSeparator() + System.lineSeparator()
+			+ "\t\t//Reset all qubits to Zero state" + System.lineSeparator() + "\t\tResetAll(register);"
+			+ System.lineSeparator() + "" + System.lineSeparator() + "\t\t//Return output" + System.lineSeparator()
+			+ "\t}" + System.lineSeparator() + "}" + System.lineSeparator()
+			+ "//Define any other operation if needed as input";
+
 	@Override
 	protected TestFile generateFile(String completePath, String fileName, String test, int id_test, String methodName,
 			String mutantName) {
@@ -50,8 +104,8 @@ public class QSharp extends Language {
 		String file = readFile(completePath);
 		String namespaceName = fileName.substring(0, fileName.length() - 3) + Integer.toString(id_test);
 		file = changeNamespace(file, namespaceName);
-		//String mainMethod = getMainMethod(methodName, test);
-		//mainMethod = tabString(mainMethod);
+		// String mainMethod = getMainMethod(methodName, test);
+		// mainMethod = tabString(mainMethod);
 		String mainMethod = tabString(test);
 		fileBuilder = new StringBuilder(file);
 		int mainPos = fileBuilder.lastIndexOf("}") - 1;
@@ -175,5 +229,40 @@ public class QSharp extends Language {
 		}
 
 		return result;
+	}
+
+	@Override
+	public MutantOperator[] getMutantOperators() {
+		return qsharpOperators;
+	}
+
+	@Override
+	public String getInputExample() {
+		return qSharpText;
+	}
+
+	@Override
+	public String toString() {
+		return "Q#";
+	}
+
+	@Override
+	public String getExtension() {
+		return ".qs";
+	}
+
+	@Override
+	public boolean verifyMatch(MutantOperator mutantOperator, String line, int offset, String searchWord) {
+		return mutantOperator.checkRegEx(line.substring(offset - 1, offset + searchWord.length() + 1));
+	}
+
+	@Override
+	public String getStartMethodToken() {
+		return "operation ";
+	}
+
+	@Override
+	public String getEndMethodToken() {
+		return "{";
 	}
 }

@@ -25,90 +25,10 @@ import exception.TimeLimitException;
 import javafx.util.Pair;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.mutantoperator.qiskit.CCXCSWAPGate;
-import model.mutantoperator.qiskit.CHSWAPGate;
-import model.mutantoperator.qiskit.CHXGate;
-import model.mutantoperator.qiskit.CHYGate;
-import model.mutantoperator.qiskit.CHZGate;
-import model.mutantoperator.qiskit.CSWAPCCXGate;
-import model.mutantoperator.qiskit.CXHGate;
-import model.mutantoperator.qiskit.CXSWAPGate;
-import model.mutantoperator.qiskit.CXYGate;
-import model.mutantoperator.qiskit.CXZGate;
-import model.mutantoperator.qiskit.CYHGate;
-import model.mutantoperator.qiskit.CYSWAPGate;
-import model.mutantoperator.qiskit.CYXGate;
-import model.mutantoperator.qiskit.CYZGate;
-import model.mutantoperator.qiskit.CZHGate;
-import model.mutantoperator.qiskit.CZSWAPGate;
-import model.mutantoperator.qiskit.CZXGate;
-import model.mutantoperator.qiskit.CZYGate;
-import model.mutantoperator.qiskit.HXGate;
-import model.mutantoperator.qiskit.HYGate;
-import model.mutantoperator.qiskit.HZGate;
-import model.mutantoperator.qiskit.RXYGate;
-import model.mutantoperator.qiskit.RXZGate;
-import model.mutantoperator.qiskit.RYXGate;
-import model.mutantoperator.qiskit.RYZGate;
-import model.mutantoperator.qiskit.RZXGate;
-import model.mutantoperator.qiskit.RZYGate;
-import model.mutantoperator.qiskit.SSdgGate;
-import model.mutantoperator.qiskit.STGate;
-import model.mutantoperator.qiskit.SWAPCHGate;
-import model.mutantoperator.qiskit.SWAPCXGate;
-import model.mutantoperator.qiskit.SWAPCYGate;
-import model.mutantoperator.qiskit.SWAPCZGate;
-import model.mutantoperator.qiskit.SZGate;
-import model.mutantoperator.qiskit.SdgSGate;
-import model.mutantoperator.qiskit.SdgTGate;
-import model.mutantoperator.qiskit.SdgZGate;
-import model.mutantoperator.qiskit.TSGate;
-import model.mutantoperator.qiskit.TSdgGate;
-import model.mutantoperator.qiskit.TZGate;
-import model.mutantoperator.qiskit.XHGate;
-import model.mutantoperator.qiskit.XYGate;
-import model.mutantoperator.qiskit.XZGate;
-import model.mutantoperator.qiskit.YHGate;
-import model.mutantoperator.qiskit.YXGate;
-import model.mutantoperator.qiskit.YZGate;
-import model.mutantoperator.qiskit.ZHGate;
-import model.mutantoperator.qiskit.ZSGate;
-import model.mutantoperator.qiskit.ZSdgGate;
-import model.mutantoperator.qiskit.ZTGate;
-import model.mutantoperator.qiskit.ZXGate;
-import model.mutantoperator.qiskit.ZYGate;
-import model.mutantoperator.qsharp.GateHX;
-import model.mutantoperator.qsharp.GateHY;
-import model.mutantoperator.qsharp.GateHZ;
-import model.mutantoperator.qsharp.GateST;
-import model.mutantoperator.qsharp.GateTS;
-import model.mutantoperator.qsharp.GateXH;
-import model.mutantoperator.qsharp.GateXY;
-import model.mutantoperator.qsharp.GateXZ;
-import model.mutantoperator.qsharp.GateYH;
-import model.mutantoperator.qsharp.GateYX;
-import model.mutantoperator.qsharp.GateYZ;
-import model.mutantoperator.qsharp.GateZH;
-import model.mutantoperator.qsharp.GateZX;
-import model.mutantoperator.qsharp.GateZY;
-import model.mutantoperator.qsharp.MissAdjoint;
-import model.mutantoperator.qsharp.OneZero;
-import model.mutantoperator.qsharp.PauliXY;
-import model.mutantoperator.qsharp.PauliXZ;
-import model.mutantoperator.qsharp.PauliYX;
-import model.mutantoperator.qsharp.PauliYZ;
-import model.mutantoperator.qsharp.PauliZX;
-import model.mutantoperator.qsharp.PauliZY;
-import model.mutantoperator.qsharp.RotXY;
-import model.mutantoperator.qsharp.RotXZ;
-import model.mutantoperator.qsharp.RotYX;
-import model.mutantoperator.qsharp.RotYZ;
-import model.mutantoperator.qsharp.RotZX;
-import model.mutantoperator.qsharp.RotZY;
-import model.mutantoperator.qsharp.ZeroOne;
-import model.run.Language.NotifyListener;
+import model.run.Language;
 import model.run.QSharp;
 import model.run.Qiskit;
+import model.run.Language.NotifyListener;
 import model.test.ProbabilisticTest;
 import model.test.QStateTest;
 import model.test.Test;
@@ -126,11 +46,6 @@ public class Model implements Observable<Observer> {
 	 * Observer.
 	 */
 	private Observer observer;
-
-	/**
-	 * Boolean used to check if Qiskit Language is selected.
-	 */
-	private boolean qiskit;
 
 	/**
 	 * Absolute path where the program is being executed.
@@ -153,31 +68,19 @@ public class Model implements Observable<Observer> {
 	private ArrayList<ArrayList<TestResult>> results;
 
 	/**
-	 * Initializes all possible mutant operators for Qiskit language.
-	 */
-	private MutantOperator[] qiskitOperators = { new CCXCSWAPGate(), new CHSWAPGate(), new CHXGate(), new CHYGate(),
-			new CHZGate(), new CSWAPCCXGate(), new CXHGate(), new CXSWAPGate(), new CXYGate(), new CXZGate(),
-			new CYHGate(), new CYSWAPGate(), new CYXGate(), new CYZGate(), new CZHGate(), new CZSWAPGate(),
-			new CZXGate(), new CZYGate(), new HXGate(), new HYGate(), new HZGate(), new RXYGate(), new RXZGate(),
-			new RYXGate(), new RYZGate(), new RZXGate(), new RZYGate(), new SdgSGate(), new SdgTGate(), new SdgZGate(),
-			new SSdgGate(), new STGate(), new SWAPCHGate(), new SWAPCXGate(), new SWAPCYGate(), new SWAPCZGate(),
-			new SZGate(), new TSdgGate(), new TSGate(), new TZGate(), new XHGate(), new XYGate(), new XZGate(),
-			new YHGate(), new YXGate(), new YZGate(), new ZHGate(), new ZSdgGate(), new ZSGate(), new ZTGate(),
-			new ZXGate(), new ZYGate() };
-
-	/**
-	 * Initializes all possible mutant operators for QSharp language.
-	 */
-	private MutantOperator[] qsharpOperators = { new GateHX(), new GateHY(), new GateHZ(), new GateST(), new GateTS(),
-			new GateXH(), new GateXY(), new GateXZ(), new GateYH(), new GateYX(), new GateYZ(), new GateZH(),
-			new GateZX(), new GateZY(), new MissAdjoint(), new OneZero(), new PauliXY(), new PauliXZ(), new PauliYX(),
-			new PauliYZ(), new PauliZX(), new PauliZY(), new RotXY(), new RotXZ(), new RotYX(), new RotYZ(),
-			new RotZX(), new RotZY(), new ZeroOne() };
-
-	/**
 	 * Initializes both type of test available.
 	 */
 	private Test[] tests = { new QStateTest(), new ProbabilisticTest() };
+	
+	/**
+	 * Initializes both type of language available.
+	 */
+	private Language[] languages = { new Qiskit(), new QSharp()	};
+
+	/**
+	 * Selected language.
+	 */
+	private Language selectedLanguage;
 
 	/**
 	 * Used to store all mutants generated by the program.
@@ -186,10 +89,12 @@ public class Model implements Observable<Observer> {
 
 	/**
 	 * Empty constructor for the class.
+	 * 
+	 * @param language
 	 */
 	public Model() {
 		confidence = 1.0;
-		qiskit = false;
+		selectedLanguage = languages[0];
 		mutantList = new ArrayList<Mutant>();
 	}
 
@@ -213,11 +118,7 @@ public class Model implements Observable<Observer> {
 	 * Notifies the observer that the language has changed.
 	 */
 	public void notifyLanguageChange() {
-		if (qiskit) {
-			observer.updateMutantOperators(qiskitOperators, true);
-		} else {
-			observer.updateMutantOperators(qsharpOperators, false);
-		}
+		observer.updateMutantOperators(selectedLanguage.getMutantOperators(), selectedLanguage.getInputExample());
 	}
 
 	@Override
@@ -235,7 +136,8 @@ public class Model implements Observable<Observer> {
 	 */
 	public void start() {
 		updatePath(System.getProperty("user.dir"));
-		updateMutantOperators(qiskit);
+		updatePath(path);
+		notifyLanguageChange();
 		observer.setTests(tests);
 	}
 
@@ -255,8 +157,8 @@ public class Model implements Observable<Observer> {
 	 * 
 	 * @param qiskit Indicates whether qiskit is selected or not.
 	 */
-	public void updateMutantOperators(boolean qiskit) {
-		this.qiskit = qiskit;
+	public void updateMutantOperators(int language) {
+		selectedLanguage = languages[language];
 		updatePath(path);
 		notifyLanguageChange();
 	}
@@ -271,12 +173,7 @@ public class Model implements Observable<Observer> {
 		ArrayList<String> files = new ArrayList<String>();
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
-		String extension;
-		if (qiskit) {
-			extension = ".py";
-		} else {
-			extension = ".qs";
-		}
+		String extension = selectedLanguage.getExtension();
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(extension)
 					&& !listOfFiles[i].getName().startsWith("._")) {
@@ -338,8 +235,8 @@ public class Model implements Observable<Observer> {
 			while (line != null) {
 				line = " " + line;
 				for (int offset = 1; offset < line.length(); offset++) {
-					if (line.startsWith(searchWord, offset) && (qiskit || mutantOperator
-							.checkRegEx(line.substring(offset - 1, offset + searchWord.length() + 1)))) {
+					if (line.startsWith(searchWord, offset)
+							&& selectedLanguage.verifyMatch(mutantOperator, line, offset, searchWord)) {
 						lineOffset.add(new Pair<Integer, Integer>(lineCount, totalOffset + offset - 1));
 					}
 				}
@@ -417,16 +314,8 @@ public class Model implements Observable<Observer> {
 	 * @param fileName Name of the file where it search for methods.
 	 */
 	public void getFileMethods(String fileName) {
-		String startMethodToken;
-		String endMethodToken;
-
-		if (qiskit) {
-			startMethodToken = "def ";
-			endMethodToken = ":";
-		} else {
-			startMethodToken = "operation ";
-			endMethodToken = "{";
-		}
+		String startMethodToken = selectedLanguage.getStartMethodToken();
+		String endMethodToken = selectedLanguage.getEndMethodToken();
 
 		ArrayList<String> fileMethods = new ArrayList<String>();
 
@@ -465,7 +354,7 @@ public class Model implements Observable<Observer> {
 			}
 		}
 		ArrayList<Mutant> aux = new ArrayList<Mutant>();
-		for (Mutant m: mutantList) {
+		for (Mutant m : mutantList) {
 			if (m.getOriginalName().equals(fileName)) {
 				aux.add(m);
 			}
@@ -518,19 +407,14 @@ public class Model implements Observable<Observer> {
 			if (mutantList.size() == 0) {
 				throw new EmptyListException("Mutant list");
 			}
-			
-			
+
 			NotifyListener listener = new NotifyListener() {
 				@Override
 				public void notify(String msg) {
-					observer.notifyTestCaseRunner(msg);				
-				}			
+					observer.notifyTestCaseRunner(msg);
+				}
 			};
-			if (qiskit) {
-				results = new Qiskit().run(mutantList, testSuit, test, method, timeLimit, listener);
-			} else {
-				results = new QSharp().run(mutantList, testSuit, test, method, timeLimit, listener);
-			}
+			results = selectedLanguage.run(mutantList, testSuit, test, method, timeLimit, listener);
 
 			observer.notifyResults(results);
 			getKills();

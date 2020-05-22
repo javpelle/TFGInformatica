@@ -74,8 +74,8 @@ public class Controller {
 	 * 
 	 * @param qiskit Boolean used to check which language is selected
 	 */
-	public void updateLanguage(boolean qiskit) {
-		model.updateMutantOperators(qiskit);
+	public void updateLanguage(int language) {
+		model.updateMutantOperators(language);
 	}
 
 	/**

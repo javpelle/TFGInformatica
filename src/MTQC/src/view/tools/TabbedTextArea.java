@@ -31,41 +31,11 @@ public class TabbedTextArea extends JTabbedPane {
 	private ArrayList<JTextArea> windows;
 
 	/**
-	 * Example test for Qiskit.
-	 */
-	private static final String qiskitText = "def init ():" + System.lineSeparator() + "\tcr = ClassicalRegister(1)"
-			+ System.lineSeparator() + "\tqr = QuantumRegister(1)" + System.lineSeparator()
-			+ "\tqc = QuantumCircuit(qr, cr)" + System.lineSeparator() + "" + System.lineSeparator()
-			+ "\t# Initialize with desired quantum gates or QuantumCircuit.initialize() method" + System.lineSeparator()
-			+ "" + System.lineSeparator() + "\t# Call your method" + System.lineSeparator() + ""
-			+ System.lineSeparator() + "\tex = execute(qc, backend = Aer.get_backend('statevector_simulator'))"
-			+ System.lineSeparator() + "" + System.lineSeparator() + "\t# Add any operations if needed"
-			+ System.lineSeparator() + "\t" + System.lineSeparator()
-			+ "\treturn next(iter(ex.result().get_counts())) # Change desired return" + System.lineSeparator()
-			+ "\t#return pow(abs(ex.result().get_statevector()), 2) # If probabilistic test chosen";
-	/**
-	 * Example test for QSharp.
-	 */
-	private static final String qSharpText = 
-			 "operation MainQuantum() : //Define main function output type {" + System.lineSeparator() + System.lineSeparator()
-			+ "\t//Select desired Qubit number to be used" + System.lineSeparator()
-			+ "\tusing (register = Qubit[2]) {" + System.lineSeparator() + "" + System.lineSeparator()
-			+ "\t\t//Inicialize variables and Qubits" + System.lineSeparator() + System.lineSeparator()
-			+ "\t\t//Call method and save output" + System.lineSeparator()
-			+ System.lineSeparator() + "\t\t//If probabilistic test chosen." + System.lineSeparator()
-			+ "\t\t//DumpMachine(\"temp.txt\");" + System.lineSeparator() + System.lineSeparator()
-			+ "\t\t//Reset all qubits to Zero state" + System.lineSeparator() + "\t\tResetAll(register);"
-			+ System.lineSeparator() + "" + System.lineSeparator() + "\t\t//Return output" + System.lineSeparator()
-			+ "\t}" + System.lineSeparator() + "}" + System.lineSeparator()
-			+ "//Define any other operation if needed as input";
-
-	/**
 	 * Constructor for the class.
 	 */
 	public TabbedTextArea() {
 		windows = new ArrayList<JTextArea>();
 		firstWindow();
-		updateLanguage(false);
 	}
 
 	/**
@@ -128,19 +98,12 @@ public class TabbedTextArea extends JTabbedPane {
 	/**
 	 * Updates example test for the tab on language change.
 	 * 
-	 * @param qiskit Boolean used to know if Qiskit language is selected.
+	 * @param language Boolean used to know if Qiskit language is selected.
 	 */
-	public void updateLanguage(boolean qiskit) {
-		if (qiskit) {
-			for (JTextArea w : windows) {
-				w.setText(qiskitText);
-			}
-		} else {
-			for (JTextArea w : windows) {
-				w.setText(qSharpText);
-			}
+	public void updateLanguage(String example) {
+		for (JTextArea w : windows) {
+			w.setText(example);
 		}
-
 	}
 
 }

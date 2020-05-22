@@ -140,10 +140,10 @@ public class InputTest extends JPanel {
 	/**
 	 * Updates the example test for a language.
 	 * 
-	 * @param qiskit Used to know if Qiskit language is selected.
+	 * @param language Used to know if Qiskit language is selected.
 	 */
-	public void updateLanguage(boolean qiskit) {
-		inputTest.updateLanguage(qiskit);
+	public void updateLanguage(String example) {
+		inputTest.updateLanguage(example);
 	}
 
 	/**

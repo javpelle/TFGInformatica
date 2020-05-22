@@ -25,7 +25,7 @@ public interface Observer {
 	 * @param qiskit
 	 * @param qiskitOperators Mutant operator list
 	 */
-	public void updateMutantOperators(MutantOperator[] mutantOperatorList, boolean qiskit);
+	public void updateMutantOperators(MutantOperator[] mutantOperatorList, String example);
 
 	/**
 	 * Updates the files in the new path

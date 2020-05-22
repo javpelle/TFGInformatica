@@ -103,10 +103,10 @@ public class TestCaseRunner extends JPanel {
 	}
 	/**
 	 * Updates the language selection.
-	 * @param qiskit Boolean which indicates if qiskit is selected.
+	 * @param language Boolean which indicates if qiskit is selected.
 	 */
-	public void updateLanguage(boolean qiskit) {
-		inputTest.updateLanguage(qiskit);
+	public void updateLanguage(String example) {
+		inputTest.updateLanguage(example);
 	}
 	
 	/**

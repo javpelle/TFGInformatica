@@ -63,6 +63,7 @@ public class UI extends JFrame implements Observer {
 	 * 
 	 * @param c a Controller
 	 * @param o an Observable for add this view as observer.
+	 * @param languages 
 	 */
 	public UI(Controller c, Observable<Observer> o) {
 		super("Mutation Testing for Quantum Computing");
@@ -86,8 +87,8 @@ public class UI extends JFrame implements Observer {
 		menuBar = new MenuBar(new LanguageListener() {
 
 			@Override
-			public void languageChosen(boolean qiskit) {
-				c.updateLanguage(qiskit);
+			public void languageChosen(int language) {
+				c.updateLanguage(language);
 			}
 
 		}, new ResetListener() {
@@ -159,8 +160,8 @@ public class UI extends JFrame implements Observer {
 	}
 
 	@Override
-	public void updateMutantOperators(MutantOperator[] mutantOperatorList, boolean qiskit) {
-		tabbedPane.updateOperators(mutantOperatorList, qiskit);
+	public void updateMutantOperators(MutantOperator[] mutantOperatorList, String example) {
+		tabbedPane.updateOperators(mutantOperatorList, example);
 	}
 
 	@Override
