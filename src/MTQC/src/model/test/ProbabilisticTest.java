@@ -19,14 +19,14 @@ import model.testresult.TestResult;
  * @author Javier & Luis.
  *
  */
-public class OutputTest extends Test {
+public class ProbabilisticTest extends Test {
 
 	private int shots;
 
 	/**
 	 * Constructor for the class.
 	 */
-	public OutputTest() {
+	public ProbabilisticTest() {
 		shots = 0;
 	}
 
@@ -37,7 +37,7 @@ public class OutputTest extends Test {
 
 	@Override
 	public String getNameTest() {
-		return "Output Test";
+		return "ProbabilisticTest";
 	}
 
 	@Override

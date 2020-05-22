@@ -67,12 +67,13 @@ public class Qiskit extends Language {
 				aux.add(tr);
 			}
 			results.add(aux);
+			listener.notify("Test number " + list.get(0).getIdTest() + " finished\n");			
 		}
 		return results;
 	}
 
 	@Override
-	protected String isProbQsharp(Test test) {
+	protected String isQStateTest(Test test) {
 		return "";
 	}
 

@@ -20,7 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import model.files.TestFile;
-import model.test.ProbabilityTest;
+import model.test.QStateTest;
 import model.test.Test;
 import model.testresult.TestResult;
 
@@ -75,41 +75,6 @@ public class QSharp extends Language {
 	}
 
 	/**
-	 * Dynamically generates main method on QSharp used to initialize qubits and
-	 * calling tested method,
-	 * 
-	 * @param methodName Name of the method to be tested.
-	 * @param testInput  Test to be implemented.
-	 * @return String which contains the declaration of main method.
-	 */
-	private static String getMainMethod(String methodName, String testInput) {
-		String outputType = getOutputType(methodName);
-		return getMainHeader() + outputType + "{" + System.lineSeparator() + tabString(testInput)
-				+ System.lineSeparator() + "}" + System.lineSeparator();
-
-	}
-
-	/**
-	 * Return the method return type.
-	 * 
-	 * @param methodName Name of the method.
-	 * @return String which contains the type of the method output.
-	 */
-	private static String getOutputType(String methodName) {
-		int index = methodName.lastIndexOf(":", methodName.length());
-		return methodName.substring(index);
-	}
-
-	/**
-	 * Get the header of main method on QSharp.
-	 * 
-	 * @return String which containts the header of main method.
-	 */
-	private static String getMainHeader() {
-		return "operation MainQuantum() ";
-	}
-
-	/**
 	 * Given a String, the method tabs after each line break.
 	 * 
 	 * @param input String to be tabbed.
@@ -134,9 +99,9 @@ public class QSharp extends Language {
 	}
 
 	@Override
-	protected String isProbQsharp(Test test) {
-		if (test instanceof ProbabilityTest) {
-			return ", probQSharp=True";
+	protected String isQStateTest(Test test) {
+		if (test instanceof QStateTest) {
+			return ", QStateTest=True";
 		} else {
 			return "";
 		}
@@ -150,9 +115,9 @@ public class QSharp extends Language {
 	@Override
 	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
 			Test test) {
-		boolean isProbabilistic = test instanceof ProbabilityTest;
+		boolean isQStateTest = test instanceof QStateTest;
 		BufferedReader reader = null;
-		if (isProbabilistic) {
+		if (isQStateTest) {
 			File resultFile = new File(path + File.separator + probabilisticQsharpResultFile);
 			try {
 				reader = new BufferedReader(new InputStreamReader(new FileInputStream(resultFile), "UTF8"));
@@ -165,7 +130,7 @@ public class QSharp extends Language {
 			for (int t = 0; t < list.size(); t++) {
 				TestResult tr = test.newTestResult(list.get(t).getMutantName(), list.get(t).getIdTest());
 				for (int i = 0; i < test.getShots(); i++) {
-					if (isProbabilistic) {
+					if (isQStateTest) {
 						tr.setResult(readLineProbabilistic(reader));
 					} else {
 						tr.setResult(readLine(in));
@@ -183,8 +148,8 @@ public class QSharp extends Language {
 	 * Reads the probabilities of a quantum state. Used for Probability type of
 	 * test.
 	 * 
-	 * @param reader Reader used to read from standar output.
-	 * @return A String which contains the probabilities for each posible quantum
+	 * @param reader Reader used to read from standard output.
+	 * @return A String which contains the probabilities for each possible quantum
 	 *         state.
 	 */
 	private String readLineProbabilistic(BufferedReader reader) {

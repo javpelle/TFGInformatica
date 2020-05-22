@@ -44,11 +44,19 @@ public abstract class Language {
 	/**
 	 * Token used to distinguish between internal prints, and method return print.
 	 */
-	protected static final String key = "_mtqc_";
+	protected static final String keyStart = "_mtqc_s";
+	/**
+	 * Token used to distinguish between internal prints, and method return print.
+	 */
+	protected static final String keyEnd = "_mtqc_e";
 	/**
 	 * File to store results when running a QSharp Probabilistic test.
 	 */
 	protected static final String probabilisticQsharpResultFile = "result.txt";
+	/**
+	 * Notify progress to Model. 
+	 */
+	protected NotifyListener listener;
 
 	/**
 	 * Runs all posible combinations of test and mutants
@@ -61,17 +69,19 @@ public abstract class Language {
 	 * @return All test results gathered during execution.
 	 */
 	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test,
-			String method, double timeLimit) {
+			String method, double timeLimit, NotifyListener listener) {
+		this.listener = listener;
 		ArrayList<ArrayList<TestResult>> ret;
 		ArrayList<ArrayList<TestFile>> files = generateFiles(mutantList, testSuit, method);
 		generatePythonScript(files, test, timeLimit);
+		listener.notify("Files generated. Running...\n");
 		ret = runMain(files, test);
 		deleteFiles(files);
 		return ret;
 	}
 
 	/**
-	 * Delets all temporal files
+	 * Deletes all temporal files
 	 * 
 	 * @param files
 	 */
@@ -109,10 +119,9 @@ public abstract class Language {
 	private ArrayList<ArrayList<TestResult>> runMain(ArrayList<ArrayList<TestFile>> files, Test test) {
 		try {
 			Process p = Runtime.getRuntime().exec(pythonCall(path, main));
-			p.waitFor();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			return generateResults(in, files, test);
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 
 		}
 		return null;
@@ -139,7 +148,7 @@ public abstract class Language {
 		for (ArrayList<TestFile> list : files) {
 			for (TestFile t : list) {
 				script += "\trun_shots(" + getMethodCall(t.getFileName()) + ", " + String.valueOf(timeLimit) + ", "
-						+ String.valueOf(test.getShots()) + isProbQsharp(test) + ")" + System.lineSeparator();
+						+ String.valueOf(test.getShots()) + isQStateTest(test) + ")" + System.lineSeparator();
 			}
 		}
 		writeFile(path + File.separator + main, script);
@@ -152,7 +161,7 @@ public abstract class Language {
 	 * @return True if we are running a Probability Test on QSharp. False in other
 	 *         case.
 	 */
-	protected abstract String isProbQsharp(Test test);
+	protected abstract String isQStateTest(Test test);
 
 	/**
 	 * Used to get the syntaxes used to import files for each language.
@@ -293,10 +302,23 @@ public abstract class Language {
 		try {
 			do {
 				line = in.readLine();
-			} while (line != null && !line.startsWith(key));
+			} while (line != null && !line.startsWith(keyStart));
+			
+			String aux = in.readLine();
+			while (aux != null && !aux.startsWith(keyEnd)) {
+				line += aux;
+				aux = in.readLine();
+			}		
 		} catch (IOException e) {
 			return "Error";
 		}
-		return line.substring(key.length() + 1, line.length());
+		return line.substring(keyStart.length() + 1, line.length());
+	}
+	
+	/**
+	 * Interface Notify Listener.
+	 */
+	public interface NotifyListener {
+		public void notify(String msg);
 	}
 }

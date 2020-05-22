@@ -171,5 +171,14 @@ public class TabbedPane extends JTabbedPane {
 	public void updateKills(ArrayList<ArrayList<Boolean>> kills) {
 		testResults.updateKills(kills);
 	}
+	
+	/**
+	 * Notify when run process starts and finishes.
+	 * Lock and unlock run button.
+	 * @param started true if starts, false if finishes.
+	 */
+	public void startedRun(boolean started) {
+		testCaseRunner.startedRun(started);
+	}
 
 }

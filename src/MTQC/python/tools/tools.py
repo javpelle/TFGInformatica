@@ -8,10 +8,10 @@
 
 from tools.func_timeout import func_timeout, FunctionTimedOut
 
-def run_shots (function, timeout, shots, key = '_mtqc_', probQSharp = False):
+def run_shots (function, timeout, shots, keyStart = '_mtqc_s', keyEnd = '_mtqc_e', QStateTest = False):
 	for i in range(shots):
 		try:
-			if probQSharp:
+			if QStateTest:
 				doitReturnValue = func_timeout(timeout, function)
 				aux = open("temp.txt", "r", encoding='utf-8') 
 				res = open("result.txt", "a", encoding='utf-8')
@@ -20,8 +20,11 @@ def run_shots (function, timeout, shots, key = '_mtqc_', probQSharp = False):
 				res.close()
 			else:
 				doitReturnValue = func_timeout(timeout, function)
-				print(key, doitReturnValue)
+				print(keyStart, doitReturnValue)
+				print(keyEnd)
 		except FunctionTimedOut:
-			print (key, "TimeLimit")
+			print (keyStart, "TimeLimit")
+			print(keyEnd)
 		except Exception as e:
-			print (key, e)
+			print (keyStart, e)
+			print(keyEnd)

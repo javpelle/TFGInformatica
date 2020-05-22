@@ -77,9 +77,15 @@ public class TestCaseRunner extends JPanel {
 		runTests = new JButton("Run Tests");
 		runTests.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				listenerRun.runTests(mutantsView.getSelectedFiles(), runOptions.getFileName(),
-						runOptions.getMethodName(), runOptions.getTestType(), runOptions.getShots(),
-						inputTest.getTest(), runOptions.getTimeLimit());
+				Thread thread = new Thread(){
+				    public void run(){
+				    	listenerRun.runTests(mutantsView.getSelectedFiles(), runOptions.getFileName(),
+								runOptions.getMethodName(), runOptions.getTestType(), runOptions.getShots(),
+								inputTest.getTest(), runOptions.getTimeLimit());
+				    }
+				};
+				thread.start();
+				
 			}
 		});
 		JPanel south = new JPanel();
@@ -101,6 +107,21 @@ public class TestCaseRunner extends JPanel {
 	 */
 	public void updateLanguage(boolean qiskit) {
 		inputTest.updateLanguage(qiskit);
+	}
+	
+	/**
+	 * Notify when run process starts and finishes.
+	 * Lock and unlock run button.
+	 * @param started true if starts, false if finishes.
+	 */
+	public void startedRun(boolean started) {
+		if (started) {
+			runTests.setEnabled(false);
+			notify("Mutation Testing Started\n");
+		} else {
+			runTests.setEnabled(true);
+		}
+		
 	}
 	
 	/**

@@ -134,7 +134,9 @@ public class UI extends JFrame implements Observer {
 			@Override
 			public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
 					int shots, ArrayList<String> testFileName, double timeLimit) {
+				tabbedPane.startedRun(true);
 				c.runTests(selectedMutants, fileName, methodName, testType, shots, testFileName, timeLimit);
+				tabbedPane.startedRun(false);
 			}
 
 		}, new ConfidenceListener() {

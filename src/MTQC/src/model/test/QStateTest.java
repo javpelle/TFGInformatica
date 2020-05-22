@@ -20,7 +20,7 @@ import model.testresult.TestResult;
  * @author Javier & Luis
  *
  */
-public class ProbabilityTest extends Test {
+public class QStateTest extends Test {
 
 	@Override
 	public int getIDTest() {
@@ -29,7 +29,7 @@ public class ProbabilityTest extends Test {
 
 	@Override
 	public String getNameTest() {
-		return "Probability Test (only simulator)";
+		return "QStateTest (only simulator)";
 	}
 
 	@Override
