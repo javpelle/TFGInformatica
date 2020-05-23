@@ -43,30 +43,34 @@ public abstract class Language {
 	 */
 	protected static final String main = "main_mtqc.py";
 	/**
-	 * Token used to distinguish between internal prints, and method return print.
+	 * Token used to distinguish between internal prints, and method return
+	 * print.
 	 */
 	protected static final String keyStart = "_mtqc_s";
 	/**
-	 * Token used to distinguish between internal prints, and method return print.
+	 * Token used to distinguish between internal prints, and method return
+	 * print.
 	 */
 	protected static final String keyEnd = "_mtqc_e";
+
 	/**
-	 * File to store results when running a QSharp Probabilistic test.
-	 */
-	protected static final String probabilisticQsharpResultFile = "result.txt";
-	/**
-	 * Notify progress to Model. 
+	 * Notify progress to Model.
 	 */
 	protected NotifyListener listener;
 
 	/**
 	 * Runs all posible combinations of test and mutants
 	 * 
-	 * @param mutantList List which contains all mutants.
-	 * @param testSuit   List of all test to be used.
-	 * @param test       Type of test to be used.
-	 * @param method     Name of method to be tested.
-	 * @param timeLimit  Limit of time each test can run.
+	 * @param mutantList
+	 *            List which contains all mutants.
+	 * @param testSuit
+	 *            List of all test to be used.
+	 * @param test
+	 *            Type of test to be used.
+	 * @param method
+	 *            Name of method to be tested.
+	 * @param timeLimit
+	 *            Limit of time each test can run.
 	 * @return All test results gathered during execution.
 	 */
 	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test,
@@ -86,22 +90,22 @@ public abstract class Language {
 	 * 
 	 * @param files
 	 */
-	private void deleteFiles(ArrayList<ArrayList<TestFile>> files) {
+	protected void deleteFiles(ArrayList<ArrayList<TestFile>> files) {
 		for (ArrayList<TestFile> list : files) {
 			for (TestFile t : list) {
 				deleteFile(t.getCompletePath());
 			}
 		}
 		deleteFile(path + File.separator + main);
-		deleteFile(path + File.separator + probabilisticQsharpResultFile);
 	}
 
 	/**
 	 * Delets a file
 	 * 
-	 * @param file Name of the file to be deleted.
+	 * @param file
+	 *            Name of the file to be deleted.
 	 */
-	private void deleteFile(String file) {
+	protected void deleteFile(String file) {
 		try {
 			File f = new File(file); // file to be delete
 			f.delete();
@@ -113,15 +117,17 @@ public abstract class Language {
 	/**
 	 * Runs main python script
 	 * 
-	 * @param files All files to be runned.
-	 * @param test  Type of test.
+	 * @param files
+	 *            All files to be runned.
+	 * @param test
+	 *            Type of test.
 	 * @return Results obtained from execution.
 	 */
 	private ArrayList<ArrayList<TestResult>> runMain(ArrayList<ArrayList<TestFile>> files, Test test) {
 		try {
 			Process p = Runtime.getRuntime().exec(pythonCall(path, main));
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			return generateResults(in, files, test, p);
+			return generateResults(in, files, test);
 		} catch (IOException e) {
 
 		}
@@ -131,9 +137,12 @@ public abstract class Language {
 	/**
 	 * Dinamically creates the main python script.
 	 * 
-	 * @param files     All files needed to be exectued.
-	 * @param test      Type of test.
-	 * @param timeLimit Maximum time each file can run for.
+	 * @param files
+	 *            All files needed to be exectued.
+	 * @param test
+	 *            Type of test.
+	 * @param timeLimit
+	 *            Maximum time each file can run for.
 	 */
 	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
 		String script = generateImportLanguage();
@@ -158,9 +167,10 @@ public abstract class Language {
 	/**
 	 * Checks if we are running a Probability Test on QSharp.
 	 * 
-	 * @param test Type of test.
-	 * @return True if we are running a Probability Test on QSharp. False in other
-	 *         case.
+	 * @param test
+	 *            Type of test.
+	 * @return True if we are running a Probability Test on QSharp. False in
+	 *         other case.
 	 */
 	protected abstract String isQStateTest(Test test);
 
@@ -174,9 +184,12 @@ public abstract class Language {
 	/**
 	 * "Glues" each mutant with an inicialization (Test)
 	 * 
-	 * @param mutantList List of mutants to be tested.
-	 * @param testSuit   Lists of tests.
-	 * @param method     Name of method to be tested.
+	 * @param mutantList
+	 *            List of mutants to be tested.
+	 * @param testSuit
+	 *            Lists of tests.
+	 * @param method
+	 *            Name of method to be tested.
 	 * @return A list of all posible combinations of Mutants and Tests.
 	 */
 	protected ArrayList<ArrayList<TestFile>> generateFiles(ArrayList<Mutant> mutantList, ArrayList<String> testSuit,
@@ -199,14 +212,20 @@ public abstract class Language {
 	/**
 	 * Dinamically generets a file given a mutant and a test.
 	 * 
-	 * @param completePath Complete path for the mutant.
-	 * @param fileName     Name of file which contains the mutant.
-	 * @param test         Test to be implemented.
-	 * @param id_test      Test identifier.
-	 * @param method       Name of method to be tested.
-	 * @param mutantName   Name of the mutant.
-	 * @return A TestFile which represents the "association" betweern a particular
-	 *         mutant and a particular test.
+	 * @param completePath
+	 *            Complete path for the mutant.
+	 * @param fileName
+	 *            Name of file which contains the mutant.
+	 * @param test
+	 *            Test to be implemented.
+	 * @param id_test
+	 *            Test identifier.
+	 * @param method
+	 *            Name of method to be tested.
+	 * @param mutantName
+	 *            Name of the mutant.
+	 * @return A TestFile which represents the "association" betweern a
+	 *         particular mutant and a particular test.
 	 */
 	protected abstract TestFile generateFile(String completePath, String fileName, String test, int id_test,
 			String method, String mutantName);
@@ -221,8 +240,10 @@ public abstract class Language {
 	/**
 	 * Writes in a file.
 	 * 
-	 * @param fileName Name of the file where we need to write.
-	 * @param content  Text we want to write on the file.
+	 * @param fileName
+	 *            Name of the file where we need to write.
+	 * @param content
+	 *            Text we want to write on the file.
 	 */
 	protected void writeFile(String fileName, String content) {
 		try {
@@ -240,14 +261,17 @@ public abstract class Language {
 	/**
 	 * Gets the correct shell commands for each OS.
 	 * 
-	 * @param path Directory where main python script is.
-	 * @param file Name of the main python script.
+	 * @param path
+	 *            Directory where main python script is.
+	 * @param file
+	 *            Name of the main python script.
 	 * @return List of commands to be executed.
 	 */
 	protected String[] pythonCall(String path, String file) {
 		if (System.getProperty("os.name").startsWith("Windows")) {
 			// We are running this software in Windows OS
-			// QSharp python script must run from the same path as the methods it calls cuz
+			// QSharp python script must run from the same path as the methods
+			// it calls cuz
 			// ...?
 			return new String[] { "cmd.exe", "/c", "cd", path, "&&", "python", file, "&&", "cd", ".." };
 		} else {
@@ -258,7 +282,8 @@ public abstract class Language {
 	/**
 	 * Reads the content from a file.
 	 * 
-	 * @param fileName Name of the file to be readed.
+	 * @param fileName
+	 *            Name of the file to be readed.
 	 * @return The content of the file in the form of a String.
 	 */
 	protected String readFile(String fileName) {
@@ -284,19 +309,39 @@ public abstract class Language {
 	/**
 	 * Generates all the results from the execution.
 	 * 
-	 * @param in    Reader used to get the results from standard output.
-	 * @param files List of all TestFiles where we will save the results.
-	 * @param test  Type of test.
-	 * @param p 
+	 * @param in
+	 *            Reader used to get the results from standard output.
+	 * @param files
+	 *            List of all TestFiles where we will save the results.
+	 * @param test
+	 *            Type of test.
+	 * @param p
 	 * @return List of all TestFiles for this execution.
 	 */
-	protected abstract ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in,
-			ArrayList<ArrayList<TestFile>> files, Test test, Process p);
+	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
+			Test test) {
+		ArrayList<ArrayList<TestResult>> results = new ArrayList<ArrayList<TestResult>>();
+		for (ArrayList<TestFile> list : files) {
+			ArrayList<TestResult> aux = new ArrayList<TestResult>();
+			for (int t = 0; t < list.size(); t++) {
+				TestResult tr = test.newTestResult(list.get(t).getMutantName(), list.get(t).getIdTest());
+				for (int i = 0; i < test.getShots(); i++) {
+					tr.setResult(readLine(in));
+				}
+				tr.make();
+				aux.add(tr);
+			}
+			results.add(aux);
+			listener.notify("Test number " + list.get(0).getIdTest() + " finished\n");
+		}
+		return results;
+	}
 
 	/**
 	 * Method used to only read the lines wanted from execution.
 	 * 
-	 * @param in Reader used to read from standard output.
+	 * @param in
+	 *            Reader used to read from standard output.
 	 * @return A line from stout in the form of a String.
 	 */
 	protected String readLine(BufferedReader in) {
@@ -305,24 +350,24 @@ public abstract class Language {
 			do {
 				line = in.readLine();
 			} while (line != null && !line.startsWith(keyStart));
-			
+
 			String aux = in.readLine();
 			while (aux != null && !aux.startsWith(keyEnd)) {
 				line += aux;
 				aux = in.readLine();
-			}		
+			}
 		} catch (IOException e) {
 			return "Error";
 		}
 		return line.substring(keyStart.length() + 1, line.length());
 	}
-	
+
 	/**
 	 * 
 	 * @return List of Mutant Operators for a specific language
 	 */
 	public abstract MutantOperator[] getMutantOperators();
-	
+
 	/**
 	 * Interface Notify Listener.
 	 */
@@ -331,7 +376,7 @@ public abstract class Language {
 	}
 
 	public abstract String getInputExample();
-	
+
 	public abstract String toString();
 
 	public abstract String getExtension();

@@ -10,13 +10,7 @@
 
 package model.run;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import model.files.TestFile;
@@ -52,7 +46,6 @@ import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
 import model.test.QStateTest;
 import model.test.Test;
-import model.testresult.TestResult;
 
 /**
  * Language concrete class, which overrides some methods in order to implement
@@ -62,15 +55,16 @@ import model.testresult.TestResult;
  *
  */
 public class QSharp extends Language {
+	
 	/**
 	 * Name for the initialization method.
 	 */
 	private static final String method = "MainQuantum";
-
+	
 	/**
-	 * Token used to get the lines which contains amplitudes on a Probability Test
+	 * File to store results when running a QSharp Probabilistic test.
 	 */
-	private static final String probabilsiticKey = "∣";
+	protected static final String qStateQsharpTempFile = "temp.txt";
 
 	/**
 	 * Initializes all possible mutant operators for QSharp language.
@@ -118,8 +112,10 @@ public class QSharp extends Language {
 	/**
 	 * Changes the name space of a QSharp file.
 	 * 
-	 * @param file          Name of the file.
-	 * @param namespaceName Name of the new namespace.
+	 * @param file
+	 *            Name of the file.
+	 * @param namespaceName
+	 *            Name of the new namespace.
 	 * @return String which contains the declaration of the namespace.
 	 */
 	private static String changeNamespace(String file, String namespaceName) {
@@ -131,8 +127,10 @@ public class QSharp extends Language {
 	/**
 	 * Given a String, the method tabs after each line break.
 	 * 
-	 * @param input String to be tabbed.
-	 * @return The initial String with a new tab character after each line break.
+	 * @param input
+	 *            String to be tabbed.
+	 * @return The initial String with a new tab character after each line
+	 *         break.
 	 */
 	private static String tabString(String input) {
 		StringBuilder builder = new StringBuilder(input);
@@ -164,71 +162,6 @@ public class QSharp extends Language {
 	@Override
 	protected String getMethodCall(String file) {
 		return file + "." + method + ".simulate";
-	}
-
-	@Override
-	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
-			Test test, Process p) {
-		boolean isQStateTest = test instanceof QStateTest;
-		BufferedReader reader = null;
-		if (isQStateTest) {
-			try {
-				p.waitFor();
-			} catch (InterruptedException e1) {
-			}
-			File resultFile = new File(path + File.separator + probabilisticQsharpResultFile);
-			try {
-				reader = new BufferedReader(new InputStreamReader(new FileInputStream(resultFile), "UTF8"));
-			} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			}
-		}
-		ArrayList<ArrayList<TestResult>> results = new ArrayList<ArrayList<TestResult>>();
-		for (ArrayList<TestFile> list : files) {
-			ArrayList<TestResult> aux = new ArrayList<TestResult>();
-			for (int t = 0; t < list.size(); t++) {
-				TestResult tr = test.newTestResult(list.get(t).getMutantName(), list.get(t).getIdTest());
-				for (int i = 0; i < test.getShots(); i++) {
-					if (isQStateTest) {
-						tr.setResult(readLineProbabilistic(reader));
-					} else {
-						tr.setResult(readLine(in));
-					}
-				}
-				tr.make();
-				aux.add(tr);
-			}
-			results.add(aux);
-		}
-		return results;
-	}
-
-	/**
-	 * Reads the probabilities of a quantum state. Used for Probability type of
-	 * test.
-	 * 
-	 * @param reader Reader used to read from standard output.
-	 * @return A String which contains the probabilities for each possible quantum
-	 *         state.
-	 */
-	private String readLineProbabilistic(BufferedReader reader) {
-		String result = "";
-		try {
-			String line = reader.readLine();
-			while (line != null && !line.startsWith(probabilsiticKey)) {
-				line = reader.readLine();
-			}
-			if (line != null) {
-				do {
-					result = result + line.substring(line.indexOf("["), line.indexOf("]") + 1);
-					line = reader.readLine();
-				} while (line != null && line.startsWith(probabilsiticKey));
-			} else {
-				reader.close();
-			}
-		} catch (IOException e) {
-		}
-
-		return result;
 	}
 
 	@Override
@@ -264,5 +197,11 @@ public class QSharp extends Language {
 	@Override
 	public String getEndMethodToken() {
 		return "{";
+	}
+	
+	@Override
+	protected void deleteFiles(ArrayList<ArrayList<TestFile>> files) {
+		super.deleteFiles(files);
+		deleteFile(path + File.separator + qStateQsharpTempFile);
 	}
 }

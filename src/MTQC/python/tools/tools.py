@@ -13,11 +13,17 @@ def run_shots (function, timeout, shots, keyStart = '_mtqc_s', keyEnd = '_mtqc_e
 		try:
 			if QStateTest:
 				doitReturnValue = func_timeout(timeout, function)
-				aux = open("temp.txt", "r", encoding='utf-8') 
-				res = open("result.txt", "a", encoding='utf-8')
-				res.write(aux.read())
-				aux.close()
-				res.close()
+				filetemp = open("temp.txt", "r", encoding='utf-8') 
+				aux_list = ''
+				#We discard first info line from dump machine
+				aux = list(filetemp)[1:]
+				for x in aux:
+					# We dont want the first chars from dump machine from each line. Ket chars cause problems regarding UTF8 encoding.
+					# We just need amplitud from each state.
+					aux_list = aux_list + x[x.find('[') : x.find(']') + 1]
+				print(keyStart, aux_list)			
+				print(keyEnd)
+				filetemp.close()
 			else:
 				doitReturnValue = func_timeout(timeout, function)
 				print(keyStart, doitReturnValue)

@@ -10,10 +10,7 @@
 
 package model.run;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.util.ArrayList;
-
 import model.files.TestFile;
 import model.mutantoperator.MutantOperator;
 import model.mutantoperator.qiskit.CCXCSWAPGate;
@@ -69,7 +66,6 @@ import model.mutantoperator.qiskit.ZTGate;
 import model.mutantoperator.qiskit.ZXGate;
 import model.mutantoperator.qiskit.ZYGate;
 import model.test.Test;
-import model.testresult.TestResult;
 /**
  * Language concrete class, which overrides some methods in order to implement 
  * the well behavior for Qiskit language.
@@ -130,26 +126,6 @@ public class Qiskit extends Language {
 	@Override
 	protected String getMethodCall(String file) {
 		return file + "." + method;
-	}
-
-	@Override
-	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
-			Test test, Process p) {
-		ArrayList<ArrayList<TestResult>> results = new ArrayList<ArrayList<TestResult>>();
-		for (ArrayList<TestFile> list : files) {
-			ArrayList<TestResult> aux = new ArrayList<TestResult>();
-			for (int t = 0; t < list.size(); t++) {
-				TestResult tr = test.newTestResult(list.get(t).getMutantName(), list.get(t).getIdTest());
-				for (int i = 0; i < test.getShots(); i++) {
-					tr.setResult(readLine(in));
-				}
-				tr.make();
-				aux.add(tr);
-			}
-			results.add(aux);
-			listener.notify("Test number " + list.get(0).getIdTest() + " finished\n");			
-		}
-		return results;
 	}
 
 	@Override
