@@ -60,17 +60,17 @@ public class MenuBar extends JMenuBar {
 
 		JMenu menu2 = new JMenu("Language");
 		ButtonGroup language = new ButtonGroup();
-		JRadioButtonMenuItem qsharp = new JRadioButtonMenuItem("Q#");
-		qsharp.setSelected(false);
 
 		JRadioButtonMenuItem qiskit = new JRadioButtonMenuItem("Qiskit");
 		qiskit.setSelected(true);
+		JRadioButtonMenuItem qsharp = new JRadioButtonMenuItem("Q#");
+		qsharp.setSelected(false);
 
-		menu2.add(qsharp);
 		menu2.add(qiskit);
-		language.add(qsharp);
-		language.add(qiskit);
+		menu2.add(qsharp);
 		
+		language.add(qiskit);
+		language.add(qsharp);		
 		
 		// If new Language is added, it is necessary replicate structure code.
 		qiskit.addItemListener((e) -> {

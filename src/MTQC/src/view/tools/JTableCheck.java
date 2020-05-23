@@ -26,7 +26,7 @@ public class JTableCheck<T> extends JTable {
 
 	private static final long serialVersionUID = 1L;
 
-	private DefaultTableModel model;
+	protected DefaultTableModel model;
 
 	/**
 	 * Construcor for the class.

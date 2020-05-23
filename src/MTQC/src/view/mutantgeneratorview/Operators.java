@@ -13,6 +13,8 @@ package view.mutantgeneratorview;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -20,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import model.mutantoperator.MutantOperator;
-import view.tools.JTableCheck;
+import view.tools.JTableCheckInfo;
 
 /**
  * Panel which shows all mutants availables for the selected language.
@@ -34,7 +36,7 @@ public class Operators extends JPanel {
 
 	private final static Object[] column = { "", "Operators" };
 
-	private JTableCheck<MutantOperator> table;
+	private JTableCheckInfo<MutantOperator> table;
 
 	private JButton all;
 
@@ -56,8 +58,16 @@ public class Operators extends JPanel {
 	 * Creates the center panel of the view.
 	 */
 	private void createCenterPanel() {
-		table = new JTableCheck<MutantOperator>(column);
+		table = new JTableCheckInfo<MutantOperator>(column);
 		add(new JScrollPane(table), BorderLayout.CENTER);
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				if (evt.getClickCount() == 2) {
+					// Double-click detected
+					table.onDoubleClick();
+				}
+			}
+		});
 	}
 
 	/**
