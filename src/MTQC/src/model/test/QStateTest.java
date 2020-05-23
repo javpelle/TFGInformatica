@@ -10,7 +10,7 @@
 
 package model.test;
 
-import model.testresult.ProbabilisticTestResult;
+import model.testresult.QStateTestResult;
 import model.testresult.TestResult;
 
 /**
@@ -44,7 +44,7 @@ public class QStateTest extends Test {
 
 	@Override
 	public TestResult newTestResult(String mutantName, int idTest) {
-		return new ProbabilisticTestResult(mutantName, idTest);
+		return new QStateTestResult(mutantName, idTest);
 	}
 
 }

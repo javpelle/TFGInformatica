@@ -214,12 +214,12 @@ operation uf(register : Qubit[]) : Unit{
 
 operation uf2(register : Qubit[]) : Unit{
 		//f(x_1,x_2,x_3,x_4) = 1. Constante
-		X(register[Length(register) - 1]);
+		I(register[Length(register) - 1]);
 }
 
 operation uf3(register : Qubit[]) : Unit { 
 		//f(x_1,x_2,x_3,x_4) = 0. Constante  
-		I(register[Length(register) - 1]);
+		X(register[Length(register) - 1]);
    }
 \end{lstlisting}
 \caption{Código en \qsh de una implementación de Deutsch-Jozsa.}

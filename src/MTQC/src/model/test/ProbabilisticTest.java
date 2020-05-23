@@ -10,7 +10,7 @@
 
 package model.test;
 
-import model.testresult.OutputTestResult;
+import model.testresult.ProbabilistTestResult;
 import model.testresult.TestResult;
 
 /**
@@ -52,7 +52,7 @@ public class ProbabilisticTest extends Test {
 
 	@Override
 	public TestResult newTestResult(String mutantName, int idTest) {
-		return new OutputTestResult(mutantName, idTest);
+		return new ProbabilistTestResult(mutantName, idTest);
 	}
 
 }

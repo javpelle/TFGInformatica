@@ -17,7 +17,7 @@ package model.testresult;
  * @author Javier & Luis
  *
  */
-public class ProbabilisticTestResult extends TestResult {
+public class QStateTestResult extends TestResult {
 	private String result;
 
 	/**
@@ -26,7 +26,7 @@ public class ProbabilisticTestResult extends TestResult {
 	 * @param mutantName Name of the mutant.
 	 * @param idTest     Identifier for test.
 	 */
-	public ProbabilisticTestResult(String mutantName, int idTest) {
+	public QStateTestResult(String mutantName, int idTest) {
 		super(mutantName, idTest);
 
 	}

@@ -20,7 +20,7 @@ import java.util.HashMap;
  * @author Javier & Luis
  *
  */
-public class OutputTestResult extends TestResult {
+public class ProbabilistTestResult extends TestResult {
 	/**
 	 * A list of all the results obtained from each shot.
 	 */
@@ -36,7 +36,7 @@ public class OutputTestResult extends TestResult {
 	 * @param mutantName Name of the mutant.
 	 * @param idTest     Identifier for test.
 	 */
-	public OutputTestResult(String mutantName, int idTest) {
+	public ProbabilistTestResult(String mutantName, int idTest) {
 		super(mutantName, idTest);
 		result = new ArrayList<String>();
 	}

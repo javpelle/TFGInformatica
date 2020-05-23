@@ -300,7 +300,7 @@ public abstract class Language {
 				aux.add(tr);
 			}
 			results.add(aux);
-			listener.notify("Test number " + list.get(0).getIdTest() + " finished\n");
+			listener.notify("Test number " + (list.get(0).getIdTest() + 1) + " finished\n");
 		}
 		return results;
 	}
