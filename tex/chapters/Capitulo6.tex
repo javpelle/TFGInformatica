@@ -170,6 +170,61 @@ def uf_3 (qc, qr):
 
 En la figura \ref{fig:code62} podemos ver el código en \textit{Qiskit} de la implementación del algoritmo de \textit{Deutsch-Jozsa} para un sistema de 5 qubits y cada una de las funciones $U_f$ expresadas anteriormente.
 
+A continuacón mostramos el código en \qsh de la implementación del mismo algoritmo: 
+
+
+\begin{figure}[htb]
+\begin{lstlisting}[language=c++]
+operation DeutschJozsa(register : Qubit[], U_f : (Qubit[] => Unit)) : String {  
+    let nQubits = Length(register);
+    if (nQubits != 5) {
+   		return "El numero de Qubits debe ser 5 ";
+    }
+    else {
+        //Negacion del ultimo Qubit (salida)
+        X(register[nQubits - 1]); 
+        //Poner cada qubit en superposicion
+        for(q in register) {
+        	H(q);
+        }         
+        //Aplicamos la Uf
+        U_f(register);
+        //Aplicamos una puerta Hadamard a cada Qubit de entrada
+        for(i in 0..nQubits - 2) {
+        	H(register[i]);
+        }        
+        //La funcion sera constante si medimos el estado 0000. Balanceada en otro caso.
+        mutable allZeros = true;
+        for(i in 0..nQubits - 2) {
+           	if(M(register[i]) == One){
+            	set allZeros = false;
+            }
+        } 
+        if (allZeros){
+        	return "Constante";
+        } else {
+       		return "Balanceada";
+       }
+     }  
+}
+operation uf(register : Qubit[]) : Unit{
+		//f(x_1,x_2,x_3,x_4) = 1 si x_1 vale 1, 0 en otro caso. Balanceada
+		CNOT(register[0], register[Length(register) - 1]);
+}
+
+operation uf2(register : Qubit[]) : Unit{
+		//f(x_1,x_2,x_3,x_4) = 1. Constante
+		X(register[Length(register) - 1]);
+}
+
+operation uf3(register : Qubit[]) : Unit { 
+		//f(x_1,x_2,x_3,x_4) = 0. Constante  
+		I(register[Length(register) - 1]);
+   }
+\end{lstlisting}
+\caption{Código en \qsh de una implementación de Deutsch-Jozsa.}
+\end{figure}
+
 \section{Implementaciones futuras}
 
 Queremos aportar algunas ideas con las que se puede dar continuidad a este proyecto. Algunas de estas funcionalidades fueron planificadas al principio del proyecto para ser descartadas más adelante y otras surgen durante la implementación de MTQC.
