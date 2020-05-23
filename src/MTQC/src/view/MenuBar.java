@@ -18,9 +18,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 
 /**
@@ -68,10 +70,10 @@ public class MenuBar extends JMenuBar {
 
 		menu2.add(qiskit);
 		menu2.add(qsharp);
-		
+
 		language.add(qiskit);
-		language.add(qsharp);		
-		
+		language.add(qsharp);
+
 		// If new Language is added, it is necessary replicate structure code.
 		qiskit.addItemListener((e) -> {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -106,6 +108,22 @@ public class MenuBar extends JMenuBar {
 			}
 		});
 
+		JMenuItem freeSW = new JMenuItem("Free Software Libraries");
+		menu3.add(freeSW);
+		freeSW.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String msg = "FUNCTION TIMEOUT\r\n"
+						+ "Copyright (c) 2016, 2017 Tim Savannah All Rights Reserved\r\n\r\n"
+						+ "https://github.com/kata198/func_timeout\r\n\r\n"
+						+ "Licensed under the Lesser GNU Public License Version 3, LGPLv3.\r\n"
+						+ "You should have recieved a copy of this with the source distribution as\r\n"
+						+ "LICENSE, otherwise it is available at\r\n\r\n"
+						+ "https://github.com/kata198/func_timeout/LICENSE";
+				JFrame info = new JFrame();
+				JOptionPane.showMessageDialog(info, msg);
+			}
+		});
 	}
 
 	/**

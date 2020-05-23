@@ -13,10 +13,12 @@ package view.mutantgeneratorview;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -46,6 +48,8 @@ public class Files extends JPanel {
 	private JButton none;
 
 	private JButton newPath;
+
+	private JButton selectPath;
 
 	/**
 	 * Constructor for the class.
@@ -99,15 +103,35 @@ public class Files extends JPanel {
 		JPanel south = new JPanel();
 		south.setBorder(BorderFactory.createTitledBorder("Current path"));
 		south.setLayout(new BorderLayout());
+
 		path = new JTextArea(System.getProperty("user.dir"));
+		selectPath = new JButton("Select Path");
 		newPath = new JButton("Update Path");
+
+		JPanel aux = new JPanel();
+		aux.add(newPath);
+
 		south.add(new JScrollPane(path), BorderLayout.CENTER);
-		south.add(newPath, BorderLayout.EAST);
+		south.add(selectPath, BorderLayout.EAST);
+		south.add(aux, BorderLayout.SOUTH);
 		add(south, BorderLayout.SOUTH);
+
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		newPath.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listener.updatePath(path.getText());
+			}
+		});
+
+		selectPath.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fileChooser.setCurrentDirectory(new File(path.getText()));
+				int result = fileChooser.showDialog(null, "Seleccionar");
+				if (result == JFileChooser.APPROVE_OPTION) {
+					path.setText(fileChooser.getSelectedFile().getAbsolutePath());
+				}
 			}
 		});
 	}

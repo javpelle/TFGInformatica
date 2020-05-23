@@ -136,7 +136,6 @@ public class Model implements Observable<Observer> {
 	 */
 	public void start() {
 		updatePath(System.getProperty("user.dir"));
-		updatePath(path);
 		notifyLanguageChange();
 		observer.setTests(tests);
 	}
@@ -181,6 +180,7 @@ public class Model implements Observable<Observer> {
 			}
 		}
 		observer.updatePath(files);
+		observer.notifyMutantsGenerator("Ruta actual: " + path + "\n");
 	}
 
 	/**
