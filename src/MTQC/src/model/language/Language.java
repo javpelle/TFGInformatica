@@ -8,7 +8,7 @@
  * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
  */
 
-package model.run;
+package model.language;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,13 +43,11 @@ public abstract class Language {
 	 */
 	protected static final String main = "main_mtqc.py";
 	/**
-	 * Token used to distinguish between internal prints, and method return
-	 * print.
+	 * Token used to distinguish between internal prints, and method return print.
 	 */
 	protected static final String keyStart = "_mtqc_s";
 	/**
-	 * Token used to distinguish between internal prints, and method return
-	 * print.
+	 * Token used to distinguish between internal prints, and method return print.
 	 */
 	protected static final String keyEnd = "_mtqc_e";
 
@@ -61,16 +59,11 @@ public abstract class Language {
 	/**
 	 * Runs all posible combinations of test and mutants
 	 * 
-	 * @param mutantList
-	 *            List which contains all mutants.
-	 * @param testSuit
-	 *            List of all test to be used.
-	 * @param test
-	 *            Type of test to be used.
-	 * @param method
-	 *            Name of method to be tested.
-	 * @param timeLimit
-	 *            Limit of time each test can run.
+	 * @param mutantList List which contains all mutants.
+	 * @param testSuit   List of all test to be used.
+	 * @param test       Type of test to be used.
+	 * @param method     Name of method to be tested.
+	 * @param timeLimit  Limit of time each test can run.
 	 * @return All test results gathered during execution.
 	 */
 	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test,
@@ -102,8 +95,7 @@ public abstract class Language {
 	/**
 	 * Delets a file
 	 * 
-	 * @param file
-	 *            Name of the file to be deleted.
+	 * @param file Name of the file to be deleted.
 	 */
 	protected void deleteFile(String file) {
 		try {
@@ -117,10 +109,8 @@ public abstract class Language {
 	/**
 	 * Runs main python script
 	 * 
-	 * @param files
-	 *            All files to be runned.
-	 * @param test
-	 *            Type of test.
+	 * @param files All files to be runned.
+	 * @param test  Type of test.
 	 * @return Results obtained from execution.
 	 */
 	private ArrayList<ArrayList<TestResult>> runMain(ArrayList<ArrayList<TestFile>> files, Test test) {
@@ -137,12 +127,9 @@ public abstract class Language {
 	/**
 	 * Dinamically creates the main python script.
 	 * 
-	 * @param files
-	 *            All files needed to be exectued.
-	 * @param test
-	 *            Type of test.
-	 * @param timeLimit
-	 *            Maximum time each file can run for.
+	 * @param files     All files needed to be exectued.
+	 * @param test      Type of test.
+	 * @param timeLimit Maximum time each file can run for.
 	 */
 	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
 		String script = generateImportLanguage();
@@ -167,10 +154,9 @@ public abstract class Language {
 	/**
 	 * Checks if we are running a Probability Test on QSharp.
 	 * 
-	 * @param test
-	 *            Type of test.
-	 * @return True if we are running a Probability Test on QSharp. False in
-	 *         other case.
+	 * @param test Type of test.
+	 * @return True if we are running a Probability Test on QSharp. False in other
+	 *         case.
 	 */
 	protected abstract String isQStateTest(Test test);
 
@@ -184,12 +170,9 @@ public abstract class Language {
 	/**
 	 * "Glues" each mutant with an inicialization (Test)
 	 * 
-	 * @param mutantList
-	 *            List of mutants to be tested.
-	 * @param testSuit
-	 *            Lists of tests.
-	 * @param method
-	 *            Name of method to be tested.
+	 * @param mutantList List of mutants to be tested.
+	 * @param testSuit   Lists of tests.
+	 * @param method     Name of method to be tested.
 	 * @return A list of all posible combinations of Mutants and Tests.
 	 */
 	protected ArrayList<ArrayList<TestFile>> generateFiles(ArrayList<Mutant> mutantList, ArrayList<String> testSuit,
@@ -212,20 +195,14 @@ public abstract class Language {
 	/**
 	 * Dinamically generets a file given a mutant and a test.
 	 * 
-	 * @param completePath
-	 *            Complete path for the mutant.
-	 * @param fileName
-	 *            Name of file which contains the mutant.
-	 * @param test
-	 *            Test to be implemented.
-	 * @param id_test
-	 *            Test identifier.
-	 * @param method
-	 *            Name of method to be tested.
-	 * @param mutantName
-	 *            Name of the mutant.
-	 * @return A TestFile which represents the "association" betweern a
-	 *         particular mutant and a particular test.
+	 * @param completePath Complete path for the mutant.
+	 * @param fileName     Name of file which contains the mutant.
+	 * @param test         Test to be implemented.
+	 * @param id_test      Test identifier.
+	 * @param method       Name of method to be tested.
+	 * @param mutantName   Name of the mutant.
+	 * @return A TestFile which represents the "association" betweern a particular
+	 *         mutant and a particular test.
 	 */
 	protected abstract TestFile generateFile(String completePath, String fileName, String test, int id_test,
 			String method, String mutantName);
@@ -240,10 +217,8 @@ public abstract class Language {
 	/**
 	 * Writes in a file.
 	 * 
-	 * @param fileName
-	 *            Name of the file where we need to write.
-	 * @param content
-	 *            Text we want to write on the file.
+	 * @param fileName Name of the file where we need to write.
+	 * @param content  Text we want to write on the file.
 	 */
 	protected void writeFile(String fileName, String content) {
 		try {
@@ -261,10 +236,8 @@ public abstract class Language {
 	/**
 	 * Gets the correct shell commands for each OS.
 	 * 
-	 * @param path
-	 *            Directory where main python script is.
-	 * @param file
-	 *            Name of the main python script.
+	 * @param path Directory where main python script is.
+	 * @param file Name of the main python script.
 	 * @return List of commands to be executed.
 	 */
 	protected String[] pythonCall(String path, String file) {
@@ -282,8 +255,7 @@ public abstract class Language {
 	/**
 	 * Reads the content from a file.
 	 * 
-	 * @param fileName
-	 *            Name of the file to be readed.
+	 * @param fileName Name of the file to be readed.
 	 * @return The content of the file in the form of a String.
 	 */
 	protected String readFile(String fileName) {
@@ -309,13 +281,9 @@ public abstract class Language {
 	/**
 	 * Generates all the results from the execution.
 	 * 
-	 * @param in
-	 *            Reader used to get the results from standard output.
-	 * @param files
-	 *            List of all TestFiles where we will save the results.
-	 * @param test
-	 *            Type of test.
-	 * @param p
+	 * @param in    Reader used to get the results from standard output.
+	 * @param files List of all TestFiles where we will save the results.
+	 * @param test  Type of test.
 	 * @return List of all TestFiles for this execution.
 	 */
 	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
@@ -340,8 +308,7 @@ public abstract class Language {
 	/**
 	 * Method used to only read the lines wanted from execution.
 	 * 
-	 * @param in
-	 *            Reader used to read from standard output.
+	 * @param in Reader used to read from standard output.
 	 * @return A line from stout in the form of a String.
 	 */
 	protected String readLine(BufferedReader in) {
@@ -375,15 +342,43 @@ public abstract class Language {
 		public void notify(String msg);
 	}
 
+	/**
+	 * 
+	 * @return Input example String.
+	 */
 	public abstract String getInputExample();
 
+	/**
+	 * @return language name String.
+	 */
 	public abstract String toString();
 
+	/**
+	 * 
+	 * @return language extension String.
+	 */
 	public abstract String getExtension();
 
+	/**
+	 * Verify if a match is correct.
+	 * 
+	 * @param mutantOperator mutant operator.
+	 * @param line           line integer.
+	 * @param offset         position where match was found.
+	 * @param searchWord     search word String.
+	 * @return
+	 */
 	public abstract boolean verifyMatch(MutantOperator mutantOperator, String line, int offset, String searchWord);
 
+	/**
+	 * 
+	 * @return Start method Token language String.
+	 */
 	public abstract String getStartMethodToken();
 
+	/**
+	 * 
+	 * @return End method Token language String.
+	 */
 	public abstract String getEndMethodToken();
 }

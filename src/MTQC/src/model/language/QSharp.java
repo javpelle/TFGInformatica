@@ -8,7 +8,7 @@
  * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
  */
 
-package model.run;
+package model.language;
 
 import java.io.File;
 import java.util.ArrayList;

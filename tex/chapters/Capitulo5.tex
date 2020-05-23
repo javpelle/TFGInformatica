@@ -212,8 +212,8 @@ Detallaremos cada uno de estos subsistemas, pero antes vamos a exponer la jerarq
 		\end{itemize}		 
 	\item \textbf{mutant}. Contiene la clase Mutant que gestiona un mutante tras su creación: ruta al archivo mutante, ruta al archivo original y línea de código que sufrió la mutación.
 	\item \textbf{test}. Contiene la clase abstracta Test que gestiona las características del tipo de prueba a realizar, por ejemplo si es o no determinista. También contiene sus implementaciones.
-	\item \textbf{run}. Recoge clases que gestionan las pruebas de mutación. Crea archivos ejecutables a partir de un mutante y una entrada de datos y los ejecuta.
-	\item \textbf{files}. Contiene la clase TestFile que gestiona los archivos finales creados por las clases del paquete \textit{run}.
+	\item \textbf{language}. Recoge clases que gestionan las pruebas de mutación y los lenguajes. Crea archivos ejecutables a partir de un mutante y una entrada de datos y los ejecuta.
+	\item \textbf{files}. Contiene la clase TestFile que gestiona los archivos finales creados por las clases del paquete \textit{language}.
 	\item \textbf{testresult}. Contiene la clases abstracta TestResult que gestiona los resultados de la ejecución de los test y también sus implementaciones, una por cada implementación de Test.
 	\end{itemize}
 \item \textbf{view}. Encargado de toda la vista del sistema.
@@ -394,7 +394,7 @@ using (register = Qubit[2]) {
 
 Las mismas indicaciones tenemos para \qsh\ (figura \ref{fig:code4}), debemos mantener la estructura general y modificar lo necesario siguiendo las indicaciones, ya haya sido elegido el método de entrada mediante el uso de la vista de pestañas o mediante la carga de archivo.
 
-Tenemos así todo listo para proceder: archivo, método, mutantes, tipo de test y casos de prueba, entre otros. Todos estos datos se gestionan con las clases mencionadas anteriormente para cada uno de ellos. El usuario está listo para ejecutar los test, así, la vista llama al controlador que preprocesa los datos antes de mandárselos a la lógica. El primer objetivo es preparar nuevos archivos que añadan las entradas establecidas a los archivos a ejecutar: mutantes y original. Dichos archivos son creados por las clases del paquete model.run y gestionadas por la clase TestFile del paquete model.files.
+Tenemos así todo listo para proceder: archivo, método, mutantes, tipo de test y casos de prueba, entre otros. Todos estos datos se gestionan con las clases mencionadas anteriormente para cada uno de ellos. El usuario está listo para ejecutar los test, así, la vista llama al controlador que preprocesa los datos antes de mandárselos a la lógica. El primer objetivo es preparar nuevos archivos que añadan las entradas establecidas a los archivos a ejecutar: mutantes y original. Dichos archivos son creados por las clases del paquete model.language y gestionadas por la clase TestFile del paquete model.files.
 
 El siguiente paso es generar un archivo principal en \textit{Python} que será ejecutado mediante una llamada al sistema (por tanto el usuario debe tener agregado \textit{Python} en su \textit{path}) y que llamará a todos los archivos generados en el paso anterior para obtener las salidas arrojadas por los test.
 
