@@ -35,7 +35,7 @@ operation MainQuantum() : String{
 
 operation uf2(register : Qubit[]) : Unit{
 	//f(x_1,x_2,x_3,x_4) = 1. Constante
-        X(register[Length(register) - 1]);
+        I(register[Length(register) - 1]);
     }
 ***
 operation MainQuantum() : String{
@@ -55,6 +55,6 @@ operation MainQuantum() : String{
 
 operation uf3(register : Qubit[]) : Unit {
 	//f(x_1,x_2,x_3,x_4) = 0. Constante
-	I(register[Length(register) - 1]);    
+	X(register[Length(register) - 1]);    
    }
 ***

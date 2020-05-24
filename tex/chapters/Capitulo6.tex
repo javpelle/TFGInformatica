@@ -180,9 +180,13 @@ Ya tenemos todo listo para la ejecución de nuestro algoritmo. En este caso, el 
 
 Sí podemos, sin embargo, utilizar cada una de las $U_f$ definidas como parámetro de entrada. En el caso de \textit{Qiskit}, al estar escrito sobre \textit{Python}, permite la definición de una función de manera local y utilizarla como argumento de un método sin necesidad de especificar el tipado (pues \textit{Python} carece del mismo). Por otro lado, \qsh\ requiere la definición de dicho tipado y, además, no permite la definición de funciones de manera local, por lo que debemos hacerlo de manera global.
 
-Vamos a ejecutar ambos tipos de pruebas de mutación presentes en MTQC sobre 3 test, uno por cada $U_f$ definida. Comencemos con \textit{ProbabilisticTest}. Para ello se ha tomado la decisión de ejecutar cada mutante con cada test un total de 1000 iteraciones. Hemos adecuado la salida para que sea una cadena de caracteres que retorne ``balanceada'' o ``constante'' según corresponda.
+Vamos a ejecutar ambos tipos de pruebas de mutación presentes en MTQC sobre 3 test, uno por cada $U_f$ definida. Comencemos con \textit{ProbabilisticTest}. Para ello se ha tomado la decisión de ejecutar cada mutante con cada test un total de 1000 iteraciones. Nótese que pese al determinismo de este algoritmo, los mutantes generados pueden no serlo. Hemos adecuado la salida para que sea una cadena de caracteres que retorne ``balanceada'' o ``constante'' según corresponda.
 
-\begin{figure}[!htb]
+Analicemos los resultados obtenidos para este tipo de test en cada uno de los lenguajes. Cabe mencionar que el parámetro de confianza utilizado en ambos casos ha sido del $1\%$.
+
+En el caso de la ejecución del primer test, el resultado para ambos lenguajes es muy similar. En Qiskit, se han matado 8 de los 9 mutantes generados (\textit{Mutant Score} de $88.9\%$), mientras que en \qsh\ el mutante adicional sobrevive, luego se obtiene un \textit{Mutant Score} de $80\%$. Es interesante analizar el mutante común superviviente, y lo haremos al final de esta sección, pues adelantamos que sobrevive a los 3 test realizados.
+
+\begin{figure}[H]
 \begin{lstlisting}[language=c++]
 operation DeutschJozsa(register : Qubit[], U_f : (Qubit[] => Unit)) : String {
 	let nQubits = Length(register);
@@ -235,13 +239,30 @@ operation uf3(register : Qubit[]) : Unit {
 \label{fig:code63}
 \end{figure}
 
+Para el segundo test, de nuevo se obtienen resultados semejantes entre ambos lenguajes. Qiskit consigue matar 6 de 9 mutantes (\textit{Mutant Score} de $66.7\%$), y \qsh\ elimina a los mismos mutantes y al adicional, obteniendo un \textit{Mutant Score} de $70\%$. 
+
+Por último, los resultados generados para el tercer test es análogo para Qiskit y \qsh. En ambos, los resultados son idénticos (salvo pequeñas variaciones en los porcentajes de las salidas, que podrían aproximarse mediante la ejecución de un mayor número de iteraciones) a los obtenidos en el segundo test.
+
+En total, mediante estos tres test, se eliminan todos los mutantes menos uno de ellos. Este mutante es el obtenido mediante la sustitución de la puerta X, que niega el qubit de salida, por la puerta Y. Esto se debe a que al aplicar una puerta X o Y al estado $\ket{0}$ se obtiene el mismo estado $\ket{1}$ módulo un cambio de fase global, por lo que el comportamiento cuántico de ambos estados es el mismo. De esta forma, se obtiene un mutante equivalente que sobrevivirá independientemente del test. 
+
+En conclusión podemos determinar que el Test1 es el más adecuado, no solamente por tener un \textit{Mutant Score} más elevado, sino porque Test2 y Test3 se identifican con una $U_f$ que representa una función constante. Independientemente de la dimensión del espacio de entrada, sólo existen dos funciones constantes: la función constante cero y la función constante uno, cuya $U_f$ asociada se construye mediante una única puerta I o X, respectivamente, aplicada exclusivamente al qubit de salida, que es el único que no es relevante a la hora de medir. Esto implica que todas las mutaciones realizadas sobre los operadores que afecten a dicho qubit (en nuestro caso la puerta X), no sean detectadas en el caso de que función sea constante. Es por esto que el Test1, al representar una función balanceada, es propenso a eliminar este tipo de mutantes.
+
+Por último, analicemos los resultados obtenidos a la hora de ejecutar el \textit{QStateTest}. Debido a la naturaleza determinista de este algoritmo, este tipo de test no es el más indicado. Para una mejor adaptación, se ha considerado adecuado eliminar las lineas de código referentes a la medición, pues esta altera de manera no determinista el estado interno del programa. Es por esto que ahora disponemos 9 mutantes para cada lenguaje, pues el mutante adicional que teníamos previamente para \qsh\ era relativo a la medida de los qubits.
+
+Para el primer test, los resultados son idénticos a los obtenidos mediante \textit{ProbabilisticTest}, obteniendo un \textit{Mutant Score} de $88.9\%$ para ambos lenguajes.
+
+Sin embargo, en el segundo y tercer test notamos una mejoría al lograr matar un mutante adicional respecto a \textit{ProbabilisticTest}, logrando un \textit{Mutant Score} de $77.8\%$. Esto se debe a que hemos detectado una mutación que afecta al qubit de salida qué, como se ha explicado previamente, era indetectable mediante el uso de funciones constantes, ejectuadas usando \textit{ProbabilisticTest}. Véase que estamos obteniendo las probabilidades asignadas al estado cuántico, lo incluye también al qubit de salida.
+
+De nuevo, el mutante equivalente no muere bajo ningún test, pues las amplitudes de los estados son iguales. Concluyendo, en vista de los resultados obtenidos para ambos tipos de test, el test más adecuado es el primero. Además, prácticamente no se encuentran diferencias sustanciales de los resultados obtenidos para uno y otro lenguaje, al menos en algoritmos sencillos. Estas diferencias pueden ser más visibles en algoritmos de mayor complejidad e incluso añadiendo otros operadores de mutación de carácter clásico, pues ambos lenguajes combinan instrucciones cuánticas con otras tradicionales como la instrucción \textbf{for} en nuestro ejemplo. Puede ser también interesante comparar el comportamiento de este u otros algoritmos con un lenguaje más puramente cuántico, como 
+\textit{QASM}.
+
 \section{Implementaciones futuras}
 
 Queremos aportar algunas ideas con las que se puede dar continuidad a este proyecto. Algunas de estas funcionalidades fueron planificadas al principio del proyecto para ser descartadas más adelante y otras surgen durante la implementación de MTQC.
 
 La implementación de \textit{weak mutation testing} podría ser una buena alternativa a los test ya existentes en el programa. Se trataría de un test determinista a realizar sobre simulador que verificara las condiciones de la definición \ref{def:def24}. También podría añadirse algún lenguaje adicional como \textbf{OpenQASM}.
 
-Por otro lado sería conveniente darle más facilidades al usuario para probar sus programas como permitir que puedan añadirse nuevos operadores de mutación durante la ejecución y que estos puedan ser guardados para futuras pruebas de mutación o guardar el proceso en un determinado momento para que la tarea pueda ser retomada en otra ejecución. Además, sería conveniente facilitar el uso de otros archivos y librerías externas para evitar, como mencionamos antes, que el usuario no tenga que realizar una adición de código para encontrar la ruta a estos archivos.
+Por otro lado sería conveniente darle más facilidades al usuario para probar sus programas como permitir que puedan añadirse nuevos operadores de mutación durante la ejecución y que estos puedan ser guardados para futuras pruebas de mutación o guardar el proceso en un determinado momento para que la tarea pueda ser retomada en otra ejecución. Además, sería conveniente facilitar el uso de otros archivos y librerías externas para evitar, como mencionamos antes, que el usuario no tenga que realizar una adición de código para encontrar la ruta a estos archivos. Otra herramienta útil podría ser la exportación del tabla final de resultados a un formato más manejable como \textit{Excel} o \textit{.csv}.
 
 Por último, sería conveniente habilitar una opción para que un mutante pueda tener 2 o más mutaciones y mejorar la eficiencia del programa mediante la paralelización de cada una de las ejecuciones realizadas al aplicar los casos de prueba.
 
