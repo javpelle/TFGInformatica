@@ -16,7 +16,7 @@ import javax.swing.JTabbedPane;
 
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.test.Test;
+import model.testing.Testing;
 import model.testresult.TestResult;
 import view.mutantgeneratorview.MutantsGenerator;
 import view.mutantgeneratorview.Files.NewPathListener;
@@ -132,7 +132,7 @@ public class TabbedPane extends JTabbedPane {
 	 * 
 	 * @param tests List with the type of test.
 	 */
-	public void setTests(Test[] tests) {
+	public void setTests(Testing[] tests) {
 		testCaseRunner.setTests(tests);
 	}
 

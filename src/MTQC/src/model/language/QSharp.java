@@ -44,8 +44,8 @@ import model.mutantoperator.qsharp.RotYZ;
 import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
-import model.test.QStateTest;
-import model.test.Test;
+import model.testing.QStateTest;
+import model.testing.Testing;
 
 /**
  * Language concrete class, which overrides some methods in order to implement
@@ -151,7 +151,7 @@ public class QSharp extends Language {
 	}
 
 	@Override
-	protected String isQStateTest(Test test) {
+	protected String isQStateTest(Testing test) {
 		if (test instanceof QStateTest) {
 			return ", QStateTest=True";
 		} else {

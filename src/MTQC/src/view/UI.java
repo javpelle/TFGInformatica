@@ -25,7 +25,7 @@ import model.Observable;
 import model.Observer;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.test.Test;
+import model.testing.Testing;
 import model.testresult.TestResult;
 import view.MenuBar.LanguageListener;
 import view.MenuBar.ResetListener;
@@ -133,7 +133,7 @@ public class UI extends JFrame implements Observer {
 		}, new RunListener() {
 
 			@Override
-			public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
+			public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Testing testType,
 					int shots, ArrayList<String> testFileName, double timeLimit) {
 				tabbedPane.startedRun(true);
 				c.runTests(selectedMutants, fileName, methodName, testType, shots, testFileName, timeLimit);
@@ -180,7 +180,7 @@ public class UI extends JFrame implements Observer {
 	}
 
 	@Override
-	public void setTests(Test[] tests) {
+	public void setTests(Testing[] tests) {
 		tabbedPane.setTests(tests);
 	}
 

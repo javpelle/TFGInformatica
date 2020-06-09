@@ -8,51 +8,43 @@
  * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
  */
 
-package model.test;
+package model.testing;
 
-import model.testresult.ProbabilistTestResult;
+import model.testresult.QStateTestResult;
 import model.testresult.TestResult;
 
 /**
- * Concrete Test which represents a "Montecarlo" type of test.
+ * Concrete Test which represents a test which checks the internal state of a
+ * quantum system. This type of test is only useful for simulation.
  * 
- * @author Javier & Luis.
+ * @author Javier & Luis
  *
  */
-public class ProbabilisticTest extends Test {
-
-	private int shots;
-
-	/**
-	 * Constructor for the class.
-	 */
-	public ProbabilisticTest() {
-		shots = 0;
-	}
+public class QStateTest extends Testing {
 
 	@Override
 	public int getIDTest() {
-		return 2;
+		return 1;
 	}
 
 	@Override
 	public String getNameTest() {
-		return "ProbabilisticTest";
+		return "QStateTest (only simulator)";
 	}
 
 	@Override
 	public void setShots(int shots) {
-		this.shots = shots;
+
 	}
 
 	@Override
 	public int getShots() {
-		return shots;
+		return 1;
 	}
 
 	@Override
 	public TestResult newTestResult(String mutantName, int idTest) {
-		return new ProbabilistTestResult(mutantName, idTest);
+		return new QStateTestResult(mutantName, idTest);
 	}
 
 }

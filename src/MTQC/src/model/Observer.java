@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.test.Test;
+import model.testing.Testing;
 import model.testresult.TestResult;
 
 /**
@@ -56,7 +56,7 @@ public interface Observer {
 	 * 
 	 * @param tests List which containts the different type of test.
 	 */
-	public void setTests(Test[] tests);
+	public void setTests(Testing[] tests);
 
 	/**
 	 * Notification from the generation of mutants.

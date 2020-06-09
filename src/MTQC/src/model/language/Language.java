@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import model.files.TestFile;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.test.Test;
+import model.testing.Testing;
 import model.testresult.TestResult;
 
 /**
@@ -66,7 +66,7 @@ public abstract class Language {
 	 * @param timeLimit  Limit of time each test can run.
 	 * @return All test results gathered during execution.
 	 */
-	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test,
+	public ArrayList<ArrayList<TestResult>> run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Testing test,
 			String method, double timeLimit, NotifyListener listener) {
 		this.listener = listener;
 		ArrayList<ArrayList<TestResult>> ret;
@@ -113,7 +113,7 @@ public abstract class Language {
 	 * @param test  Type of test.
 	 * @return Results obtained from execution.
 	 */
-	private ArrayList<ArrayList<TestResult>> runMain(ArrayList<ArrayList<TestFile>> files, Test test) {
+	private ArrayList<ArrayList<TestResult>> runMain(ArrayList<ArrayList<TestFile>> files, Testing test) {
 		try {
 			Process p = Runtime.getRuntime().exec(pythonCall(path, main));
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -131,7 +131,7 @@ public abstract class Language {
 	 * @param test      Type of test.
 	 * @param timeLimit Maximum time each file can run for.
 	 */
-	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Test test, double timeLimit) {
+	protected void generatePythonScript(ArrayList<ArrayList<TestFile>> files, Testing test, double timeLimit) {
 		String script = generateImportLanguage();
 		script += System.lineSeparator();
 		script += "from tools import run_shots" + System.lineSeparator();
@@ -158,7 +158,7 @@ public abstract class Language {
 	 * @return True if we are running a Probability Test on QSharp. False in other
 	 *         case.
 	 */
-	protected abstract String isQStateTest(Test test);
+	protected abstract String isQStateTest(Testing test);
 
 	/**
 	 * Used to get the syntaxes used to import files for each language.
@@ -287,7 +287,7 @@ public abstract class Language {
 	 * @return List of all TestFiles for this execution.
 	 */
 	protected ArrayList<ArrayList<TestResult>> generateResults(BufferedReader in, ArrayList<ArrayList<TestFile>> files,
-			Test test) {
+			Testing test) {
 		ArrayList<ArrayList<TestResult>> results = new ArrayList<ArrayList<TestResult>>();
 		for (ArrayList<TestFile> list : files) {
 			ArrayList<TestResult> aux = new ArrayList<TestResult>();

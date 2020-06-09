@@ -65,7 +65,7 @@ import model.mutantoperator.qiskit.ZSdgGate;
 import model.mutantoperator.qiskit.ZTGate;
 import model.mutantoperator.qiskit.ZXGate;
 import model.mutantoperator.qiskit.ZYGate;
-import model.test.Test;
+import model.testing.Testing;
 /**
  * Language concrete class, which overrides some methods in order to implement 
  * the well behavior for Qiskit language.
@@ -129,7 +129,7 @@ public class Qiskit extends Language {
 	}
 
 	@Override
-	protected String isQStateTest(Test test) {
+	protected String isQStateTest(Testing test) {
 		return "";
 	}
 

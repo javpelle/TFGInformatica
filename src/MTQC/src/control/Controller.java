@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import model.Model;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.test.Test;
+import model.testing.Testing;
 
 /**
  * Controller for the MVC.
@@ -134,7 +134,7 @@ public class Controller {
 	 * @param testList        Test suite
 	 * @param timeLimit       Max time each test can run
 	 */
-	public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
+	public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Testing testType,
 			int shots, ArrayList<String> testList, double timeLimit) {
 		ArrayList<String> testSuite;
 		String file = testList.get(testList.size() - 1);

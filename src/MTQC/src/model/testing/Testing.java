@@ -8,7 +8,7 @@
  * or at https://github.com/javpelle/TFGInformatica/blob/master/LICENSE.
  */
 
-package model.test;
+package model.testing;
 
 import model.testresult.TestResult;
 
@@ -18,7 +18,7 @@ import model.testresult.TestResult;
  * @author Javier & Luis
  *
  */
-public abstract class Test {
+public abstract class Testing {
 	/**
 	 * This method returns and identifier for a test.
 	 * 

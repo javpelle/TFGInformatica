@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import model.mutant.Mutant;
-import model.test.Test;
+import model.testing.Testing;
 import view.testcaserunnerview.RunOptions.FileComboListener;
 import view.tools.LogArea;
 
@@ -143,7 +143,7 @@ public class TestCaseRunner extends JPanel {
 	 * Shows available test types.
 	 * @param tests List of all types of test.
 	 */
-	public void setTests(Test[] tests) {
+	public void setTests(Testing[] tests) {
 		runOptions.setTests(tests);
 	}
 	
@@ -153,7 +153,7 @@ public class TestCaseRunner extends JPanel {
 	 *
 	 */
 	public interface RunListener {
-		public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Test testType,
+		public void runTests(ArrayList<Mutant> selectedMutants, String fileName, String methodName, Testing testType,
 				int shots, ArrayList<String> testList, double timeLimit);
 	}
 	/**

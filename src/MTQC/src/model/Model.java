@@ -29,9 +29,9 @@ import model.language.Qiskit;
 import model.language.Language.NotifyListener;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.test.ProbabilisticTest;
-import model.test.QStateTest;
-import model.test.Test;
+import model.testing.ProbabilisticTest;
+import model.testing.QStateTest;
+import model.testing.Testing;
 import model.testresult.TestResult;
 
 /**
@@ -70,7 +70,7 @@ public class Model implements Observable<Observer> {
 	/**
 	 * Initializes both type of test available.
 	 */
-	private Test[] tests = { new QStateTest(), new ProbabilisticTest() };
+	private Testing[] tests = { new QStateTest(), new ProbabilisticTest() };
 	
 	/**
 	 * Initializes both type of language available.
@@ -392,7 +392,7 @@ public class Model implements Observable<Observer> {
 	 * @param method     Name of the method being tested.
 	 * @param timeLimit  Maximum time each test can run for.
 	 */
-	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Test test, String file, String method,
+	public void run(ArrayList<Mutant> mutantList, ArrayList<String> testSuit, Testing test, String file, String method,
 			double timeLimit) {
 		try {
 			if (timeLimit <= 0) {

@@ -22,7 +22,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import model.test.Test;
+import model.testing.Testing;
 import view.tools.TextField;
 
 /**
@@ -41,7 +41,7 @@ public class RunOptions extends JPanel {
 
 	private JSpinner spinner;
 
-	private JComboBox<Test> testType;
+	private JComboBox<Testing> testType;
 
 	private JSpinner shots;
 
@@ -119,7 +119,7 @@ public class RunOptions extends JPanel {
 		JPanel aux1 = new JPanel();
 		aux1.setLayout(new GridLayout(1, 2));
 		aux1.add(new TextField("Test Type:"));
-		testType = new JComboBox<Test>();
+		testType = new JComboBox<Testing>();
 		aux1.add(testType);
 		JPanel aux2 = new JPanel();
 		aux2.setLayout(new GridLayout(1, 2));
@@ -190,8 +190,8 @@ public class RunOptions extends JPanel {
 	 * 
 	 * @return Selected test type.
 	 */
-	public Test getTestType() {
-		return (Test) testType.getSelectedItem();
+	public Testing getTestType() {
+		return (Testing) testType.getSelectedItem();
 	}
 
 	/**
@@ -208,9 +208,9 @@ public class RunOptions extends JPanel {
 	 * 
 	 * @param tests List with all the available test types.
 	 */
-	public void setTests(Test[] tests) {
+	public void setTests(Testing[] tests) {
 		testType.removeAllItems();
-		for (Test t : tests) {
+		for (Testing t : tests) {
 			testType.addItem(t);
 		}
 	}
