@@ -20,7 +20,7 @@ import model.testresult.TestResult;
  * @author Javier & Luis
  *
  */
-public class QStateTest extends Testing {
+public class QStateTesting extends Testing {
 
 	@Override
 	public int getIDTest() {

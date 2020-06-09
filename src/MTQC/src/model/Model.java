@@ -29,8 +29,8 @@ import model.language.Qiskit;
 import model.language.Language.NotifyListener;
 import model.mutant.Mutant;
 import model.mutantoperator.MutantOperator;
-import model.testing.ProbabilisticTest;
-import model.testing.QStateTest;
+import model.testing.ProbabilisticTesting;
+import model.testing.QStateTesting;
 import model.testing.Testing;
 import model.testresult.TestResult;
 
@@ -70,7 +70,7 @@ public class Model implements Observable<Observer> {
 	/**
 	 * Initializes both type of test available.
 	 */
-	private Testing[] tests = { new QStateTest(), new ProbabilisticTest() };
+	private Testing[] tests = { new QStateTesting(), new ProbabilisticTesting() };
 	
 	/**
 	 * Initializes both type of language available.

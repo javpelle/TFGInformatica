@@ -19,14 +19,14 @@ import model.testresult.TestResult;
  * @author Javier & Luis.
  *
  */
-public class ProbabilisticTest extends Testing {
+public class ProbabilisticTesting extends Testing {
 
 	private int shots;
 
 	/**
 	 * Constructor for the class.
 	 */
-	public ProbabilisticTest() {
+	public ProbabilisticTesting() {
 		shots = 0;
 	}
 

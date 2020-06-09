@@ -44,7 +44,7 @@ import model.mutantoperator.qsharp.RotYZ;
 import model.mutantoperator.qsharp.RotZX;
 import model.mutantoperator.qsharp.RotZY;
 import model.mutantoperator.qsharp.ZeroOne;
-import model.testing.QStateTest;
+import model.testing.QStateTesting;
 import model.testing.Testing;
 
 /**
@@ -152,7 +152,7 @@ public class QSharp extends Language {
 
 	@Override
 	protected String isQStateTest(Testing test) {
-		if (test instanceof QStateTest) {
+		if (test instanceof QStateTesting) {
 			return ", QStateTest=True";
 		} else {
 			return "";
