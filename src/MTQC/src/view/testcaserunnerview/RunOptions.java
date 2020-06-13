@@ -118,7 +118,7 @@ public class RunOptions extends JPanel {
 	public void testType() {
 		JPanel aux1 = new JPanel();
 		aux1.setLayout(new GridLayout(1, 2));
-		aux1.add(new TextField("Test Type:"));
+		aux1.add(new TextField("Testing Type:"));
 		testType = new JComboBox<Testing>();
 		aux1.add(testType);
 		JPanel aux2 = new JPanel();
