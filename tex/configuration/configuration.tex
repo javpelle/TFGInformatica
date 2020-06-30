@@ -1,4 +1,7 @@
-\documentclass[11pt, oneside]{book}
+%\documentclass[11pt, oneside]{book}
+\documentclass[11pt, twoside, openright]{book}
+
+
 %------------------------
 %------- PAQUETES -------
 %------------------------
@@ -6,8 +9,21 @@
 % Establecemos el tamaño de página y márgenes
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 
-% Establecemos la distancia entre párrafos
-\setlength{\parskip}{1em}
+% ----- Establecemos la distancia entre párrafos ------
+
+% El paquete parskip no sólo añade espacio entre párrafos sino que elimina
+% también la identación de la primera línea de % cada uno. Como no queremos
+% esto último guardamos la conf. de la identación antes de cargar el paquete.
+\edef\restoreparindent{\parindent=\the\parindent\relax}
+
+% Cargamos el paquete
+\usepackage{parskip}
+
+% Restauramos la identación
+\restoreparindent
+
+%\setlength{\parskip}{1em} % Sustituido por las instrucciones anteriores
+% -----------------------------------------------------
 
 \usepackage[utf8]{inputenc}
 \usepackage[british, spanish]{babel}
@@ -155,6 +171,8 @@
     \addtocounter{page}{-1}%
     \newpage}
 
+
+\renewcommand{\baselinestretch}{1.1}
 
 \title{Computación cuántica: Pruebas de mutación}
 \author{Luis Aguirre \& Javier Pellejero}
