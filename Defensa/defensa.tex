@@ -1,0 +1,131 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+
+\setlength{\parskip}{1em}
+\setlength{\parindent}{1em}
+
+\xdefinecolor{rojito}{rgb}{1,0.3,0.3}
+\xdefinecolor{oliva}{cmyk}{0.64,0,0.95,0.4}
+\xdefinecolor{minaranja}{rgb}{0.94,0.48,0.2}
+
+\usetheme{Madrid}
+\usecolortheme[named=rojito]{structure}
+
+\title{Computación cuántica: Pruebas de mutación}
+\author{Luis Aguirre \& Javier Pellejero}
+\institute[UCM]{Universidad Complutense de Madrid\\ Facultad de Informática}
+
+% Conjuntos y constantes matemáticas
+\newcommand{\R}{\mathbb{R}} % Reales
+\newcommand{\C}{\mathbb{C}} % Complejos
+\newcommand{\K}{\mathbb{K}} % Cuerpo K (reales o complejos)
+\newcommand{\Sp}{\mathbb{S}} % Esfera
+\newcommand{\e}{\mathrm{e}} % número e
+\newcommand{\N}{\mathbb{N}} % Naturales
+\newcommand{\Q}{\mathbb{Q}} % Racionales
+\newcommand{\B}{\mathcal{B}} % Base
+
+\newcommand{\qsh}{\textsf{Q}\texttt{\#}} % Q#
+\newcommand{\csh}{\textsf{C}\texttt{\#}} % C#
+
+\newcommand{\orden}[1]{\mathcal{O}\left(#1\right)}
+
+\newcommand{\oversim}[1]{\overset{_\sim}{#1}} % Para poner ~ sobre algo
+
+% Para poner datos encima y/o debajo de implica
+\newcommand{\ximplies}[2]{\underset{#2}{\overset{#1}\implies}}
+\newcommand{\xiff}[2]{\underset{#2}{\overset{#1}\iff}}
+\newcommand{\ximpliedby}[2]{\underset{#2}{\overset{#1}\impliedby}}
+
+% Producto escalar y norma
+\newcommand{\dotproduct}[2]{\langle#1,#2\rangle}
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+
+% Notación de Dirac -- SUSTITUIR POR PAQUETE DE LUIS
+\newcommand{\ket}[1]{\left|#1\right\rangle}
+\newcommand{\bra}[1]{\left\langle#1\right|}
+\newcommand{\braket}[2]{\left\langle#1|#2\right\rangle}
+
+% Vectores
+\newcommand{\twovector}[2]{\begin{pmatrix} #1 \\ #2 \end{pmatrix}} % Vector de dim 2
+
+% Funciones e info debajo de funciones
+\newcommand{\function}[3]{#1\colon #2\longrightarrow #3}
+\newcommand{\xfunction}[4]{\underset{#4}{{#1\colon #2\longrightarrow #3}}}
+
+% Funcion que transforma estados |0> y |1>
+\newcommand{\gatetwo}[3]{#1\colon \begin{matrix}\ket0&\longrightarrow& #2\\ \ket1&\longrightarrow& #3\end{matrix}}
+
+% Funcion que transforma estados |00>, |01>, |10> y |11>
+\newcommand{\gatefour}[5]{#1\colon \begin{matrix} \ket{00}&\longrightarrow& #2\\ \ket{01}&\longrightarrow& #3\\ \ket{10}&\longrightarrow& #4\\ \ket{11}&\longrightarrow& #5 \end{matrix}}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+	\begin{center} Doble Grado en Matemáticas e Ingeniería Informática\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Índice}
+	\tableofcontents
+\end{frame}
+
+\section{Contribuciones al proyecto}
+
+\begin{frame}
+	\frametitle{Contribución al proyecto de Luis Aguirre}
+	\begin{itemize}
+		\item Documentar
+		\item Subir el proyecto
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Contribución al proyecto de Javier Pellejero}
+	\begin{itemize}
+		\item A
+		\item B
+	\end{itemize}
+\end{frame}
+
+\section{MTQC}
+\begin{frame}
+	\frametitle{MTQC}
+	\begin{itemize}
+		\item Software
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Generación de mutantes}
+\end{frame}
+
+\begin{frame}
+	\frametitle{QStateTesting}
+	
+	Esta modalidad requiere poder acceder al estado intrínseco de un sistema cuántico, por lo tanto sólo es posible aplicarla sobre un simulador.
+	
+	Sean $\sum_{i=0}^{2^n-1}\alpha_i\ket{i}$ y $\sum_{i=0}^{2^n-1}\beta_i\ket{i}$ los estados normalizados de los sistemas cuánticos asociados al programa original y mutante respectivamente tras ser ejecutados. El mutante muere si se verifica que existe $i$, $0\leq i\leq 2^n-1$, tal que
+	\[|\alpha_i|^2\neq|\beta_i|^2\]
+	
+	Es decir, los vectores de probabilidades de ambos estados deben ser completamente iguales.
+\end{frame}
+
+\begin{frame}
+	\frametitle{ProbabilisticTesting}
+	
+	Se trata de una modalidad que realiza un estudio estadístico que puede ser ejecutado en un ordenador cuántico real. Ejecutamos $k$ veces tanto el archivo original como el mutante. Sea $i$, $1\leq i\leq 2^n-1$, definimos las probabilidades de medición del estado cuántico $\ket i$ para el archivo original y para cierto  mutante $m$ respectivamente como
+$$p_{\ket i,o}=\dfrac{f_{\ket i,o}}{k}\ \ \ \ \ p_{\ket i,m}=\dfrac{f_{\ket i,m}}{k}
+$$
+donde $f_{\ket i}$ denota el número de veces que la salida del programa (original o mutante) fue el estado $\ket i$. Así un mutante $m$ muere si se verifica
+$$
+\max \{|p_{\ket i,o}-p_{\ket i,m}|:0\leq i\leq 2^n - 1\}> c
+$$
+donde $c$ denota el parámetro de confianza, que puede ser modificado por el usuario de nuestro sistema.
+\end{frame}
+
+\end{document}
