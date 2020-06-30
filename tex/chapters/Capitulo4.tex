@@ -1,44 +1,25 @@
-%Cosas de las que hablar este capítulo:
-	% Ambos lenguajes tienen métodos cuánticos y clásicos. Sólo consideramos los cuánticos.
-	% Lista de operadores mutantes considerados para cada lenguaje.
-	
 \chapter[Mutation Testing en computación cuántica]{Mutation Testing aplicado a la computación cuántica}
-
-Teniendo ya los principales conceptos e ideas que engloban a las pruebas de mutación, podemos tratar de abordar el problema de aplicar estas técnicas a software cuántico. Se va a proceder a aportar una noción general de cómo se podrían extrapolar las nociones de mutation testing del mundo de la programación clásica al mundo cuántico, para, posteriormente, centrar el desarrollo del capítulo en torno a los dos lenguajes de programación cuánticos que incumben a este trabajo: \textit{Qiskit} y \qsh
-
-La principal tarea que se debe llevar a cabo es el diseño de los operadores de mutación. Sin embargo, este proceso puede verse afectado por diversos problemas.
+Una vez vistos  los principales conceptos e ideas detrás de  mutation testing, podemos tratar de abordar el problema de aplicar esta técnica a software cuántico. En este capítulo presentaremos un marco  general para mostrar  cómo se podrían adaptar las nociones de mutation testing que se utilizan en el mundo de la programación clásica al mundo cuántico para, posteriormente, centrar el desarrollo del capítulo en torno a los dos lenguajes de programación cuánticos que consideramos en  este trabajo: \textit{Qiskit} y \qsh.
 
 \section{Diseño de operadores de mutación}
 
-Tal y como se vió en el capítulo anterior, los operadores de mutación debe modelar errores comúnmente cometidos por los programadores. Aquí se encuentra una primera dificultad.
+La  tarea más crítica que conforma el diseño de un marco de mutation testing para un lenguaje concreto, sea este cuántico o no, consiste en  diseñar  los operadores de mutación. Tal y como se vió en el capítulo anterior, los operadores de mutación debe modelar errores comúnmente cometidos por los programadores. Aquí se encuentra la primera dificultad con la que nos encontramos a la hora de diseñar una serie de operadores en el entorno cuántico.
 
-Los lenguajes de programación cuánticos se han empezado a desarrollar durante los últimos años y, aunque han ido ganado notoriedad con el paso del tiempo, todavía no se están realizando grandes proyectos con este tipo de lenguaje. 
+Los lenguajes de programación cuánticos se han empezado a desarrollar durante los últimos años y, aunque han ido ganado notoriedad con el paso del tiempo, todavía no se están realizando grandes proyectos con este tipo de lenguajes. Esto puede deberse a que el desarrollo de sistemas cuánticos está evolucionando a un paso lento y el mayor computador cuántico del que se tiene conocimiento público a día de hoy, desarrollado por IBM, consta de tan sólo $53$ qubits. Por tanto, pese a que un desarrollador de software puede contar a nivel de simulador con el número de qubits que considere necesario, es posible que no pueda ejecutar dicho código en una máquina física y disfrutar de la capacidad de cómputo que ofrecen estos sistemas.
+%
+Si hacemos una analogía con la computación clásica,
+la tarea de identificar los errores más comunes cometidos por un programador es relativamente sencilla para lenguajes clásicos como \textit{Java}, C\texttt{++} o \textit{Python}, dado que existen infinidad de repositorios de código donde poder realizar un estudio sobre qué métodos u operadores son más utilizados. Además,  se cuenta con múltiples plataformas de preguntas y respuestas donde poder inspeccionar cuales son los errores más habitualmente cometidos para cada lenguaje. Sin embargo, esto no ocurre para lenguajes de computación cuántica. Si bien cada vez aparecen más repositorios con código cuántico, así como  plataformas donde los programadores pueden exponer sus problemas durante el desarrollo, todavía no tienen la cantidad de información suficiente para permitir un estudio a media escala sobre el código cuántico que permita identificar aquellos errores que son lo más adecuados para ser modelados como operadores de mutación. Más adelante se detalla como se decide abordar este problema para los lenguajes \textit{Qiskit} y \qsh.
 
-Esto puede deberse a que el desarrollo de sistemas cuánticos está evolucionando a un paso lento, y el mayor computador cuántico hasta la fecha, desarrollado por IBM, consta de tan sólo 53 qubits. Y por tanto, pese a que un desarrollador de software puede contar a nivel de simulador con el número de qubits que considere necesario, es posible que no pueda ejecutar dicho código en una máquina física y disfrutar de la capacidad de cómputo que ofrecen estos sistemas.
-
-En cualquier caso, la tarea de identificar los errores más comunes cometidos por un programador es relativamente sencilla para lenguajes clásicos como Java, C++, Python... Se tiene a disposición infinidad de repositorios de código donde poder realizar un estudio sobre qué métodos u operadores son más utilizados y también se cuenta con múltiples plataformas de preguntas y respuestas donde poder inspeccionar cuales son los errores más habitualmente cometidos para cada lenguaje. 
-
-Sin embargo, esto no ocurre para lenguajes de computación cuántica. Si bien cada vez aparecen más repositorios con código cuántico y también empiezan a aparecer  plataformas donde los programadores pueden exponer sus problemas en el desarrollo, todavía no es suficientemente relevante como para poder realizar un estudio exhaustivo sobre el código cuántico y identificar qué errores son lo más adecuados para ser modelados como operadores de mutación.
-
-En la sección relativa a los lenguajes \textit{Qiskit} y \qsh se detalla como se decidió abordar este problema. Este no es el único problema que tiene la aplicación de mutation testing en código cuántico. El otro gran inconveniente es la especificación de los test, y más en concreto, la especificación de las entradas.
+Este no es el único problema que tiene la aplicación de mutation testing en código cuántico. El otro gran inconveniente es la especificación de los test, más en concreto la especificación de las entradas.
 
 \section{Especificación de inputs cuánticos}
 
-Una vez que se cuenta con el diseño de los operadores de mutación, la obtención de mutantes para un programa cuántico no difiere del proceso análogo para lenguajes de programación clásicos. Dicho proceso tan sólo consta de buscar y reemplazar una cadena del código siguiendo las reglas concretas del operador de mutación que se desea aplicar.
+Una vez que se cuenta con el diseño de los operadores de mutación, la obtención de mutantes para un programa cuántico no difiere del proceso análogo para lenguajes de programación clásicos. Dicho proceso consiste tan sólo en buscar y reemplazar una cadena del código siguiendo las reglas concretas del operador de mutación que se desea aplicar.
 
-Tras obtener el conjunto de mutantes, el siguiente paso a realizar es aplicar el conjunto de test a dichos mutantes. Recordemos que un test se compone principalmente de unos valores de entrada, inputs, y unos valores de salida esperados, outputs. 
-
-Aunque a simple vista pueda parecer que este proceso es sencillo, cuenta con una serie de dificultades. Una de ellas es obtener los valores que provoquen que se alcance el estado del programa que se quiere testear. Estos valores son conocidos como valores de prefijo. De la misma forma, los valores que debe recibir el programa tras alcanzar el estado que se desea testear y que nos permiten terminar la ejecución del programa o ver los resultados se conocen como valores de postfijo, también suponen una complicación a la hora de diseñar los test.
-
-Obtener estos valores de prefijo y postfijo suponen una tarea extra para el encargado de desarrollar el conjunto de test y es necesario llevarla a cabo tanto en programación clásica como en programación cuántico. Sin embargo, con este último tipo de programación surge un nuevo problema que no se tiene con los lenguajes de programación clásicos.
-
-En algunos de los lenguajes de programación cuánticos, como es el caso de \textit{Qiskit} y \qsh, se tienen tipos primitivos pertenecientes al paradigma de la programación clásica: enteros, booleanos... Estos tipos no suponen ningún problema si son necesarios como entradas de un test, pues son fácilmente declarables independientemente del lenguaje. Sin embargo, con la computación cuántica aparece un nuevo tipo, el qubit. 
-
-Generalmente, cuando se declara un qubit, este comienza inicializado al valor $\ket{0}$. Si el encargado de diseñar los test desea comprobar el funcionamiento de cierto método con un qubit que se encuentre en un estado diferente al $\ket{0}$, debe ser él el encargado de transformar el qubit al estado deseado mediante la utilización de puertas cuánticas. Por tanto, el testeador necesita diseñar para cada test un circuito cuántico que se encargue de llevar al estado deseado cada qubit que se vaya a utilizar como entrada de un test. Esto supone añadir un grado de complejidad a la obtención de valores de prefijo.
-
-Para ver con más claridad este problema, veamos un ejemplo. Supongamos que tenemos el siguiente código en el lenguaje \qsh:
-
-\begin{figure}[htb]
+Tras obtener el conjunto de mutantes, el siguiente paso a realizar es aplicar el conjunto de tests a dichos mutantes. Recordemos que un test se compone  de unos valores de entrada, inputs, y de los  valores de salida esperados, outputs. 
+%
+Aunque a simple vista pueda parecer que este proceso es sencillo, cuenta con una serie de dificultades. Una de ellas es obtener los valores que provoquen que se alcance el estado del programa que se quiere testear. Estos valores son conocidos como \emph{valores de prefijo}. De la misma forma, los valores que debe recibir el programa tras alcanzar el estado que se desea testear y que nos permiten terminar la ejecución del programa o ver los resultados, conocidos como \emph{valores de postfijo}, también presentan una complicación a la hora de diseñar los tests. Obtener estos valores de prefijo y postfijo suponen una tarea extra para el encargado de desarrollar el conjunto de tests y es necesario llevarla a cabo tanto en programación clásica como en programación cuántica. Sin embargo, con este último tipo de programación surge un nuevo problema que no se tiene con los lenguajes de programación clásicos.
+\begin{figure}[htb!]
 \begin{lstlisting}[language=c++]
 using (register = Qubit[2]) {
 
@@ -50,14 +31,6 @@ using (register = Qubit[2]) {
 	return output;
 }
 \end{lstlisting}
-\caption{Llamada a method.}
-\label{fig:code41}
-\end{figure}
-
-Y supogamos que se quiere realizar un test donde los 2 qubits del registro estén inicializados a los valores $\ket{1}$ y $\tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1})$ respectivamente. Entonces se 
-debe añadir el siguiente código previo a llamar a \textit{method}:\clearpage
-
-\begin{figure}[htb]
 \begin{lstlisting}[language=c++]
 using (register = Qubit[2]) {
 
@@ -77,20 +50,27 @@ using (register = Qubit[2]) {
 \label{fig:code42}
 \end{figure}
 
-Por tanto, el testeador debe ser capaz de crear la secuencia de puertas que transforme cada qubit que se vaya a utilizar como input del test al estado cuántico deseado.
+En algunos de los lenguajes de programación cuánticos, como es el caso de \textit{Qiskit} y \qsh, se tienen tipos primitivos pertenecientes al paradigma de la programación clásica como enteros o booleanos. Estos tipos no suponen ningún problema si son necesarios como entradas de un test, pues son fácilmente declarables independientemente del lenguaje. Sin embargo, con la computación cuántica aparece un nuevo tipo: el qubit. 
+%
+Generalmente, cuando se declara un qubit, comienza inicializado al valor $\ket{0}$. Si el encargado de diseñar los test desea comprobar el funcionamiento de cierto método con un qubit que se encuentre en un estado diferente al $\ket{0}$, debe ser él el encargado de transformar el qubit al estado deseado mediante la aplicación de puertas cuánticas. Por tanto, el testeador necesita diseñar para cada test un circuito cuántico que se encargue de llevar al estado deseado cada qubit que se vaya a utilizar como entrada de un test. Esto supone añadir un grado de complejidad a la obtención de valores de prefijo.
 
-Una vez que ya sabemos cómo se pueden generar los mutantes y cómo se pueden diseñar los test, sólo falta decidir como matar a los mutantes; de nuevo aparece una dificultad añadida para esta tarea cuando trabajamos en el mundo cuántico.
+Para ver con más claridad el problema que acabamos de presentar, veamos un ejemplo. Supongamos que tenemos el  código, en el lenguaje \qsh, que se presenta en la parte superior de la figura~\ref{fig:code42}.
+%
+Adicionalmente, supongamos que se quiere realizar un test donde los 2 qubits del registro estén inicializados a los valores $\ket{1}$ y $\tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1})$, respectivamente. Entonces se 
+debe añadir código al código anterior para representar estas inicializaciones. El resultado de esta inclusión aparece en la parte inferior de la figura~\ref{fig:code42}.
+%
+Por tanto, el testeador debe ser capaz de crear la secuencia de puertas que transforme cada qubit que se vaya a utilizar como input del test al estado cuántico deseado y esta secuencia se debe incluir dentro del código que se quiere testear.
+
+Una vez que ya sabemos cómo se pueden generar los mutantes y cómo se pueden diseñar los tests, sólo falta decidir cuando hemos matado a un mutante. De nuevo aparece una dificultad añadida para esta tarea cuando trabajamos en el mundo cuántico.
 
 \section{Decisión de la muerte de un mutante}
 
-Tal y como se vio en el capítulo anterior, la manera más habitual de decidir si un mutante muere o no es comparando los outputs de la ejecución del mutante con los de el programa original. Si intentamos llevar esta idea hacia el la programación cuántica aparece de inmediato un inconveniente. 
+Tal y como se vio en el capítulo anterior, la manera más habitual de decidir si un mutante muere o no es comparando los outputs de la ejecución del mutante con los del programa original. Si intentamos llevar esta idea hacia la programación cuántica aparece de inmediato un inconveniente.
 
-Los programas cuánticos son, en su mayor parte, no determinista. Esto se debe a que están basados en el uso de qubits y, como ya se ha visto previamente, una medición de un qubit arroja dos posibles resultados con cierta probabilidad. Por lo tanto, en el momento que se realice una medición, automáticamente el programa pasará a ser no determinista (dando por hecho que el resultado de obtenido en la medición es usado posteriormente).
+Los programas cuánticos son, en su mayor parte, probabilistas. Esto se debe a que están basados en el uso de qubits y, como ya se ha visto previamente, una medición de un qubit arroja dos posibles resultados con cierta probabilidad. Por lo tanto, en el momento en que se realice una medición, automáticamente el programa pasará a ser no determinista (dando por hecho que el resultado  obtenido en la medición es usado posteriormente). Para ilustrar este problema, véase el código de la figura~\ref{fig:code43}.
 
-Para ilustrar este problema, veamos un ejemplo con el siguiente sencillo programa:
-\clearpage
-
-\begin{figure}[htb]
+En este sencillo ejemplo simplemente transformamos un qubit que se encuentra en el estado $\ket{0}$ al estado $\tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1})$ mediante una puerta \emph{Hadamard}. En dicho estado, el qubit tiene las mismas probabilidades de arrojar como resultado $\ket{0}$ o $\ket{1}$ al realizar una medición sobre él. La variable de salida \textit{output} depende del resultado de esta medición. Es obvio que distintas ejecuciones de este programa darán resultados diferentes. Este no-determinismo supone un inconveniente para realizar testing, pues un mismo test puede ser correcto para algunas ejecuciones de un programa y erróneo para otras. En particular, para mutation testing, no va a ser suficiente con ejecutar una vez el programa original y el mutante y comparar las salidas. En el marco que presentamos en esta memoria, se han tenido en cuenta dos alternativas que solventan este problema: realizar múltiples ejecuciones del programa o aprovechar las ventajas de trabajar con un simulador. Vamos a ver con detalle estas dos soluciones.
+\begin{figure}[t]
 \begin{lstlisting}[language=c++]
 using (register = Qubit[1]) {
 	
@@ -112,50 +92,35 @@ using (register = Qubit[1]) {
 \label{fig:code43}
 \end{figure}
 
-En el ejemplo simplemente transformamos un qubit que se encuentra en el estado $\ket{0}$ al estado $\tfrac{1}{\sqrt{2}}(\ket{0}+\ket{1})$ mediante una puerta Hadamard. En dicho estado, el qubit tiene las mismas probabilidades de arrojar como resultado $\ket{0}$ o $\ket{1}$ al realizar una medición sobre él. La variable de salida \textit{output} depende del resultado de esta medición.
-Es claro que distintas ejecuciones de este programa dan resultados diferentes.
-
-Esto supone un inconveniente para realizar testing, pues un mismo test puede ser correcto para algunas ejecuciones de un programa y erróneo para otras! En particular, para las pruebas de mutación, no va a ser suficiente con ejecutar una vez el programa original y el mutante y comparar las salidas. Se han tenido en cuenta dos alternativas que solventan este problema: realizar múltiples ejecuciones del programa o aprovechar las ventajas de trabajar con un simulador. Vamos a ver con detalle estas dos soluciones:
-
 \subsection{Valoración estadística de los outputs}
 
-Una primera manera de abordar este problema consiste en realizar un estudio estadístico de los resultados. Para ello se deberá ejecutar múltiples veces el programa original y, de igual manera, el mutante. El número de veces que se ejecutan estos programas es decidido por el encargado de testear, sabiendo que a medida que se aumenta el número de ejecuciones aumenta la fiabilidad del resultado. 
+Una primera manera de abordar este problema consiste en realizar un estudio estadístico de los resultados. Para ello, se deberá ejecutar múltiples veces el programa original y, de igual manera, el mutante. El número de veces que se ejecutan estos programas es decidido por el encargado de testear, sabiendo que a medida que se aumenta el número de ejecuciones aumenta la fiabilidad del resultado. 
 
-También es tarea del testeador decidir como comparar las salidas. Supongamos que un programa da como salida 2 valores. Podemos entender dicho output como un "todo" y por tanto un mutante moriría si los 2 valores de su salida no coinciden con los dos valores del programa original. Pero también podemos entender la salida como 2 valores independientes, y por lo tanto distinguir cuando un mutante coincide con el programa original en al menos uno de los valores de salida.
-
-Una vez que se decide como comparar las salidas y se ejecutan los programas correspondientes numerosas veces, hay que decidir una métrica estadística que nos permita dictaminar que mutantes mueren con un cierto valor de confianza. La métrica decidida en este trabajo se detalla en el siguiente capítulo.
+También es tarea del testeador decidir como comparar las salidas. Supongamos que un programa da como salida una tupla. Podemos entender dicho output como un {\it todo} y por tanto un mutante moriría si la tupla de salida no coincide íntegramente con la tupla retornada por el programa original. Pero también podemos entender dicha tupla como valores independientes. En ese caso, el el testeador debe distinguir cuantos elementos de las tuplas devueltas por el mutante y el programa original deben coincidir para matar o no a dicho mutante. Una vez que se decide como comparar las salidas y se ejecutan los programas correspondientes numerosas veces, hay que decidir una métrica estadística que nos permita dictaminar que mutantes mueren con un cierto valor de confianza. La métrica decidida en este trabajo se detalla en el siguiente capítulo.
 
 \subsection{Estado interno del simulador}
+\label{subsec:subsec432}
+Una segunda forma que nos permite solucionar el inconveniente del no determinismo en la computación cuántica es aprovechar el uso del simulador. Hoy en día, el acceso a un máquina cuántica es realmente limitado. Por ello, la mayor parte de los lenguajes de programación cuánticos han sido diseñados para ser ejecutados en una máquina tradicional. Esto se traduce en que los programas cuánticos corren sobre un simulador y, por lo tanto, los estados de los qubits están siendo simulados y almacenados en bits corrientes. Es por ello que, al menos en el caso de \textit{Qiskit} y \qsh, se pone a disposición del programador herramientas que permitan interaccionar con el simulador. Una de estas herramientas posibilita mirar las amplitudes de los qubits en el simulador sin alterar el estado de estos. Esto en el mundo cuántico real no es posible, pues al observar el estado de un qubit, como ya bien sabemos, colapsa. Sin embargo, en simulación podemos hacer uso de esta herramienta para comparar las salidas de nuestros test de una manera muy eficiente. Decimos que un mutante muere si el estado interno de los qubits tras la ejecución es diferente al estado interno del programa original. Nos gustaría recalcar que somos conscientes de que esta aproximación se puede ver, legítimamente, como {\it hacer trampas}. Sin embargo, consideramos que es adecuada para analizar programas cuánticos a la hora de detectar {\it faults} en los mismos, incluso teniendo en cuenta que, finalmente, se ejecutarán en un ordenador cuántico donde no será posible hacer esta trampa.
 
-Una segunda forma que nos permite solucionar el inconveniente del no determinismo en la computación cuántica es aprovechar el uso del simulador.
+Como no podría ser de otra forma en el mundo cuántico, hay una complicación adicional. Si nos limitamos a comprobar la igualdad entre dos qubits estaremos sopbrepasando el poder de distinción real que tenemos en el mundo cuántico. Por ello, debemos plantearnos la pregunta: ¿Cuando dos qubits son iguales?
 
-Hoy en día, el acceso a un máquina cuántica es realmente limitado. Por ello, la mayor parte de los lenguajes de programación cuánticos han sido diseñados para ser ejecutados en una máquina
-tradicional.
+Por un lado, en mecánica cuántica no se tienen en cuenta los cambios de \textit{fase globales} y consideramos que dos qubits son iguales módulo un cambio de fase, es decir, $\ket{\phi} =e^{i\theta}\ket{\phi}$. Esto se debe a que el operador de proyección es el mismo. Por tanto, las probabilidades que arrojan a la hora de medir son las mismas.
 
-Esto se traduce en que los programas cuánticos corren sobre un simulador, y por lo tanto, los estados de los qubits están siendo simulados y almacenados en bits corrientes. Es por ello que, al menos en el caso de \textit{Qiskit} y \qsh, se pone a disposición del programador herramientas que permitan interaccionar con el simulador.
+Además, los qubits que difieren por un cambio de \textit{fase relativo} de la forma: $\ket{\phi}= \alpha\ket{0} + e^{i\theta}\beta\ket{1}$ tienen las mismas probabilidades de medir $\ket{0}$ o $\ket{1}$ independientemente de la fase $\theta$ elegida (recordemos que $e^{i\theta}$ tiene modulo unidad).
 
-Una de estas herramientas posibilita mirar las amplitudes de los qubits en el simulador sin alterar el estado de estos. Esto en el mundo cuántico real no es posible, pues al observar el estado de un qubit, como ya bien sabemos, colapsa.
+Por lo tanto, a nivel de simulación, debemos considerar las probabilidades de medir $\ket{0}$ o $\ket{1}$ como factor para determinar si dos qubits son o no iguales.
 
-Sin embargo, en simulación podemos hacer uso de esta herramienta para comparar las salidas de nuestros test de una manera muy eficiente. Decimos que un mutante muere si el estado interno de los qubits tras la ejecución es diferente al estado interno del programa original.
-
-Para finalizar, hay que tener en cuenta un detalle muy importante. ¿ Qué significa que dos qubits sean iguales?
-
-Por un lado, en mecánica cuántica no se tienen en cuenta los cambios de \textit{fase globales}, y consideramos que dos qubits son iguales módulo un cambio de fase, es decir, $\ket{\phi} =e^{i\theta}\ket{\phi}$. Esto se debe a que el operador de proyección es el mismo, y por tanto las probabilidades que arrojan a la hora de medir son las mismas.
-
-Pero además, los qubits que difieren por un cambio de \textit{fase realtivo} de la forma: $\ket{\phi}= \alpha\ket{0} + e^{i\theta}\beta\ket{1}$ tienen las mismas probabilidades de medir $\ket{0}$ o $\ket{1}$ independientemente de la fase $\theta$ elegida (recordemos que $e^{i\theta}$ tiene modulo unidad).
-
-Por lo tanto, a nivel de simulación, podemos considerar las probabilidades de medir $\ket{0}$ o $\ket{1}$ como factor para determinar si dos qubits son o no iguales.
-
-Estos son los principales inconvenientes que hemos encontrado a la hora de trasladar las ideas del mutation testing al mundo cuántico. Veamos ahora con detalle como se han desarrollado estos conceptos para los dos lenguajes que conciernen a este trabajo
 
 \section{Mutation Testing en \textit{Qiskit} y \qsh}
 
-En esta última sección de capítulo vamos a centrarnos principalmente en proceso llevado a cabo para el diseño de los operadores mutantes. Tanto la especificación de los inputs para los test, como la resolución de las muertes de los mutantes se detallarán el el siguiente capítulo, pues incide de manera más directa con el diseño del programa.
+En este capítulo hemos analizado  los principales inconvenientes que hemos encontrado a la hora de trasladar las ideas del mutation testing al mundo cuántico. Veamos ahora como se han desarrollado estos conceptos para los dos lenguajes que se consideran en este trabajo.
 
-La primera decisión importante que se tuvo que realizar es decir qué métodos eran candidatos a ser mutados. Tanto \textit{Qiskit} como \qsh son lenguajes que tiene una serie de métodos cuánticos, pero también están dotados de elementos clásicos como pueden ser: bucles, sentencias condicionales, tipos primitivos básicos... Como el mutation testing ya ha sido aplicado a este último tipo de elementos, se decidió orientar el trabajo al mundo cuántico, y por lo tanto, solo se han tenido en cuenta como candidatos a operadores de mutación aquellos métodos puramente cuánticos.
+En esta última sección del capítulo vamos a centrarnos principalmente en el proceso llevado a cabo para el diseño de los operadores de mutación. Tanto la especificación de los inputs para los test, como la resolución de las muertes de los mutantes se detallarán en el siguiente capítulo, pues incide de manera más directa en el diseño del sistema desarrollado.
 
-Para el lenguaje \textit{Qiskit} se ha tenido en cuanta principalmente el intercambio de puertas cuánticas como operador de mutación. Se consideró que era altamente factible que un programador confundiese dos puertas cuánticas y cometiese este tipo de error.
+La primera decisión importante que se tuvo que realizar es decir qué elementos del lenguaje  eran candidatos a ser mutados. Tanto \textit{Qiskit} como \qsh\ son lenguajes que tienen una serie de métodos cuánticos, pero también están dotados de elementos clásicos como pueden ser bucles, sentencias condicionales o tipos primitivos básicos. Como mutation testing ya ha sido aplicado a este último tipo de elementos, se decidió orientar el trabajo al mundo cuántico y, por tanto, sólo se han tenido en cuenta como candidatos a operadores de mutación aquellos elementos puramente cuánticos.
 
-A su vez, para \qsh también se consideró este tipo de operador de mutación pero, además, se añadió un nuevo modelo de operador. En este lenguaje hay una serie de constantes que son de naturaleza puramente cuántica. Por un lado tenemos los resultados al realizar una medición, que vienen dados por las constantes \textit{Zero} y \textit{One}, y por otro lado las constantes relativas a los ejes de la esfera de Bloch: \textit{PauliX}, \textit{PauliY} y \textit{PauliZ}. Estos constantes se utilizan para especificar sobre qué eje se desea medir o a la hora de aplicar una rotación, entre otros. Se ha considerado como operador de mutación el intercambio de \textit{Zero} por \textit{One} y viceversa, así como cualquier intercambio dentro de los operadores de Pauli.
+Para el lenguaje \textit{Qiskit} se ha tenido en cuenta principalmente el intercambio de puertas cuánticas. De hecho, se consideró que era altamente probable que un programador confundiese dos puertas cuánticas y cometiese este tipo de error.
 
-Por último, a muchos de los métodos de \qsh se les puede aplicar el functor \textit{Adjoint}, que proporciona la versión adjunta del método. Se ha considerado también como operador de mutación que al programador se le olvide aplicar dicho functor.
+En el caso de \qsh\ también se consideró este tipo de operador de mutación pero, además, se añadió un nuevo tipo de operador. En este lenguaje hay una serie de constantes que son de naturaleza puramente cuántica. Por un lado, tenemos los resultados al realizar una medición, que vienen dados por las constantes \textit{Zero} y \textit{One} y, por otro lado, las constantes relativas a los operadores de Pauli: \textit{PauliX}, \textit{PauliY} y \textit{PauliZ}. Estas constantes se utilizan a la hora de especificar sobre qué eje se desea medir o a la hora de aplicar una rotación, entre otros. Se ha considerado como operador de mutación el intercambio de \textit{Zero} por \textit{One} y viceversa, así como cualquier intercambio dentro de los operadores de Pauli.
+
+Por último, a muchos de los métodos de \qsh\ se les puede aplicar el functor \textit{Adjoint}, que proporciona la versión adjunta del método. Se ha considerado también como mutación que al programador se le olvide aplicar dicho functor.

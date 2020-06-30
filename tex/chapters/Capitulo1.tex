@@ -1,38 +1,36 @@
 \chapter{Introducción histórica}
 
-\section{Antecedentes históricos (español)}
-A principios del siglo XX se produjo un giro de guión en el mundo de la física, con la aparición de la teoría de la mecánica cuántica. Más adelante, hacia mediados de siglo, aparecen los primeros artículos sobre computación. No sería hasta 1982 cuando Richard Feynman trató de unificar el mundo de la computación con el mundo cuántico, planteando cómo se podría representar sistemas físicos a través de computadores [\cite{feynman1982simulating}].
-
+\section{Antecedentes históricos y actualidad (español)}
+A principios del siglo XX se produjo un giro de guión en el mundo de la Física con la aparición de la teoría de la mecánica cuántica. Más adelante, hacia mediados de siglo, aparecen los primeros artículos sobre computación. No sería hasta 1982 cuando Richard Feynman trató de unificar el mundo de la computación con el mundo cuántico, planteando cómo se podrían representar sistemas físicos a través de computadores [\cite{feynman1982simulating}].
+%
 Unos años más tarde, en 1985, David Deutsch propone el concepto de \textit{universal quantum computing}, una máquina con una serie de propiedades no reproducibles por las máquinas de Turing clásicas [\cite{deutsch1985quantum}].
+%
+Sin embargo, todavía no era claro que este tipo de computador cuántico pudiese competir, a nivel de rendimiento, con un computador clásico. Hubo que esperar hasta 1992 para que David Deutsch y Richard Jozsa propusieran un problema muy particular cuya solución clásica se ve mejorada exponencialmente mediante el uso de un algoritmo cuántico [\cite{deutsch1992rapid}]. Aunque esta solución se diese desde un marco teórico, se comenzaba a entrever ya el potencial de la computación cuántica.
+%
+A pesar de ello, todavía no había un algoritmo cuántico que mejorase la solución a un problema real, pues el problema propuesto por David Deutsch y Richard Jozsa se desarrollaba en un escenario muy particular. Fue en 1994 cuando Peter Shor [\cite{shor1994algorithms}] mostró un algoritmo cuántico capaz de factorizar enteros de manera eficiente, poniendo en jaque al sistema criptográfico de clave pública RSA.
+%
 
-Sin embargo, todavía no era claro que este tipo de computador cuántico pudiese competir a nivel de rendimiento frente a un computador clásico. Hubo que esperar hasta 1992 cuando David Deutsch y Richard Jozsa proponen un problema muy particular cuya solución clásica se ve mejorada exponencialmente mediante el uso de un algoritmo cuántico [\cite{deutsch1992rapid}]. Aunque esta solución se diese desde un marco teórico, se comienza a entrever el potencial de la computación cuántica.
+A raíz del algoritmo propuesto por Peter Shor, el interés en la computación cuántica se ha ido incrementando con el paso de los años. Se realizan las primeras demostraciones experimentales de algoritmos cuánticos sobre una máquina física [\cite{jones1998implementation}] y aparecen los primeros computadores potencialmente escalables formados por \textit{qubits} [\cite{haffner2005scalable}].
+%
+En los últimos años grandes empresas tecnológicas como IBM, Microsoft o Google han entrando en juego. Sería esta última la que en 2019 anuncia haber alcanzado la \textit{supremacía cuántica} [\cite{arute2019quantum}], es decir, por primera vez un ordenador cuántico mejora sustancialmente el rendimiento frente a un computador clásico de manera empírica.
 
-A pesar de ello, todavía no había un algoritmo cuántico que mejorase la solución a un problema real, pues el problema propuesto por David Deutsch y Richard Jozsa era un escenario muy particular. Fue en 1994 cuando Peter Shor [\cite{shor1994algorithms}] mostró un algoritmo cuántico capaz de factorizar enteros de manera eficiente, poniendo en jaque el sistema criptográfico de clave pública RSA.
+La computación clásica no se vio frenada por los avances en el mundo cuántico. De hecho, el continuo desarrollo de programas cada vez más complejos incrementó la necesidad de comprobar el correcto funcionamiento de los mismos. Así surgió una  rama de la Ingeniería del Software, el \textit{testing}, que ha ido evolucionando a lo largo de los años con diversas técnicas tales como la que consideramos en esta memoria: \textit{mutation testing}. 
+%
+Recientemente ha aparecido  un interés en la aplicación de testing a programas cuánticos [\cite{usaolaquantum}] aunque nos encontramos en una fase muy preliminar, más enfocada en identificar los campos de aplicación que en desarrollar nuevas teorías. En esta línea, se está estudiando como  adaptar las técnicas de testing ya desarrolladas para programación clásica al mundo de la programación cuántica, respetando las particularidades de este último. 
+%
+Sin embargo, no conocemos ninguna herramienta de testing para validar el comportamiento de programas cuánticos.
 
-Por otro lado, la computación clásica no se vió frenada por los avances en el mundo cuántico, y con el continuo desarrollo de programas, apareció la necesidad de comprobar el correcto funcionamiento de estos programas. Así surgió una nueva rama de la Ingeniería del Software, el \textbf{Testing}, que ha ido evolucionando con los años con nuevas técnicas: \textit{white-box testing}, \textit{metamorphic testing}, \textit{mutation testing}... Sin embargo, el testing se ha visto orientado más hacia el \textit{software} clásico, y apenas se encuentran herramientas de testing útiles para verificar el comportamiento de programas cuánticos. 
+De esta forma, surge la idea de desarrollar una herramienta que permita aplicar una  técnica de testing, \textit{mutation testing}, sobre dos de los lenguajes de programación cuánticos más relevantes en el momento: el lenguaje de IBM \textit{Qiskit} y el lenguaje de Microsoft \qsh.
 
-\section{Historical background (English)}
+\section{Historical and current background (English)}
+
 \begin{otherlanguage}{british}
-In the beginning of the XX century the physics field suffered a sudden change with the outbreak of quantum mechanics. Few decades after, the world witnesses the first computation articles. It was not until 1982 when Richard Feynman tried to unify the computation world with the physics one, raising how physics systems could be implemented via computers [\cite{feynman1982simulating}].
+In the beginning of the XX century the physics field suffered a sudden change with the outbreak of quantum mechanics. Few decades after, the world witnesses the first computation articles. It was not until 1982 when Richard Feynman tried to unify the computation world with the physics one, raising how physics systems could be implemented via computers [\cite{feynman1982simulating}]. A few years after, in 1985, David Deutsch came up with the idea of \textit{universal quantum computing}, a machine with some special properties that could not be replicated by classic Turing machines [\cite{deutsch1985quantum}]. However, it was not obvious that a quantum computer could face performance-wise a classic machine. We would had to wait until 1992 when David Deutsch and Richard Jozsa suggest a very particular problem for which solution could exponentially benefit from applying a quantum algorithm [\cite{deutsch1992rapid}]. Even though this solution was just proposed in a theoretical way, the potential of quantum programming started to be notable. Despite this progress, there was not a quantum algorithm which improved the solution for a real problem, because the Deutsch and  Jozsa problem was too concrete. It was in 1994 when Peter Shor [\cite{shor1994algorithms}] came up with a quantum algorithm capable of factorizing prime whole numbers, challenging the security of the RSA public-key cryptosystem.
 
-A few years after, in 1985, David Deutsch came up with the idea of \textit{universal quantum computing}, a machine with some special properties that could not be replicated by classic Turing machines[\cite{deutsch1985quantum}].
-
-However, it was not obvious that a quantum computer could face performance-wise a classic machine. We would had to wait until 1992 when David Deutsch and Richard Jozsa suggest a very particular problem for which solution could exponentially benefit from applying a quantum algorithm [\cite{deutsch1992rapid}]. Even though this solution was just proposed in a theoretical way, the potential of quantum programming started to be notable.
-
-Despite this progress, there was not a quantum algorithm which improved the solution for a real problem, because the Deutsch and  Jozsa problem was too concrete. It was in 1994 when Peter Shor [\cite{shor1994algorithms}] came up with a quantum algorithm capable of factorizing prime whole numbers, challenging the security of the RSA public-key cryptosystem.
+As a result of the algorithm proposed by Peter Shor, interest in quantum computing has increased over the years. The first experimental demonstrations of quantum algorithms on a physical machine are carried out [\cite{jones1998implementation}] and the first potentially scalable computers formed by qubits appear [\cite{haffner2005scalable}]. In recent years large technology companies such as IBM, Microsoft or Google have come into play. It is the latter that in 2019 announces having achieved \textit{quantum supremacy} [\cite{arute2019quantum}], i.e. for the first time a quantum computer substantially improves performance compared to a classic computer in an empirical way.
 
 On another front, classic computation was not slowed by the outbreaks on the quantum field, and with the continuous software developement, the need of verifying these programs suffered a boost.
-That is how \textbf{Testing} appeared as a new area in Software Engineering. Testing has evolved over the years with new techniques: \textit{white-box testing}, \textit{metamorphic testing}, \textit{mutation testing}... However, testing has been oriented towards classic computing, and there are few little tools focused on verifying the behavior of quantum software.
+That is how \textit{Testing} appeared as a new area in Software Engineering. Testing has evolved over the years with new techniques, such as the one considered in this report:\textit{mutation testing}. Recently there has been a small increase in interest in the application of testing to quantum programs [\cite{usaolaquantum}] athough we are in a very preliminary phase, more focused on identifying fields of application than on developing new theories. In this line, we are studying how to extrapolate the testing techniques already developed for classical programming to the world of quantum programming, taking into account the particularities of the latter. However, we do not know any testing tools to validate the behavior of quantum programs. 
+
+In this way, the idea arises to develop a tool that allows the application of one of these techniques, \textit{mutation testing}, on two of the most relevant quantum programming languages at the moment: IBM \textit{Qiskit} language and Microsoft \qsh\ language.
 \end{otherlanguage}
-
-\section{En la actualidad}
-
-A raíz del algoritmo propuesto por Peter Shor, el interés en la computación cuántica se ha ido incrementando con el paso de los años. Se realizan las primeras demostraciones experimentales de algoritmos cuánticos sobre una máquina física [\cite{jones1998implementation}], aparecen los primeros computadores potencialmente escalables formados por \textit{qubits} [\cite{haffner2005scalable}] ... 
-
-En los últimos años grandes empresas tecnológicas como IBM, Microsoft o Google han entrando en juego.
-Sería esta última la que en 2019 anuncia haber alcanzado la \textbf{supremacía cuántica} [\cite{arute2019quantum}], es decir, por primera vez un ordenador cuántico mejora sustancialmente el rendimiento frente a un computador clásico de manera empírica.
-
-Por otro lado, a lo largo de la última década también se ha visto un pequeño despunte en el interés de la aplicación de testing a programas cuánticos [\cite{usaolaquantum}]. Se está estudiando como poder extrapolar las técnicas de testing ya desarrolladas para programación clásica al mundo de la programación cuántica, respetando las particularidades de este último.
-
-De esta forma, surge la idea desarrollar una herramienta que permita realizar una de estás técnicas, \textit{mutation testing}, sobre dos de los lenguajes de programación cuánticos más relevantes en el momento: el lenguaje de IBM \textit{Qiskit} y el lenguaje de Microsfot \textit{\qsh}.
-

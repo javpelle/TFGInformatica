@@ -2,6 +2,23 @@
 
 \bibliography{bibliography/bibliography}
 
+
+\newcommand{\mncomment}[1]{\textcolor{red}{MNComment: #1}}
+\newcommand{\mgmcomment}[1]{\textcolor{orange}{MGMComment: #1}}
+\newcommand{\lpcomment}[1]{\textcolor{blue}{Santiscomment: #1}}
+\newcommand{\pellecomment}[1]{\textcolor{purple}{Pellecomment: #1}}
+
+\tracingpages1
+\tracingoutput1
+
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+    \hbox{}
+    \thispagestyle{plain}
+    \newpage
+    \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother \clearpage{\pagestyle{plain}\cleardoublepage}
+
 \begin{document}
 
 % Portada, página en blanco, cita e índice
@@ -18,7 +35,6 @@
 
 % Introducción histórica
 \input{chapters/Capitulo1.tex}
-
 % Introducción a la computación cuántica
 \input{chapters/Capitulo2.tex}
 
@@ -31,11 +47,17 @@
 % Gestión, planificación y desarrollo del proyecto de software
 \input{chapters/Capitulo5.tex}
 
-% Ejemplos y conclusiones
+% Ejemplo de uso de MTQC
 \input{chapters/Capitulo6.tex}
 
+% Conclusiones
+\input{chapters/Capitulo7.tex}
+
 \newpage
+
 \addcontentsline{toc}{chapter}{Bibliografía}
 \nocite{*}
+
 \printbibliography
+
 \end{document}

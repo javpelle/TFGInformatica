@@ -1,38 +1,29 @@
-\chapter{Ejemplos y conclusiones}
+\chapter{Ejemplo de uso de MTQC}
 
-Vamos a dar uso a MTQC. Implementaremos el algoritmo de \textit{Deutsch-Jozsa} [\cite{deutsch1992rapid}] en los lenguajes \textit{Qiskit} y \qsh\ y aplicaremos pruebas de mutación sombre ambos códigos. Antes veremos que problema plantea dicho algoritmo.
-
-Por último se discuten algunas ideas propicias para la mejora y continuidad del proyecto.
+En este capítulo mostramos un ejemplo del uso de MTQC. Implementaremos el algoritmo de \textit{Deutsch-Jozsa} [\cite{deutsch1992rapid}] en los lenguajes \textit{Qiskit} y \qsh\ y aplicaremos pruebas de mutación sobre ambos códigos. Antes veremos que problema plantea dicho algoritmo.
 
 \section{Pruebas de mutación sobre Deutsch-Jozsa}
 
-Sea $\function{f}{\{0,1\}^n}{\{0,1\}}$ una función binaria que bien puede ser constante ($f(x) = 0$ o $f(x) = 1$ para todo $x\in\{0,1\}^n$) o bien es balanceada (la salida es 0 para la mitad de entradas y 1 para la otra mitad). Desde el punto de vista clásico, en el caso peor hay que verificar $2^{n-1}+1$ entradas para resolver el problema. El algoritmo cuántico de \textit{Deutsch-Jozsa} lo resuelve en una sola iteración.
+Sea $\function{f}{\{0,1\}^n}{\{0,1\}}$ una función binaria que bien puede ser constante ($f(x) = 0$ o $f(x) = 1$ para todo $x\in\{0,1\}^n$) o bien es balanceada (la salida es 0 para la mitad de entradas y 1 para la otra mitad). El problema consiste en determinar qué tipo de función es. Desde el punto de vista clásico, como el número de entradas de $f$ es $2^n$, el caso peor se da cuando las $2^{n-1}$ primeras salidas devuelven el mismo valor. Por ello debemos verificar $2^{n-1}+1$ salidas para determinar si estamos en el caso constante o el balanceado. El algoritmo cuántico de \textit{Deutsch-Jozsa} lo resuelve en una sola iteración.
 
-\subsection{Algoritmo Deutch-Jozsa}
+\subsection{Algoritmo Deutsch-Jozsa}
 
-Previamente a mostrar el código de nuestro ejemplo particular, analicemos en detalle cada paso del que consta el algoritmo de Jozsa.
+Previamente a mostrar el código de nuestro ejemplo, analizamos en detalle cada paso del que consta el algoritmo de Jozsa. En primer lugar, si nuestra función $f$ toma valores en $\{0,1\}^n$, debemos crear un circuito con $n + 1$ qubits. Todos los qubits deberan tomar el estado $\ket{0}$ menos el último de ellos, que utilizaremos como auxiliar e inicializamos al estado $\ket{1}$. De esta forma, nuestro sistema se encuentra en un primer estado dado por:
+\[\ket{\phi_0} = \ket{0\overset{n}{\cdots}01}\]
 
-En primer lugar, si nuestra función $f$ toma valores en $\{0,1\}^n$, debemos crear un circuito con $n + 1$ qubits. Todos los qubits deberan tomar el estado $\ket{0}$ menos el último de ellos, que utilizaremos como auxiliar e inicializamos al estado $\ket{1}$. De esta forma nuestro sistema se encuentra en un primer estado dado por:
-\begin{equation}
-\ket{\phi_0} = \ket{0\overset{n}{\cdots}01}
-\end{equation}
+A continuación, aplicamos una puerta \textit{Hadamard} a cada qubit, obteniendo de esta forma el siguiente estado:
+$$\ket{\phi_1} = \dfrac{1}{\sqrt{2^{n+1}}} \sum\limits_{i=0}^{2^n - 1} \ket{i}(\ket0-\ket1) 
+$$
+donde $i$ se corresponde con su representación binaria.
+Posteriormente, hay que aplicar el operador $U_f$ tal y como fue definido en la sección~\ref{uf}. Si denotamos por $x$ a los $n$ qubits de entrada y por $y$ al qubit auxiliar se tiene:
+$$U_f\colon \begin{matrix}x&\longrightarrow& x\\ \y&\longrightarrow& y\oplus f(x)\end{matrix}
+$$
 
-A continuación, aplicamos una puerta Hadamard a cada qubit, obteniendo de esta forma el siguiente estado:
-\begin{equation}
-\ket{\phi_1} = \dfrac{1}{\sqrt{2^{n+1}}} \sum\limits_{i=0}^{2^n - 1} \ket{i}(\ket0-\ket1) \textrm{, donde $i$ se corresponde con su representación binaria.}
-\end{equation}
-
-Posteriormente, hay que aplicar el operador $U_f$ tal y como fue definido en \ref{uf}. Si denotamos por $x$ a los $n$ qubits de entrada y por $y$ al qubit auxiliar se tiene:
-\begin{equation}
-U_f\colon \begin{matrix}x&\longrightarrow& x\\ \y&\longrightarrow& y\oplus f(x)\end{matrix}
-\end{equation}
-
-El diseño de esta $U_f$ puede ser muy complejo, dependiendo de cómo sea la función $f$. En nuestro ejemplo hemos escogido una función que facilita la creación del operador $U_f$.
-
+El diseño de esta $U_f$ puede ser muy complejo, dependiendo de cómo sea la función $f$. En nuestro ejemplo hemos elegido una función que facilita la creación del operador $U_f$.
+%
 Tras aplicar el operador $U_f$, se obtiene un tercer estado dado por:
-\begin{equation}
-\ket{\phi_2} = \dfrac{1}{\sqrt{2^{n+1}}} \sum\limits_{i=0}^{2^n - 1} \ket{i}(\ket{f(i)}-\ket{1\oplus f(i)}) 
-\end{equation}
+$$\ket{\phi_2} = \dfrac{1}{\sqrt{2^{n+1}}} \sum\limits_{i=0}^{2^n - 1} \ket{i}(\ket{f(i)}-\ket{1\oplus f(i)}) 
+$$
 
 Ahora, como $f(i)$ sólo puede tomar valores binarios, podemos simplificar la expresión anterior:
 \begin{equation}
@@ -40,71 +31,63 @@ Ahora, como $f(i)$ sólo puede tomar valores binarios, podemos simplificar la ex
 \label{phi2}
 \end{equation}
 
-
 A partir de este punto, el estado del último qubit $\dfrac{1}{\sqrt{2}}(\ket0-\ket1)$ puede ser ignorado, pues no será relevante para el resto de cálculos.
-
-A continuación, debemos aplicar una puerta Hadamard a cada uno de los $n$ qubits restantes. Previamente a realizar dicha operación, vamos a ver cómo una representación matemática de la aplicación simultanea de puertas Hadamard que facilita la comprensión de la parte final del algoritmo.
-
-Cuando contamos con un sólo qubit, una puerta Hadamard sabemos que viene dada por: \[\gatetwo{H}{\dfrac{1}{\sqrt{2}}(\ket0+\ket1)}{\dfrac{1}{\sqrt{2}}(\ket0-\ket1)}\]
+%
+A continuación, debemos aplicar una puerta \textit{Hadamard} a cada uno de los $n$ qubits restantes. Previamente a realizar dicha operación, vamos a ver una representación matemática de la aplicación simultánea de puertas \textit{Hadamard} que facilita la comprensión de la parte final del algoritmo.
+%
+Cuando contamos con un solo qubit, una puerta \textit{Hadamard} viene dada por: \[\gatetwo{H}{\dfrac{1}{\sqrt{2}}(\ket0+\ket1)}{\dfrac{1}{\sqrt{2}}(\ket0-\ket1)}\]
 
 Por tanto, podemos escribir el caso general, donde $x=0$ o $x=1$ como:
-\begin{equation}
-H\ket{x} = \tfrac{1}{\sqrt{2}}\sum\limits_{z\in\{0,1\}} (-1)^{x\cdot z}\ket{z} \textrm{, donde $x\cdot z$ denota el producto escalar bit a bit, módulo 2.}
-\end{equation}
-
-Veamos ahora el caso con 2 qubits a los que aplicamos una puerta Hadamard a cada uno:
-\begin{equation}
-\begin{split}
-H^{\otimes 2}\ket{x_1,x_2} & = H\ket{x_1} \otimes H\ket{x_2} \\
-& = \tfrac{1}{\sqrt{2}}\sum\limits_{z_1\in\{0,1\}} (-1)^{x_1\cdot z_1}\ket{z_1} \otimes \tfrac{1}{\sqrt{2}}\sum\limits_{z_2\in\{0,1\}} (-1)^{x_2\cdot z_2}\ket{z_1} \\
+$$H\ket{x} = \tfrac{1}{\sqrt{2}}\sum\limits_{z\in\{0,1\}} (-1)^{x\cdot z}\ket{z}
+$$
+donde $x\cdot z$ denota el producto escalar bit a bit, módulo 2. 
+%
+Veamos ahora el caso específico en el que tenemos $2$ qubits y, por tanto,  aplicamos una puerta \textit{Hadamard} a cada uno de ellos:
+%
+$$\begin{array}{ll}
+H^{\otimes 2}\ket{x_1,x_2} & = H\ket{x_1} \otimes H\ket{x_2} \\[0.5em]
+& = \tfrac{1}{\sqrt{2}}\sum\limits_{z_1\in\{0,1\}} (-1)^{x_1\cdot z_1}\ket{z_1} \otimes \tfrac{1}{\sqrt{2}}\sum\limits_{z_2\in\{0,1\}} (-1)^{x_2\cdot z_2}\ket{z_1} \\[0.5em]
 & = \tfrac{1}{\sqrt{2^2}}\sum\limits_{z_1,z_2\in\{0,1\}} (-1)^{x_1\cdot z_1+x_2\cdot z_2}\ket{z_1,z_2}
-\end{split}
-\end{equation}
+\end{array}
+$$
 
-De esta misma forma, podemos representar la aplicación de puertas Hadamard a $n$ qubits como:
-\begin{equation}
-\begin{split}
-H^{\otimes n}\ket{x_1,\cdots,x_n} & = \tfrac{1}{\sqrt{2^n}}\sum\limits_{z_1,\cdots,z_n\in\{0,1\}} (-1)^{x_1\cdot z_1+\cdots+x_n\cdot z_n}\ket{z_1,\cdots,z_n}
-\end{split}
-\end{equation}
+De esta misma forma, podemos representar la aplicación de puertas  \textit{Hadamard} a $n$ qubits como se muestra a continuación:
+$$
+H^{\otimes n}\ket{x_1,\cdots,x_n}  = \tfrac{1}{\sqrt{2^n}}\sum\limits_{z_1,\cdots,z_n\in\{0,1\}} (-1)^{x_1\cdot z_1+\cdots+x_n\cdot z_n}\ket{z_1,\cdots,z_n}
+$$
 
 Si retomamos ahora la notación para el sumatorio utilizada a lo largo de la demostración, podemos expresar el resultado anterior como:
-\begin{equation}
-\begin{split}
-H^{\otimes n}\ket{x_1,\cdots,x_n} & = \tfrac{1}{\sqrt{2^n}}\sum\limits_{z=0}^{2^n-1} (-1)^{x\cdot z}\ket{z}
-\end{split}
-\end{equation}
+$$
+H^{\otimes n}\ket{x_1,\cdots,x_n}  = \tfrac{1}{\sqrt{2^n}}\sum\limits_{z=0}^{2^n-1} (-1)^{x\cdot z}\ket{z}
+$$
 
-Por tanto, partiendo de la expresión \ref{phi2}, si aplicamos una puerta Hadamard a los $n$ primeros qubits (recordemos que el estado del último qubit ya no era relevante),
+Por tanto, partiendo de la expresión recogida en la ecuación~\ref{phi2}, si aplicamos una puerta  \textit{Hadamard}  a los $n$ primeros qubits (recordemos que el estado del último qubit ya no era relevante),
 se obtiene un nuevo estado $\phi_3$ dado por:
-
 \begin{equation}
 \begin{split}
-\ket{\phi_3} & = \dfrac{1}{\sqrt{2^{n}}} \sum\limits_{i=0}^{2^n - 1} (-1)^{f(i)}\left[\dfrac{1}{\sqrt{2^{n}}}\sum\limits_{j=0}^{2^n - 1}(-1)^{i\cdot j}\ket{j}\right] \\
+\ket{\phi_3} & = \dfrac{1}{\sqrt{2^{n}}} \sum\limits_{i=0}^{2^n - 1} (-1)^{f(i)}\left[\dfrac{1}{\sqrt{2^{n}}}\sum\limits_{j=0}^{2^n - 1}(-1)^{i\cdot j}\ket{j}\right] \\[0.7em]
 & = \dfrac{1}{2^n}\sum\limits_{j=0}^{2^n - 1}\left[\sum\limits_{i=0}^{2^n - 1}(-1)^{f(i)}(-1)^{i\cdot j}\right]\ket{j}
 \end{split}
 \label{phi3}
 \end{equation}
 
 Una vez que hayamos obtenido este estado, vamos a estudiar cual es la probabilidad de obtener el estado $\ket{0\overset{n}{\cdots}0}$ al medir los $n$ primeros qubits.
-
-En virtud de (\ref{phi3}), el cuadrado de la amplitud del estado $\ket{0\overset{n}{\cdots}0}$ viene dada por:
-
-\begin{equation}
-\begin{split}
-& \left|\dfrac{1}{2^n}\sum\limits_{i=0}^{2^n - 1}(-1)^{f(i)}(-1)^{i\cdot j}\right|^2 \\ 
-= &\left|\dfrac{1}{2^n}\sum\limits_{i=0}^{2^n - 1}(-1)^{f(i)}\right|^2 \textrm{, ya que j = $0\overset{n}{\cdots}0$}
-\end{split}
-\end{equation}
-
-Por tanto, si la \emph{función $f$ es balanceada}, la mitad de los términos $(-1)^{f(i)}$ evaluaran a $1$, mientras que la otra mitad a $-1$, otorgando por tanto \emph{probabilidad 0} de obtener el estado 
+%
+En virtud de la ecuación~\ref{phi3}, el cuadrado de la amplitud del estado $\ket{0\overset{n}{\cdots}0}$ viene dado por:
+$$
+\left|\dfrac{1}{2^n}\sum\limits_{i=0}^{2^n - 1}(-1)^{f(i)}(-1)^{i\cdot j}\right|^2  
+= \left|\dfrac{1}{2^n}\sum\limits_{i=0}^{2^n - 1}(-1)^{f(i)}\right|^2 
+$$
+ya que $j = 0\overset{n}{\cdots}0$.
+%
+Por tanto, si la función $f$ es \emph{balanceada}, la mitad de los términos $(-1)^{f(i)}$ evaluaran a $1$, mientras que la otra mitad evaluarán a $-1$, otorgando por ello \emph{probabilidad $0$} de obtener el estado 
 $\ket{0\overset{n}{\cdots}0}$.
+%
+Si, por el contrario, la función $f$ es \emph{constante}, entonces todos los términos $(-1)^{f(i)}$ tendrán el mismo signo, no cancelándose entre ellos y, por ellos, se obtendrá  \emph{probabilidad $1$} de medir el estado $\ket{0\overset{n}{\cdots}0}$.
 
-Si por el contrario la \emph{función $f$ es constante}, entonces todos los términos $(-1)^{f(i)}$ tendrán el mismo signo, no cancelándose entre ellos, y por tanto obteniendo \emph{probabilidad 1} de medir el estado $\ket{0\overset{n}{\cdots}0}$.
+De esta forma, se puede discernir de manera completamente determinista si la función $f$ es constante o balanceada. En la figura~\ref{fig:fig61} podemos ver el circuito que resume todo lo contado anteriormente.
 
-De esta forma, se puede discernir de manera completamente determinista si la función $f$ es constante o balanceada. En la figura \ref{fig:fig61} podemos ver el circuito que resume todo lo contado anteriormente.
-
-\begin{figure}[!htb]
+\begin{figure}[tb]
 \[\Qcircuit @C=1em @R=.7em {
 \lstick{\ket{0}} & \qw & \gate{H} & \qw &\multigate{4}{U_f}&\qw& \gate{H} & \qw & \meter & \qw \\
 \lstick{\ket{0}} & \qw & \gate{H} & \qw & \ghost{U_f}      &\qw& \gate{H} & \qw & \meter & \qw \\
@@ -117,18 +100,18 @@ De esta forma, se puede discernir de manera completamente determinista si la fun
 
 \subsection{Deutsch-Jozsa en MTQC}
 
-Una vez que hemos visto cuales son los pasos a aplicar para ejecutar el algoritmo de Deutsch-Jozsa, se procede a exponer el código de dicho algoritmo para los lenguajes $\qsh$ y \textit{Qiskit} además de las funciones $f$ utilizadas. Empecemos por estas últimas.
-
+Una vez que hemos visto cuales son los pasos a aplicar para ejecutar el algoritmo de Deutsch-Jozsa, se procede a exponer el código de dicho algoritmo para los lenguajes $\qsh$ y \textit{Qiskit}, además de las funciones $f$ utilizadas. Empecemos por estas últimas.
+%
 Emplearemos 3 funciones $\{0,1\}^4\longrightarrow\{0,1\}$ que vienen definidas por:
 \begin{itemize}
-\item $f_1(x_1,x_2,x_3,x_4)=\left\{\begin{matrix}1 \mathrm{\ si\ } x_1=1\\0 \mathrm{\ si\ } x_1=0\end{matrix}\right.$, por lo que se trata de una función balanceada.
+\item $f_1(x_1,x_2,x_3,x_4)=\left\{\begin{matrix}1 \mathrm{\ si\ } x_1=1\\0 \mathrm{\ si\ } x_1=0\end{matrix}\right.$
 
-\item $f_2(x_1,x_2,x_3,x_4)=0$, por lo que se trata de una función constante.
+\item $f_2(x_1,x_2,x_3,x_4)=0$.
 
-\item $f_3(x_1,x_2,x_3,x_4)=1$, por lo que se trata de una función constante.
+\item $f_3(x_1,x_2,x_3,x_4)=1$.
 \end{itemize}
 
-\begin{figure}[!htb]
+\begin{figure}[tb]
 \begin{lstlisting}[language=Python]
 def deutschjozsa (qc, qr, cr, uf):
     if len(qr) != 5:
@@ -170,43 +153,45 @@ def uf_3 (qc, qr):
 \label{fig:code62}
 \end{figure}
 
-Las $U_f$ respectivas son fáciles de implementar. En el primer caso basta con aplicar una puerta CNOT empleando como controlador el qubit correspondiente al bit $x_1$ y como qubit receptor el de salida. En el caso de $U_{f_2}$ no hay que realizar ninguna operación, aunque pondremos simbólicamente la puerta identidad aplicada al qubit de salida. Por último, $U_{f_3}$ viene determinada por una puerta $X$ aplicada al qubit de salida.
+Es inmediato observar que la primera de estas funciones está balanceada mientras que las otras dos son constantes.
+%
+Las $U_f$ respectivas son fáciles de implementar. En el primer caso basta con aplicar una puerta {\it CNOT} empleando como controlador el qubit correspondiente al bit $x_1$ y como qubit receptor el de salida. En el caso de $U_{f_2}$ no hay que realizar ninguna operación, aunque pondremos simbólicamente la puerta identidad aplicada al qubit de salida. Por último, $U_{f_3}$ viene determinada por una puerta $X$ aplicada al qubit de salida.
+%
+En la figura~\ref{fig:code62} podemos ver el código en \textit{Qiskit} de la implementación del algoritmo de \textit{Deutsch-Jozsa} para un sistema de 5 qubits y cada una de las funciones $U_f$ expresadas anteriormente, mientras que en la figura \ref{fig:code63} encontramos el mismo algoritmo en \qsh.
 
-En la figura \ref{fig:code62} podemos ver el código en \textit{Qiskit} de la implementación del algoritmo de \textit{Deutsch-Jozsa} para un sistema de 5 qubits y cada una de las funciones $U_f$ expresadas anteriormente, mientras que en la figura \ref{fig:code63} encontramos el mismo algoritmo en \qsh.
+En primer lugar, tratamos de la generación de mutantes. Utilizando MTQC sobre los ficheros que contienen los algoritmos (que no incluyen las funciones $U_f$) obtenemos un total de $9$ mutantes en el caso de \textit{Qiksit}, mientras que en \qsh\ obtenemos $10$. Esencialmente, son los mismos $9$ mutantes en uno y otro lenguaje, sólo que \qsh\ tiene uno adicional que cambia la constante \textit{One} por \textit{Zero}. En cuanto a los comunes, son distintas mutaciones de las puertas $H$ y $X$ a otras puertas unitarias.
 
-En primer lugar, tratamos de la generación de mutantes. Utilizando MTQC sobre los ficheros que contienen los algoritmos (que no incluyen las funciones $U_f$) obtenemos un total de 9 mutantes en le caso de \textit{Qiksit}, mientras que en \qsh\ obtenemos 10. Esencialmente, son los mismos 9 mutantes en uno y otro lenguaje, sólo que \qsh tiene uno adicional que cambia la constante \textit{One} por \textit{Zero}. En cuanto a los comunes son distintas mutaciones de las puertas $H$ y $X$ a otras puertas unitarias.
+Ya tenemos todo listo para la ejecución de nuestro algoritmo. En este caso, el valor de los qubits de entrada debe ser $\ket{00000}$. Nótese que carece de sentido introducir valores distintos, pues el correcto funcionamiento del algoritmo depende de que se verifique dicho estado al comienzo de la ejecución.
+%
+Sí podemos, sin embargo, utilizar cada una de las $U_f$ definidas como parámetro de entrada. En el caso de \textit{Qiskit}, al estar escrito sobre \textit{Python}, permite la definición de una función de manera local para utilizarla como argumento de un método sin necesidad de especificar el tipado (pues \textit{Python} carece del mismo). Por otro lado, \qsh\ requiere la definición de dicho tipado y, además, no permite la definición de funciones de manera local, por lo que debemos hacerlo de manera global.
 
-Ya tenemos todo listo para la ejecución de nuestro algoritmo. En este caso, el valor de los qubits de entrada debe ser $\ket{00000}$; carece de sentido introducir valores distintos, pues el correcto funcionamiento del algoritmo depende de que se verifique dicho estado al comienzo de la ejecución.
+Vamos a analizar la ejecución de las dos opciones que tenemos para realizar el análisis del proceso de testing (a las que hemos denominado anteriormente {\it determinista} y {\it probabilista}) sobre $3$ tests, uno por cada $U_f$ definida. Comencemos con \textit{ProbabilisticTest}. Para ello, se ha tomado la decisión de ejecutar cada mutante con cada test $1000$ veces. Nótese que pese al determinismo de este algoritmo, los mutantes generados pueden no serlo. Hemos adecuado la salida para que sea una cadena de caracteres que retorne ``balanceada'' o ``constante'' según corresponda.
 
-Sí podemos, sin embargo, utilizar cada una de las $U_f$ definidas como parámetro de entrada. En el caso de \textit{Qiskit}, al estar escrito sobre \textit{Python}, permite la definición de una función de manera local y utilizarla como argumento de un método sin necesidad de especificar el tipado (pues \textit{Python} carece del mismo). Por otro lado, \qsh\ requiere la definición de dicho tipado y, además, no permite la definición de funciones de manera local, por lo que debemos hacerlo de manera global.
-
-Vamos a ejecutar ambos tipos de pruebas de mutación presentes en MTQC sobre 3 test, uno por cada $U_f$ definida. Comencemos con \textit{ProbabilisticTest}. Para ello se ha tomado la decisión de ejecutar cada mutante con cada test un total de 1000 iteraciones. Nótese que pese al determinismo de este algoritmo, los mutantes generados pueden no serlo. Hemos adecuado la salida para que sea una cadena de caracteres que retorne ``balanceada'' o ``constante'' según corresponda.
-
-Analicemos los resultados obtenidos para este tipo de test en cada uno de los lenguajes. Cabe mencionar que el parámetro de confianza utilizado en ambos casos ha sido del $1\%$.
-
+Analicemos a continuación los resultados obtenidos para este tipo de testing en cada uno de los lenguajes. Cabe mencionar que el parámetro de confianza utilizado en ambos casos ha sido del $1\%$.
+%
 En el caso de la ejecución del primer test, el resultado para ambos lenguajes es muy similar. En Qiskit, se han matado 8 de los 9 mutantes generados (\textit{Mutant Score} de $88.9\%$), mientras que en \qsh\ el mutante adicional sobrevive, luego se obtiene un \textit{Mutant Score} de $80\%$. Es interesante analizar el mutante común superviviente, y lo haremos al final de esta sección, pues adelantamos que sobrevive a los 3 test realizados.
 
-\begin{figure}[H]
+\begin{figure}[t]
 \begin{lstlisting}[language=c++]
-operation DeutschJozsa(register : Qubit[], U_f : (Qubit[] => Unit)) : String {
+operation DeutschJozsa(register:Qubit[], U_f:(Qubit[] => Unit)):String {
 	let nQubits = Length(register);
     if (nQubits != 5) {
    		return "El numero de Qubits debe ser 5 ";
     }
     else {
-    	//Negacion del ultimo Qubit (salida)
+    	  // Negacion del ultimo Qubit (salida)
         X(register[nQubits - 1]); 
-        //Poner cada qubit en superposicion
+        // Poner cada qubit en superposicion
         for(q in register) {
         	H(q);
         }         
-        //Aplicamos la Uf
+        // Aplicamos la Uf
         U_f(register);
-        //Aplicamos una puerta Hadamard a cada Qubit de entrada
+        // Aplicamos una puerta Hadamard a cada Qubit de entrada
         for(i in 0..nQubits - 2) {
         	H(register[i]);
         }        
-        //La funcion sera constante si medimos el estado 0000. Balanceada en otro caso.
+        // Constante si medimos el estado 0. Balanceada en otro caso.
         mutable allZeros = true;
         for(i in 0..nQubits - 2) {
            	if(M(register[i]) == One){
@@ -224,12 +209,10 @@ operation uf(register : Qubit[]) : Unit{
 		//f(x_1,x_2,x_3,x_4) = 1 si x_1 vale 1, 0 en otro caso. Balanceada
 		CNOT(register[0], register[Length(register) - 1]);
 }
-
 operation uf2(register : Qubit[]) : Unit{
 		//f(x_1,x_2,x_3,x_4) = 1. Constante
 		I(register[Length(register) - 1]);
 }
-
 operation uf3(register : Qubit[]) : Unit { 
 		//f(x_1,x_2,x_3,x_4) = 0. Constante  
 		X(register[Length(register) - 1]);
@@ -239,31 +222,12 @@ operation uf3(register : Qubit[]) : Unit {
 \label{fig:code63}
 \end{figure}
 
-Para el segundo test, de nuevo se obtienen resultados semejantes entre ambos lenguajes. Qiskit consigue matar 6 de 9 mutantes (\textit{Mutant Score} de $66.7\%$), y \qsh\ elimina a los mismos mutantes y al adicional, obteniendo un \textit{Mutant Score} de $70\%$. 
+Para el segundo test  se obtienen resultados semejantes para ambos lenguajes. En el caso de Qiskit se consigue matar a $6$ de $9$ mutantes (\textit{Mutant Score} de $66.7\%$) mientras que en el caso de \qsh\ se elimina a los mismos mutantes y al adicional, obteniendo un \textit{Mutant Score} de $70\%$. 
 
-Por último, los resultados generados para el tercer test es análogo para Qiskit y \qsh. En ambos, los resultados son idénticos (salvo pequeñas variaciones en los porcentajes de las salidas, que podrían aproximarse mediante la ejecución de un mayor número de iteraciones) a los obtenidos en el segundo test.
+Por último, los resultados obtenidos  para el tercer test son, una vez más, similares  para Qiskit y \qsh. De hecho, los resultados son casi idénticos (salvo pequeñas variaciones en los porcentajes de las salidas, que podrían aproximarse mediante un mayor número de ejecuciones) a los obtenidos en el segundo test. En total, mediante estos tres test, se eliminan todos los mutantes menos uno de ellos. Este mutante es el obtenido mediante la sustitución de la puerta $X$, que niega el qubit de salida, por la puerta $Y$. Esto se debe a que al aplicar una puerta $X$ o $Y$ al estado $\ket{0}$ se obtiene el mismo estado $\ket{1}$ módulo un cambio de fase global, por lo que el comportamiento cuántico de ambos estados es el mismo. De esta forma, se obtiene un mutante equivalente que sobrevivirá independientemente del test. 
 
-En total, mediante estos tres test, se eliminan todos los mutantes menos uno de ellos. Este mutante es el obtenido mediante la sustitución de la puerta X, que niega el qubit de salida, por la puerta Y. Esto se debe a que al aplicar una puerta X o Y al estado $\ket{0}$ se obtiene el mismo estado $\ket{1}$ módulo un cambio de fase global, por lo que el comportamiento cuántico de ambos estados es el mismo. De esta forma, se obtiene un mutante equivalente que sobrevivirá independientemente del test. 
+En conclusión podemos determinar que el primer test es el más adecuado, no solamente por tener un \textit{Mutant Score} más elevado, sino porque los otros dos se identifican con una $U_f$ que representa una función constante. Independientemente de la dimensión del espacio de entrada, sólo existen dos funciones constantes: la función constante cero y la función constante uno, cuya $U_f$ asociada se construye mediante una única puerta $I$ o $X$, respectivamente, aplicada exclusivamente al qubit de salida, que es el único que no es relevante a la hora de medir. Esto implica que todas las mutaciones realizadas sobre los operadores que afecten a dicho qubit (en nuestro caso la puerta $X$), no sean detectadas en el caso de que la función sea constante. Es por ello que el primer test, al representar una función balanceada, es propenso a eliminar este tipo de mutantes.
 
-En conclusión podemos determinar que el Test1 es el más adecuado, no solamente por tener un \textit{Mutant Score} más elevado, sino porque Test2 y Test3 se identifican con una $U_f$ que representa una función constante. Independientemente de la dimensión del espacio de entrada, sólo existen dos funciones constantes: la función constante cero y la función constante uno, cuya $U_f$ asociada se construye mediante una única puerta I o X, respectivamente, aplicada exclusivamente al qubit de salida, que es el único que no es relevante a la hora de medir. Esto implica que todas las mutaciones realizadas sobre los operadores que afecten a dicho qubit (en nuestro caso la puerta X), no sean detectadas en el caso de que función sea constante. Es por esto que el Test1, al representar una función balanceada, es propenso a eliminar este tipo de mutantes.
+Por último, analicemos los resultados obtenidos a la hora de ejecutar el \textit{QStateTest}. Debido a la naturaleza determinista de este algoritmo, este tipo de test no es el más indicado. Para una mejor adaptación, se ha considerado adecuado eliminar las lineas de código referentes a la medición, pues esta altera de manera no determinista el estado interno del programa. Es por esto que ahora disponemos de $9$ mutantes para cada lenguaje, pues el mutante adicional que teníamos previamente para \qsh\ era relativo a la medida de los qubits.
 
-Por último, analicemos los resultados obtenidos a la hora de ejecutar el \textit{QStateTest}. Debido a la naturaleza determinista de este algoritmo, este tipo de test no es el más indicado. Para una mejor adaptación, se ha considerado adecuado eliminar las lineas de código referentes a la medición, pues esta altera de manera no determinista el estado interno del programa. Es por esto que ahora disponemos 9 mutantes para cada lenguaje, pues el mutante adicional que teníamos previamente para \qsh\ era relativo a la medida de los qubits.
-
-Para el primer test, los resultados son idénticos a los obtenidos mediante \textit{ProbabilisticTest}, obteniendo un \textit{Mutant Score} de $88.9\%$ para ambos lenguajes.
-
-Sin embargo, en el segundo y tercer test notamos una mejoría al lograr matar un mutante adicional respecto a \textit{ProbabilisticTest}, logrando un \textit{Mutant Score} de $77.8\%$. Esto se debe a que hemos detectado una mutación que afecta al qubit de salida qué, como se ha explicado previamente, era indetectable mediante el uso de funciones constantes, ejectuadas usando \textit{ProbabilisticTest}. Véase que estamos obteniendo las probabilidades asignadas al estado cuántico, lo incluye también al qubit de salida.
-
-De nuevo, el mutante equivalente no muere bajo ningún test, pues las amplitudes de los estados son iguales. Concluyendo, en vista de los resultados obtenidos para ambos tipos de test, el test más adecuado es el primero. Además, prácticamente no se encuentran diferencias sustanciales de los resultados obtenidos para uno y otro lenguaje, al menos en algoritmos sencillos. Estas diferencias pueden ser más visibles en algoritmos de mayor complejidad e incluso añadiendo otros operadores de mutación de carácter clásico, pues ambos lenguajes combinan instrucciones cuánticas con otras tradicionales como la instrucción \textbf{for} en nuestro ejemplo. Puede ser también interesante comparar el comportamiento de este u otros algoritmos con un lenguaje más puramente cuántico, como 
-\textit{QASM}.
-
-\section{Implementaciones futuras}
-
-Queremos aportar algunas ideas con las que se puede dar continuidad a este proyecto. Algunas de estas funcionalidades fueron planificadas al principio del proyecto para ser descartadas más adelante y otras surgen durante la implementación de MTQC.
-
-La implementación de \textit{weak mutation testing} podría ser una buena alternativa a los test ya existentes en el programa. Se trataría de un test determinista a realizar sobre simulador que verificara las condiciones de la definición \ref{def:def24}. También podría añadirse algún lenguaje adicional como \textbf{OpenQASM}.
-
-Por otro lado sería conveniente darle más facilidades al usuario para probar sus programas como permitir que puedan añadirse nuevos operadores de mutación durante la ejecución y que estos puedan ser guardados para futuras pruebas de mutación o guardar el proceso en un determinado momento para que la tarea pueda ser retomada en otra ejecución. Además, sería conveniente facilitar el uso de otros archivos y librerías externas para evitar, como mencionamos antes, que el usuario no tenga que realizar una adición de código para encontrar la ruta a estos archivos. Otra herramienta útil podría ser la exportación del tabla final de resultados a un formato más manejable como \textit{Excel} o \textit{.csv}.
-
-Por último, sería conveniente habilitar una opción para que un mutante pueda tener 2 o más mutaciones y mejorar la eficiencia del programa mediante la paralelización de cada una de las ejecuciones realizadas al aplicar los casos de prueba.
-
-
+Para el primer test, los resultados son idénticos a los obtenidos mediante \textit{ProbabilisticTest}, obteniendo un \textit{Mutant Score} de $88.9\%$ para ambos lenguajes. Sin embargo, en el segundo y tercer test notamos una mejoría al lograr matar un mutante adicional respecto a \textit{ProbabilisticTest}, logrando un \textit{Mutant Score} de $77.8\%$. Esto se debe a que hemos detectado una mutación que afecta al qubit de salida que, como se ha explicado previamente, era indetectable mediante el uso de funciones constantes, ejecutadas usando \textit{ProbabilisticTest}. Véase que estamos obteniendo las probabilidades asignadas al estado cuántico, lo que incluye también al qubit de salida de $U_f$. De nuevo, el mutante equivalente no muere bajo ningún test, pues las amplitudes de los estados son iguales. En definitiva, el primer test es de nuevo el más eficiente.
