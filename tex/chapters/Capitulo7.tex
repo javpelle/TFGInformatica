@@ -1,0 +1,28 @@
+\chapter{Conclusiones}
+Para acabar este trabajo presentamos algunas conclusiones sobre los temas tratados, tanto teóricos como prácticos, y discutimos algunas ideas propicias para la mejora y continuidad del proyecto.
+\section{Conclusiones (español)}
+En vista a los resultados del capítulo anterior prácticamente no se encuentran diferencias sustanciales entre los resultados obtenidos para uno y otro lenguaje, al menos en algoritmos sencillos. Estas diferencias pueden ser más visibles en algoritmos de mayor complejidad e incluso añadiendo otros operadores de mutación de carácter clásico, pues ambos lenguajes combinan instrucciones cuánticas con otras tradicionales como la instrucción \texttt{for} en nuestro ejemplo.
+
+Por otro lado, hay que tener en cuenta que, sea o no determinista un algoritmo cuántico, su ejecución en un computador cuántico actual, como los que pone a nuestra disposición IBM, acarreará múltiples errores de cómputo. Debido a ellos, algunos de los estados que teóricamente deben tener probabilidad cero podrán obtenerse como resultado. Esto se debe a la inestabilidad de los ordenadores cuánticos actuales, lo que denota que aún queda mucho trabajo por hacer, no sólo con el objetivo de la ampliación del número de qubits, sino también minimizando los errores que aparecen por ruido e interferencias en estos sistemas. Este hecho hace que en la aplicación de mutation testing sobre programas ejecutados en un ordenador cuántico debamos considerar aumentar el número de ejecuciones para cada mutante y test, con respecto a las que realizaríamos en un simulador. De esta manera conseguimos reducir el impacto de dichas interferencias.
+
+\section{Conclusions (English)}
+In view of the results of the previous chapter, there are practically no substantial differences between the results obtained for the two languages, at least in simple algorithms. These differences may be more visible in more complex algorithms and even adding other classical mutant operators, since both languages combine quantum instructions with other traditional ones like the \texttt{for} instruction in our example.
+
+On the other hand, we have to take into account that, whether a quantum algorithm is deterministic or not, its execution in a current quantum computer, such as those made available by IBM, will lead to multiple computation errors. Due to them, some of the states that theoretically should have zero probability can be obtained as a result. This is due to the instability of current quantum computers, which denotes that there is still a lot of work to be done, not only with the aim of increasing the number of qubits, but also minimizing the errors that appear due to noise and interference in these systems. This fact means that in the application of mutation testing on programs executed in a quantum computer we must consider increasing the number of executions for each mutant and test, with respect to those we would carry out in a simulator. In this way we manage to reduce the impact of such interferences.
+
+\section{Implementaciones futuras}
+
+Queremos aportar algunas ideas con las que se puede dar continuidad a este proyecto. Estas funcionalidades y líneas de trabajo han surgido durante la implementación de MTQC.
+
+La implementación de \textit{weak mutation testing} podría ser una buena alternativa a los tipos de testing ya existentes en el programa. Se trataría de un testing determinista a realizar sobre simulador que verificara las condiciones dadas al final del capítulo~\ref{cap:mutation}.
+
+Aunque no relacionado directamente con mutation testing, sería interesante estudiar si algunos procesos de testing en computación clásica se pueden codificar como problemas de computación cuántica. 
+% la idea de esto es codificar los resultados de testing en un array y luego buscar a toda hostia si ha fallado un test.
+
+Por otro lado, sería conveniente darle más facilidades al usuario para analizar sus programas. Entre ellas, hemos detectado las siguientes. En primer lugar, se podría permitir que puedan añadirse nuevos operadores de mutación durante la ejecución y que estos puedan ser guardados para futuras pruebas de mutación o guardar el proceso en un determinado momento para que la tarea pueda ser retomada en otra ejecución. En segundo lugar, sería conveniente facilitar el uso de otros archivos y librerías externas para evitar, como mencionamos antes, que el usuario no tenga que realizar una adición de código para encontrar la ruta a estos archivos. Otra herramienta útil podría ser la exportación de la tabla final de resultados a un formato más manejable como \textit{Excel} o \textit{.csv}.
+
+Además de los dos lenguajes considerados en este proyecto, puede ser  interesante comparar el comportamiento de los algoritmos clásicos  con los obtenidos en un lenguaje más puramente cuántico como es el caso de  \textit{QASM}.
+
+Por último, sería conveniente habilitar una opción para que un mutante pueda tener $2$ o más mutaciones y mejorar la eficiencia del programa mediante la paralelización de cada una de las ejecuciones realizadas al aplicar los casos de prueba.
+
+
