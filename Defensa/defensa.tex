@@ -79,30 +79,119 @@
 \begin{frame}
 	\frametitle{Contribución al proyecto de Luis Aguirre}
 	\begin{itemize}
-		\item Documentar
-		\item Subir el proyecto
+		\item Diseño y especificación de operadores de mutación para \qsh.
+		\item Implementación de patrones de búsqueda con el uso de expresiones regulares.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Contribución al proyecto de Javier Pellejero}
 	\begin{itemize}
-		\item A
-		\item B
+		\item Diseño y especificación de operadores de mutación para \textit{Qiskit}.
+		\item Diseño y estructura de MTQC.
 	\end{itemize}
 \end{frame}
+
+\section{Computación Cuántica}
+\begin{frame}
+	\frametitle{Qubit}
+	\begin{itemize}
+		\item Un qubit es la unidad de información mínima con la que se trabaja en sistemas cuánticos.
+		\item Un qubit viene dado por una combinación lineal $\alpha\ket0 + \beta\ket1$, donde $\alpha,\beta\in\C$ y $\ket0, \ket1$ son vectores ortonormales de $\C^2$. Además, $ |\alpha|^2 + |\beta|^2 = 1$.
+		\item A diferencia de un bit clásico, un qubit puede estar en lo que se conoce como \textit{superposición de estados}.
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Medición}
+	\begin{itemize}
+		\item El proceso de observar el estado de un qubit se llama \textit{medir}. Al medir un qubit se obtiene un único valor: $\ket0$ o $\ket1$. Además, el estado del qubit se modifica al valor obtenido.
+		\item Al medir un qubit con estado $\alpha\ket0 + \beta\ket1$, se obtendrá $\ket0$ con probabilidad $|\alpha|^2$ o $\ket1$ con probabilidad $|\beta|^2$.
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Sistema con múltiples qubits}
+	\begin{itemize}
+		\item A diferencia de los sistemas físicos clásicos, los sistemas con múltiples qubits crecen de manera exponencial, pues en lugar de con el producto cartesiano, las bases se operan mediante el producto tensorial.
+		\item Por tanto, un estado de $n$ qubits será de la forma: $\sum_{x=0}^{2^n-1}\delta_x\ket{x}$ donde $\sum_{x=0}^{2^n-1}|\delta_x|^2 = 1$. Por tanto podemos tener $2^n$ estados simultáneamente.
+	\end{itemize}
+\end{frame}	
+\begin{frame}
+	\frametitle{Puertas Cuánticas}
+	\begin{itemize}
+		\item La manera de modificar el estado de los qubits es a través de \textit{puertas cuánticas}. Estas puertas tienen la particularidad de ser unitarias, es decir, son isomorfismos lineales que preservan la norma y son reversibles.
+		\item Algunas de las puertas más importantes son Hadamard (con un qubit de entrada) o la puerta CNOT (con 2 qubits de entrada). 
+	\end{itemize}
+\end{frame}	
+
+
+\section{Mutation Testing Cuántico}
+\begin{frame}
+	\frametitle{Test}
+	\begin{itemize}
+		\item Podemos resumir un test para cierto programa en un par (\textit{input}, \textit{output}).
+		\item Se espera de un programa correcto que al utilizar como entrada dicho \textit{input}, se obtenga como salida el \textit{output}.		
+	\end{itemize}
+\end{frame}	
+\begin{frame}
+	\frametitle{Mutation Testing}
+	\begin{itemize}
+		\item Técnica de testing que permite comprobar la eficacia de un conjunto de test.
+		\item Basada en la modificación sintáctica del código de un programa correcto, obteniéndose \textit{mutantes}.
+		\item Estas modificaciones se realizan bajo un conjunto de normas llamadas \textit{operadores de mutación}.
+		\item El objetivo es que un test obtenga una salida distinta con el programa original respecto de la obtenida para un mutante. En ese caso, decimos que el test \textit{mata} al mutante.
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Mutation Testing Cuántico}
+	Al aplicar mutation testing a programas cuánticos, surgen una serie de escollos:
+	\begin{itemize}
+		\item Especificación del \textit{input} de un test. Hay que aplicar una serie de puertas cuánticas para llevar el programa al estado deseado.
+		\item La salida de un programa cuántico es generalmente probabilista. Luego hay que adoptar técnicas distintas que permitan discernir la muerte de un mutante.
+	\end{itemize}
+\end{frame}	
 
 \section{MTQC}
 \begin{frame}
 	\frametitle{MTQC}
 	\begin{itemize}
-		\item Software
+		\item Se trata de un software que permite la aplicación mutation testing a programas cuánticos escritos en \textit{qiskit} o \qsh.
+		\item Escrito en Java, por lo que es multiplataforma, y con una interfaz sencilla.
+		\item Código muy estructural que facilita la implementación de nuevas funcionalidades y lenguajes.
 	\end{itemize}
+	Vamos a ver las cuatro funcionalidades principales del programa:
 \end{frame}
 
 \begin{frame}
 	\frametitle{Generación de mutantes}
+	\begin{itemize}
+		\item Se presenta al usuario una lista de archivos y de operadores de mutación para cada lenguaje.
+		\item Se aplican los operadores seleccionados a los archivos deseados y se generan los mutantes mediante técnicas de búsqueda de patrones.
+	\end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Visualización de mutantes}
+	\begin{itemize}
+		\item El usuario puede seleccionar el mutante deseado en una lista dada.
+		\item Se muestran los archivos original y mutante y se indica la línea donde se ha producido la mutación.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Ejecución de mutantes}
+	Esta función es la más relevante del programa. 
+	\begin{itemize}
+		\item Se presentan una serie de opciones al usuario como:
+		\begin{itemize}
+		\item Mutaciones generadas, archivo original y método a ejecutar.
+		\item \textit{Time limit} para evitar bloqueos en la ejecución de mutantes.
+		\item Número de ejecuciones a realizar por cada test y programa.
+		\item Técnica para la decisión de la muerte de un mutante.
+		\item Especificación del conjunto de test.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
 
 \begin{frame}
 	\frametitle{QStateTesting}
@@ -126,6 +215,23 @@ $$
 \max \{|p_{\ket i,o}-p_{\ket i,m}|:0\leq i\leq 2^n - 1\}> c
 $$
 donde $c$ denota el parámetro de confianza, que puede ser modificado por el usuario de nuestro sistema.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Especificación del conjunto de test}
+	Se facilitan al usuario dos métodos para la introducción del conjunto de test:
+	\begin{itemize}
+		\item Sistema de pestañas integrada en la vista; una para cada test.
+		\item Selector de archivo que contiene el conjunto de test, separados por un token específico.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Visualización de resultados}
+	\begin{itemize}
+		\item Tabla con la salidas obtenidas por el programa original y los mutantes, donde se indica la muerte o no del mutante.
+		\item En el caso de \textit{ProbabilisticTesting}, el usuario puede cambiar el parámetro del confianza que determina la muerte del mutante.
+	\end{itemize}
 \end{frame}
 
 \end{document}
